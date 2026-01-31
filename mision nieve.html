@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misión Familiar: En Busca de la Nieve ❄️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;500;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f0f9ff;
+        }
+        h1, h2, h3 {
+            font-family: 'Fredoka', sans-serif;
+        }
+        .snow-bg {
+            background-image: url('https://images.unsplash.com/photo-1483921020237-2ff51e8e4b22?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .step-gradient {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <!-- Hero Section -->
+    <header class="snow-bg h-screen min-h-[600px] flex items-center justify-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-blue-900/40"></div>
+        <div class="container mx-auto px-4 relative z-10 text-center text-white">
+            <div class="animate-bounce mb-4">
+                <i class="fas fa-snowflake text-6xl text-blue-200 filter drop-shadow-lg"></i>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold mb-4 drop-shadow-lg">Misión: Nieve 2026</h1>
+            <p class="text-xl md:text-3xl font-medium mb-8 max-w-2xl mx-auto drop-shadow-md">
+                ¡La aventura nos espera en Arteaga!
+            </p>
+            
+            <div class="bg-white/20 backdrop-blur-md rounded-xl p-6 max-w-xl mx-auto border border-white/30 transform hover:scale-105 transition duration-300">
+                <h2 class="text-2xl font-bold mb-2 text-yellow-300">📊 Probabilidad de Éxito</h2>
+                <p class="text-lg leading-relaxed">
+                    ¡Excelentes noticias, equipo! La búsqueda de nieve por parte de la familia es 
+                    <span class="font-bold text-white bg-blue-500/50 px-2 rounded">altamente probable</span> 
+                    de ser satisfecha. 
+                </p>
+                <p class="mt-2 text-sm opacity-90">
+                    Los reportes indican que la nevada es casi segura en las cotas altas este fin de semana. ¡Preparen las cámaras! 📸
+                </p>
+            </div>
+
+            <a href="#equipo" class="inline-block mt-8 bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-3 px-8 rounded-full shadow-lg transition transform hover:-translate-y-1">
+                Ver Preparativos 👇
+            </a>
+        </div>
+        
+        <!-- Animated Snow -->
+        <div class="absolute inset-0 pointer-events-none" id="snow-container"></div>
+    </header>
+
+    <!-- Section 1: El Equipo (Ropa) -->
+    <section id="equipo" class="py-16 container mx-auto px-4">
+        <div class="text-center mb-12">
+            <span class="bg-blue-100 text-blue-800 text-sm font-bold px-4 py-1 rounded-full">Paso 1</span>
+            <h2 class="text-4xl font-bold text-blue-900 mt-4">🛡️ Armadura Anti-Frío</h2>
+            <p class="text-lg text-slate-600 mt-2">La clave no es lo grueso de la chamarra, sino la estrategia.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <!-- Capa 1 -->
+            <div class="glass-card p-6 text-center transform hover:-translate-y-2 transition duration-300 border-b-4 border-blue-400">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600">
+                    <i class="fas fa-tshirt text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">1. La Base (Térmica)</h3>
+                <p class="text-sm text-slate-600 font-medium">¡Lo más importante!</p>
+                <p class="text-slate-500 mt-2">
+                    Ropa interior térmica sintética o lana merino. Debe ir <strong>pegada al cuerpo</strong> para evacuar humedad y retener tu calor.
+                </p>
+            </div>
+
+            <!-- Capa 2 -->
+            <div class="glass-card p-6 text-center transform hover:-translate-y-2 transition duration-300 border-b-4 border-indigo-400">
+                <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4 text-indigo-600">
+                    <i class="fas fa-vest text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">2. El Aislante</h3>
+                <p class="text-sm text-slate-600 font-medium">Para guardar el calor</p>
+                <p class="text-slate-500 mt-2">
+                    Tu sudadera favorita, un suéter de lana o polar. Esta capa atrapa el aire caliente cerca de ti.
+                </p>
+            </div>
+
+            <!-- Capa 3 -->
+            <div class="glass-card p-6 text-center transform hover:-translate-y-2 transition duration-300 border-b-4 border-cyan-400">
+                <div class="w-16 h-16 bg-cyan-100 rounded-full flex items-center justify-center mx-auto mb-4 text-cyan-600">
+                    <i class="fas fa-wind text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">3. El Escudo</h3>
+                <p class="text-sm text-slate-600 font-medium">Contra nieve y viento</p>
+                <p class="text-slate-500 mt-2">
+                    Chamarra rompevientos e impermeable. Indispensable por si llovizna o nieva. ¡Nos mantiene secos!
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Fase 1 Pre-Despliegue -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <div class="flex items-center mb-8">
+                <div class="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center text-white font-bold text-xl shadow-lg mr-4">1</div>
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-800">Fase 1: Pre-Despliegue</h2>
+                    <p class="text-slate-500">Viernes 9 - Sábado 10 AM</p>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200 shadow-inner">
+                <h3 class="text-xl font-bold mb-4 flex items-center text-blue-700">
+                    <i class="fas fa-satellite-dish mr-3"></i> Inteligencia de Señales
+                </h3>
+                <p class="mb-6">
+                    Antes de arrancar motores, activamos el "Modo Radar". Monitoreamos activamente estas cuentas oficiales buscando palabras clave como: 
+                    <span class="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded font-mono text-sm">"Cierre"</span>, 
+                    <span class="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded font-mono text-sm">"Los Chorros"</span>.
+                </p>
+
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <a href="https://twitter.com/GN_Carreteras" target="_blank" class="flex items-center p-4 bg-white rounded-xl shadow-sm border hover:border-blue-400 transition group">
+                        <i class="fab fa-twitter text-blue-400 text-2xl mr-3 group-hover:scale-110 transition"></i>
+                        <div>
+                            <div class="font-bold text-slate-700">@GN_Carreteras</div>
+                            <div class="text-xs text-slate-500">Guardia Nacional</div>
+                        </div>
+                    </a>
+                    <a href="https://twitter.com/PC_Coahuila" target="_blank" class="flex items-center p-4 bg-white rounded-xl shadow-sm border hover:border-blue-400 transition group">
+                        <i class="fab fa-twitter text-blue-400 text-2xl mr-3 group-hover:scale-110 transition"></i>
+                        <div>
+                            <div class="font-bold text-slate-700">@PC_Coahuila</div>
+                            <div class="text-xs text-slate-500">Protección Civil</div>
+                        </div>
+                    </a>
+                    <a href="https://www.facebook.com/ProteccionCivilArteaga" target="_blank" class="flex items-center p-4 bg-white rounded-xl shadow-sm border hover:border-blue-700 transition group">
+                        <i class="fab fa-facebook text-blue-700 text-2xl mr-3 group-hover:scale-110 transition"></i>
+                        <div>
+                            <div class="font-bold text-slate-700">PC Arteaga</div>
+                            <div class="text-xs text-slate-500">Facebook Oficial</div>
+                        </div>
+                    </a>
+                    <a href="https://www.facebook.com/GobiernoArteaga" target="_blank" class="flex items-center p-4 bg-white rounded-xl shadow-sm border hover:border-blue-700 transition group">
+                        <i class="fab fa-facebook text-blue-700 text-2xl mr-3 group-hover:scale-110 transition"></i>
+                        <div>
+                            <div class="font-bold text-slate-700">Gobierno Arteaga</div>
+                            <div class="text-xs text-slate-500">Turismo y Avisos</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: La Ruta y Táctica -->
+    <section class="py-16 container mx-auto px-4 max-w-4xl">
+        <div class="flex items-center mb-8">
+            <div class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-lg mr-4">2</div>
+            <div>
+                <h2 class="text-3xl font-bold text-slate-800">Fase 2: El Camino</h2>
+                <p class="text-slate-500">Rumbo a la Cabaña de Don Lolo</p>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- La Ruta -->
+            <div class="bg-blue-50 rounded-2xl p-6 border border-blue-100">
+                <h3 class="text-xl font-bold text-blue-900 mb-3">📍 Análisis de Ruta: Saltillo</h3>
+                <p class="text-slate-700 mb-4">
+                    Nuestro acceso natural es a través de la <strong>Carretera 57</strong>, pasando por el famoso tramo <strong>"Los Chorros"</strong>.
+                </p>
+                <div class="bg-white p-4 rounded-xl shadow-sm">
+                    <h4 class="font-bold text-slate-800 flex items-center mb-2">
+                        <i class="fas fa-shield-alt text-green-500 mr-2"></i> Zona Vigilada
+                    </h4>
+                    <p class="text-sm text-slate-600">
+                        Es una vía vital y por eso es la <strong>más monitoreada</strong>. La Guardia Nacional mantiene el "Operativo Carrusel" permanentemente para guiarnos a velocidad segura.
+                    </p>
+                </div>
+                <div class="mt-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 text-sm text-yellow-800">
+                    <strong>Recomendación Táctica:</strong> Si hay reporte oficial de cierre, ¡no improvisamos! Posponemos la salida o esperamos en un lugar seguro.
+                </div>
+            </div>
+
+            <!-- Táctica de Manejo -->
+            <div class="bg-slate-800 text-white rounded-2xl p-6 shadow-xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 opacity-10 transform translate-x-4 -translate-y-4">
+                    <i class="fas fa-road text-9xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-4 flex items-center">
+                    <i class="fas fa-car-side mr-3"></i> Táctica de Conducción
+                </h3>
+                <ul class="space-y-4">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-400 mt-1 mr-3"></i>
+                        <div>
+                            <span class="font-bold block">Distancia de Seguridad</span>
+                            <span class="text-slate-300 text-sm">Aumentamos a 4-5 segundos respecto al coche de adelante. ¡Espacio es seguridad!</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-400 mt-1 mr-3"></i>
+                        <div>
+                            <span class="font-bold block">Modo Experto en "Los Chorros"</span>
+                            <span class="text-slate-300 text-sm">Usamos <strong>freno de motor</strong> (bajamos marchas) en las bajadas. Evitamos frenar brusco.</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-400 mt-1 mr-3"></i>
+                        <div>
+                            <span class="font-bold block">Velocidad Constante</span>
+                            <span class="text-slate-300 text-sm">Disfrutamos el paisaje con calma. Sin prisas llegamos mejor.</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Motivation -->
+    <footer class="bg-blue-900 text-white py-12 text-center relative overflow-hidden">
+        <div class="container mx-auto px-4 relative z-10">
+            <h2 class="text-3xl font-bold mb-4">¡Equipo Listo! 🏔️</h2>
+            <p class="text-blue-200 mb-8 max-w-xl mx-auto">
+                Tenemos el plan, tenemos el equipo y tenemos las ganas. ¡Este fin de semana vamos a crear recuerdos inolvidables!
+            </p>
+            <div class="inline-flex items-center bg-white/10 backdrop-blur rounded-full px-6 py-2 border border-white/20">
+                <i class="fas fa-check text-green-400 mr-2"></i>
+                <span>Cabaña Don Lolo Confirmada</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple script to add falling snow effect lightly
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('fas', 'fa-snowflake');
+            snowflake.style.position = 'absolute';
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.top = '-20px';
+            snowflake.style.color = 'white';
+            snowflake.style.opacity = Math.random();
+            snowflake.style.fontSize = Math.random() * 20 + 10 + 'px';
+            snowflake.style.animation = `fall ${Math.random() * 3 + 2}s linear infinite`;
+            
+            document.getElementById('snow-container').appendChild(snowflake);
+
+            setTimeout(() => {
+                snowflake.remove();
+            }, 5000);
+        }
+
+        // Add keyframes for falling snow
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes fall {
+                to {
+                    transform: translateY(105vh) rotate(360deg);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Create snowflakes periodically
+        setInterval(createSnowflake, 300);
+    </script>
+</body>
+</html>

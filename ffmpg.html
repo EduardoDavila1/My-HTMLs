@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFmpeg: WebM a WebP Workflow</title>
+    <style>
+        :root {
+            --bg-body: #0d1117;
+            --bg-card: #161b22;
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --border: #30363d;
+            --code-bg: #0d1117;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 850px;
+            width: 100%;
+        }
+
+        /* --- Animations --- */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .anim {
+            opacity: 0;
+            animation: slideIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+        .d-1 { animation-delay: 0.1s; }
+        .d-2 { animation-delay: 0.2s; }
+        .d-3 { animation-delay: 0.3s; }
+
+        /* --- Components --- */
+        header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 5px;
+        }
+
+        .command-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: border-color 0.2s;
+        }
+
+        .command-card:hover {
+            border-color: var(--text-muted);
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            background: rgba(88, 166, 255, 0.15);
+            color: var(--accent);
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        /* --- Terminal Block --- */
+        .terminal {
+            background: #000;
+            border-radius: 6px;
+            padding: 15px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            border-left: 3px solid var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .cmd { color: #fff; }
+        .arg { color: #79c0ff; }
+        .val { color: #a5d6ff; }
+        .comment { color: #6e7681; display: block; margin-bottom: 5px; font-style: italic;}
+
+        /* --- Parameter Explanation --- */
+        .params-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .param-item {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .param-key {
+            color: var(--text-main);
+            font-family: monospace;
+            background: rgba(110, 118, 129, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-right: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <header class="anim">
+            <h1>FFmpeg Master Commands</h1>
+            <div class="subtitle">Conversión de WebM a WebP conservando Alpha y Optimizando</div>
+        </header>
+
+        <div class="command-card anim d-1">
+            <div class="card-title">
+                Opción A: Calidad Balanceada (Recomendado)
+                <span class="badge">Standard</span>
+            </div>
+            
+            <div class="terminal">
+                <span class="comment"># Mantiene transparencia, loop infinito y reduce peso</span>
+                <span class="cmd">ffmpeg</span> -i input.webm <span class="arg">-c:v</span> <span class="val">libwebp</span> <span class="arg">-lossless</span> <span class="val">0</span> <span class="arg">-q:v</span> <span class="val">75</span> <span class="arg">-loop</span> <span class="val">0</span> <span class="arg">-an</span> <span class="arg">-vsync</span> <span class="val">0</span> output.webp
+            </div>
+
+            <div class="params-grid">
+                <div class="param-item"><span class="param-key">-lossless 0</span> Compresión con pérdida (necesaria para bajar peso).</div>
+                <div class="param-item"><span class="param-key">-q:v 75</span> Calidad al 75%. (Bajar a 60 si pesa mucho).</div>
+                <div class="param-item"><span class="param-key">-loop 0</span> Animación infinita.</div>
+                <div class="param-item"><span class="param-key">-an</span> Elimina el audio (ahorra bytes).</div>
+            </div>
+        </div>
+
+        <div class="command-card anim d-2">
+            <div class="card-title">
+                Opción B: Lossless (Calidad Perfecta)
+                <span class="badge">High Quality</span>
+            </div>
+            
+            <div class="terminal">
+                <span class="comment"># Sin pérdida visual. Archivo más pesado.</span>
+                <span class="cmd">ffmpeg</span> -i input.webm <span class="arg">-c:v</span> <span class="val">libwebp</span> <span class="arg">-lossless</span> <span class="val">1</span> <span class="arg">-loop</span> <span class="val">0</span> <span class="arg">-an</span> output_hd.webp
+            </div>
+
+            <div class="params-grid">
+                <div class="param-item"><span class="param-key">-lossless 1</span> Modo matemáticamente sin pérdida.</div>
+            </div>
+        </div>
+
+        <div class="command-card anim d-3">
+            <div class="card-title">
+                Troubleshooting: ¿Fondo negro?
+                <span class="badge" style="color: #fb923c; background: rgba(251, 146, 60, 0.15);">Fix</span>
+            </div>
+            
+            <div class="terminal">
+                <span class="comment"># Fuerza el formato de píxel RGBA para asegurar transparencia</span>
+                <span class="cmd">ffmpeg</span> -i input.webm <span class="arg">-vcodec</span> <span class="val">libwebp</span> <span class="arg">-pix_fmt</span> <span class="val">bgra</span> <span class="arg">-loop</span> <span class="val">0</span> <span class="arg">-an</span> output_fix.webp
+            </div>
+             <div class="params-grid">
+                <div class="param-item"><span class="param-key">-pix_fmt bgra</span> Fuerza el canal Alpha explícito.</div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operación: Cazando la Nieve 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- ESTILOS VISUALES --- */
+        body {
+            font-family: 'Quicksand', sans-serif;
+            /* Degradado invernal profundo */
+            background: linear-gradient(180deg, #0f172a 0%, #1e40af 40%, #bfdbfe 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+
+        h1, h2 {
+            font-family: 'Pacifico', cursive;
+        }
+
+        /* --- NIEVE ANIMADA --- */
+        /* Contenedor fijo para que la nieve cubra el fondo pero esté detrás del contenido */
+        #snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1; /* Nivel 1: Sobre el fondo */
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -20px;
+            color: white;
+            opacity: 0.8;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        /* --- CONTENIDO --- */
+        /* Header y Main tienen z-index mayor para estar SOBRE la nieve */
+        header, main, footer {
+            position: relative;
+            z-index: 10; 
+        }
+
+        /* Tarjetas con efecto cristal "Frosty" */
+        .frosty-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            transition: transform 0.3s ease;
+        }
+        
+        .frosty-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Iconos flotantes decorativos */
+        .float-icon {
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Medidor de Nieve */
+        .meter-box {
+            background: #e2e8f0;
+            border-radius: 15px;
+            height: 25px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .meter-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #60a5fa, #2563eb);
+            transition: width 2s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        /* Animación de entrada */
+        .pop-in {
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        @keyframes popIn {
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+    <!-- 
+      Estructura:
+      1. Fondo con Nieve (z-index bajo).
+      2. Header (Título y Fecha).
+      3. Info Cards (Ruta Saltillo prioritaria, Ropa 3 capas, Maleta sin cadenas, Comida compartida).
+      4. Footer (Números locales).
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="pb-12">
+
+    <!-- Capa de Nieve (Detrás del texto) -->
+    <div id="snow-container"></div>
+
+    <!-- HEADER -->
+    <header class="text-center pt-16 pb-8 px-4">
+        <div class="inline-block relative mb-2">
+            <i class="fa-solid fa-igloo text-6xl text-blue-200 drop-shadow-lg float-icon"></i>
+            <i class="fa-regular fa-snowflake text-3xl text-white absolute -top-2 -right-4 animate-spin-slow"></i>
+        </div>
+        <h1 class="text-5xl md:text-7xl text-white drop-shadow-lg mb-2 transform -rotate-2">
+            Cazando la Nieve
+        </h1>
+        <p class="text-blue-100 text-xl font-bold tracking-wider uppercase mt-2 drop-shadow-md">
+            Arteaga 2026 • Edición Familiar
+        </p>
+        <div class="mt-6 flex justify-center gap-4">
+            <span class="bg-white/20 backdrop-blur text-white px-5 py-2 rounded-full border border-white/30 text-sm font-bold shadow-lg">
+                <i class="fa-regular fa-calendar mr-2"></i>10 y 11 de Enero
+            </span>
+            <span class="bg-white/20 backdrop-blur text-white px-5 py-2 rounded-full border border-white/30 text-sm font-bold shadow-lg">
+                 <i class="fa-solid fa-location-dot mr-2"></i>Cabaña Colibries
+            </span>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 max-w-2xl space-y-10 relative">
+
+        <!-- INTRO & EXPECTATIVAS -->
+        <section class="frosty-card p-8 pop-in" style="animation-delay: 0.1s;">
+            <div class="text-center">
+                <h2 class="text-3xl text-blue-800 mb-4">¡Hola Familia! 👋</h2>
+                <p class="text-lg text-slate-600 mb-6 leading-relaxed">
+                    Este viaje es para desconectarnos, reírnos y comer rico. Si la naturaleza nos regala nieve, ¡increíble! Si no, el bosque y la fogata ya son ganancia.
+                    <br><span class="text-blue-600 font-bold text-sm mt-2 block">Cero estrés, 100% actitud.</span>
+                </p>
+                
+                <!-- Medidor de Nieve -->
+                <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 text-left">
+                    <label class="font-bold text-blue-900 text-sm mb-1 block">Probabilidad de Nieve (Nuestra Meta 🎯)</label>
+                    <div class="meter-box">
+                        <div id="snow-meter" class="meter-bar">0%</div>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-2 text-center italic">Cifras basadas en fe y satélites de la NASA.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- RUTAS & MANEJO -->
+        <section class="frosty-card p-8 pop-in" style="animation-delay: 0.2s;">
+            <div class="flex items-center justify-between mb-6 border-b border-slate-200 pb-4">
+                <h2 class="text-3xl text-blue-800">La Ruta 🗺️</h2>
+                <a href="https://maps.app.goo.gl/u4PjaehhARJHopEr6" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-full font-bold text-sm shadow transition transform hover:scale-105 no-underline">
+                    Ver Mapa <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i>
+                </a>
+            </div>
+
+            <!-- Saltillo (Principal) -->
+            <div class="mb-6 relative">
+                <div class="absolute -left-3 top-0 bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shadow-lg z-10">1</div>
+                <div class="bg-blue-50 ml-2 p-4 rounded-lg border-l-4 border-blue-600 shadow-sm">
+                    <h3 class="font-bold text-blue-900 text-lg pl-2">Vía Saltillo (La Tranquila)</h3>
+                    <p class="text-slate-700 text-sm mt-1 pl-2">
+                        Tomamos Blvd. Fundadores directo a Arteaga. Es una subida escénica, segura y muy bonita para ir platicando. <br>
+                        <span class="text-xs font-bold text-blue-500">Ideal para llegar relajados.</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Monterrey -->
+            <div class="mb-8 relative">
+                <div class="absolute -left-3 top-0 bg-slate-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shadow-lg z-10">2</div>
+                <div class="bg-white ml-2 p-4 rounded-lg border-l-4 border-slate-400 border shadow-sm">
+                    <h3 class="font-bold text-slate-700 text-lg pl-2">Vía Monterrey (Carr. 57)</h3>
+                    <p class="text-slate-600 text-sm mt-1 pl-2">
+                        Atención en el tramo "Los Chorros". Mucho tráfico pesado y curvas. <br>
+                        <span class="text-red-500 font-bold text-xs"><i class="fa-solid fa-triangle-exclamation"></i> Mantengan su distancia y paciencia.</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Ninja Driving Tips -->
+            <div class="bg-amber-50 rounded-xl p-5 border-2 border-amber-100">
+                <h3 class="font-bold text-amber-800 mb-3 text-center text-lg">
+                    <i class="fa-solid fa-car-side mr-2"></i>Tips de Manejo Ninja
+                </h3>
+                <div class="space-y-3">
+                    <div class="flex items-start">
+                        <i class="fa-solid fa-gears text-amber-600 mt-1 mr-3 text-lg"></i>
+                        <div>
+                            <strong class="text-amber-900 block text-sm">El Freno con Motor (Tu mejor amigo)</strong>
+                            <p class="text-xs text-amber-800 leading-snug">
+                                En las bajadas, no "quemes" los frenos. Pon la palanca en <strong>2da, 3ra o 'L'</strong> y deja que el motor detenga el auto solo. Si el motor ruge, ¡lo estás haciendo bien!
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fa-solid fa-gauge-high text-amber-600 mt-1 mr-3 text-lg"></i>
+                        <div>
+                            <strong class="text-amber-900 block text-sm">Vuelo Constante</strong>
+                            <p class="text-xs text-amber-800 leading-snug">
+                                En las subidas de terracería hacia la cabaña, mantén una velocidad constante y suave. No te detengas a la mitad.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODA INVERNAL (Capas) -->
+        <section class="frosty-card p-8 pop-in" style="animation-delay: 0.3s;">
+            <div class="text-center mb-6">
+                <i class="fa-solid fa-shirt text-4xl text-blue-300 mb-2"></i>
+                <h2 class="text-3xl text-blue-800">Estrategia: Las 3 Capas</h2>
+                <p class="text-sm text-slate-500">No es traer el ropero encima, es saber usarlo.</p>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Capa 1 -->
+                <div class="flex items-center bg-white p-3 rounded-xl shadow-sm border border-slate-100">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4 text-blue-600 font-bold w-12 h-12 flex items-center justify-center">1</div>
+                    <div>
+                        <h4 class="font-bold text-blue-900 text-sm uppercase">Base: Segunda Piel</h4>
+                        <p class="text-xs text-slate-600"><strong>Térmicos pegados al cuerpo.</strong> Su trabajo es mantenerte seco. <br><em>Tip: Evita el algodón directo a la piel.</em></p>
+                    </div>
+                </div>
+                <!-- Capa 2 -->
+                <div class="flex items-center bg-white p-3 rounded-xl shadow-sm border border-slate-100">
+                    <div class="bg-blue-200 p-3 rounded-full mr-4 text-blue-700 font-bold w-12 h-12 flex items-center justify-center">2</div>
+                    <div>
+                        <h4 class="font-bold text-blue-900 text-sm uppercase">Media: El Calor</h4>
+                        <p class="text-xs text-slate-600"><strong>Sudadera, suéter de lana o polar.</strong> Su trabajo es guardar tu calor corporal.</p>
+                    </div>
+                </div>
+                <!-- Capa 3 -->
+                <div class="flex items-center bg-white p-3 rounded-xl shadow-sm border border-slate-100">
+                    <div class="bg-blue-600 p-3 rounded-full mr-4 text-white font-bold w-12 h-12 flex items-center justify-center">3</div>
+                    <div>
+                        <h4 class="font-bold text-blue-900 text-sm uppercase">Externa: El Escudo</h4>
+                        <p class="text-xs text-slate-600"><strong>Chamarra Rompevientos / Impermeable.</strong> Indispensable por si llovizna o nieva.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHECKLIST EQUIPAJE -->
+        <section class="frosty-card p-8 pop-in relative overflow-hidden" style="animation-delay: 0.4s;">
+            <h2 class="text-3xl text-blue-800 mb-6 text-center">Tu Maleta de Misión 🎒</h2>
+            
+            <div class="bg-indigo-50 border-2 border-indigo-200 rounded-xl p-5 relative">
+                <span class="absolute top-0 right-0 bg-indigo-500 text-white text-[10px] font-bold px-2 py-1 rounded-bl-lg">OBLIGATORIO</span>
+                <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-700">
+                    <li class="flex items-center"><i class="fa-solid fa-bolt text-yellow-500 w-8"></i> <span><strong>Cargador / Powerbank</strong></span></li>
+                    <li class="flex items-center"><i class="fa-solid fa-lightbulb text-yellow-600 w-8"></i> <span><strong>Linterna</strong> (¡Muy útil!)</span></li>
+                    <li class="flex items-center"><i class="fa-solid fa-camera text-slate-600 w-8"></i> <span><strong>Cámara</strong> (Si tienes)</span></li>
+                    <li class="flex items-center"><i class="fa-solid fa-socks text-red-400 w-8"></i> <span><strong>Calcetines Extra</strong> (Gruesos)</span></li>
+                    <li class="flex items-center"><i class="fa-solid fa-bed text-blue-400 w-8"></i> <span><strong>Tu Cobija Favorita</strong></span></li>
+                    <li class="flex items-center"><i class="fa-solid fa-bottle-water text-blue-500 w-8"></i> <span><strong>Agua Personal</strong></span></li>
+                </ul>
+            </div>
+            
+            <div class="mt-4 text-center text-xs text-green-700 bg-green-50 p-3 rounded-lg border border-green-200">
+                <i class="fa-solid fa-check-circle mr-1"></i> Nosotros ya llevamos: Herramientas, cinta, iniciadores de fuego y botiquín.
+            </div>
+        </section>
+
+        <!-- ACTITUD & REGLAS -->
+        <section class="frosty-card p-8 bg-gradient-to-br from-white to-orange-50 pop-in" style="animation-delay: 0.5s;">
+            <div class="text-center">
+                <i class="fa-solid fa-face-smile-wink text-4xl text-orange-400 mb-2 float-icon"></i>
+                <h2 class="text-3xl text-slate-800 mb-4">Reglas de Oro ✨</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Comida -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-orange-100">
+                    <h3 class="font-bold text-orange-600 text-lg mb-2"><i class="fa-solid fa-utensils mr-2"></i>Comida y Compartir</h3>
+                    <p class="text-sm text-slate-600">
+                        Cada quien lleva sus <strong>3 comidas, su agua y bebidas</strong>. ¡Allá compartimos y armamos la convivencia!
+                    </p>
+                </div>
+                <!-- Redes -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-orange-100 relative overflow-hidden">
+                    <h3 class="font-bold text-pink-600 text-lg mb-2"><i class="fa-solid fa-mobile-screen-button mr-2"></i>Modo Avión</h3>
+                    <p class="text-sm text-slate-600">
+                        <span class="font-bold">Prohibido sufrir por la señal.</span> Si no lo subes a Instagram, ¿pasó de verdad? SÍ, y lo disfrutaste más.
+                    </p>
+                    <i class="fa-brands fa-instagram absolute -bottom-4 -right-4 text-6xl text-pink-100 transform -rotate-12"></i>
+                </div>
+            </div>
+            
+            <div class="mt-4 bg-blue-600 text-white p-3 rounded-lg text-center shadow-lg transform rotate-1">
+                <p class="font-bold text-sm">🚫 Zona Libre de Quejas</p>
+                <p class="text-xs opacity-90">Venimos a recargar pilas, no a descargarlas. ¡Actitud positiva!</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center py-12 mt-4 text-blue-100 relative z-10">
+        <div class="container mx-auto px-4">
+            <h3 class="font-family-pacifico text-2xl text-white mb-6">Contactos de Emergencia Local</h3>
+            
+            <div class="flex flex-wrap justify-center gap-3 mb-8 text-sm">
+                <a href="tel:911" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full font-bold shadow-lg transition flex items-center">
+                    <i class="fa-solid fa-phone-volume mr-2 animate-pulse"></i> 911
+                </a>
+                <a href="tel:8444831616" class="bg-slate-800 hover:bg-slate-700 text-white px-6 py-3 rounded-full font-bold shadow-lg transition flex items-center">
+                    <i class="fa-solid fa-user-shield mr-2"></i> PC Arteaga: 483-1616
+                </a>
+                <span class="bg-green-700 text-white px-6 py-3 rounded-full font-bold shadow-lg flex items-center cursor-default">
+                    <i class="fa-solid fa-road mr-2"></i> Ángeles Verdes: 078
+                </span>
+            </div>
+
+            <p class="opacity-70 text-xs">
+                Hecho con ❤️ para la mejor familia.<br>
+                Nos vemos en Cabaña Colibries.
+            </p>
+        </div>
+    </footer>
+
+    <!-- LOGICA JS -->
+    <script>
+        // --- 1. Generador de Nieve ---
+        function createSnowflakes() {
+            const container = document.getElementById('snow-container');
+            const snowflakeCount = 50; // Cantidad de copos
+            
+            // Símbolos de nieve variados
+            const symbols = ['❄', '❅', '❆', '•'];
+
+            for (let i = 0; i < snowflakeCount; i++) {
+                const flake = document.createElement('div');
+                flake.classList.add('snowflake');
+                flake.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                
+                // Posición horizontal aleatoria
+                flake.style.left = Math.random() * 100 + 'vw';
+                
+                // Tamaño aleatorio (Perspectiva de profundidad)
+                const size = Math.random() * 20 + 8;
+                flake.style.fontSize = size + 'px';
+                
+                // Opacidad aleatoria
+                flake.style.opacity = Math.random() * 0.6 + 0.2;
+                
+                // Duración de caída aleatoria
+                const duration = Math.random() * 5 + 4; // Entre 4 y 9 segundos
+                flake.style.animationDuration = duration + 's';
+                
+                // Retraso aleatorio para que no caigan todos juntos
+                flake.style.animationDelay = (Math.random() * 5) * -1 + 's';
+                
+                container.appendChild(flake);
+            }
+        }
+
+        // --- 2. Animación del Medidor ---
+        function animateMeter() {
+            const meter = document.getElementById('snow-meter');
+            const target = 75; // Meta optimista
+            
+            setTimeout(() => {
+                meter.style.width = target + '%';
+                
+                // Contador numérico
+                let current = 0;
+                const timer = setInterval(() => {
+                    if (current >= target) {
+                        clearInterval(timer);
+                    } else {
+                        current++;
+                        meter.innerText = current + '%';
+                    }
+                }, 20);
+            }, 500);
+        }
+
+        // --- Init ---
+        document.addEventListener('DOMContentLoaded', () => {
+            createSnowflakes();
+            animateMeter();
+        });
+    </script>
+</body>
+</html>

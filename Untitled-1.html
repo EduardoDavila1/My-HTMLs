@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Perla Negra | El Hub de Producción Definitivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #d4af37; /* Gold */
+            --bg-dark: #080808;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: #e5e5e5;
+            overflow-x: hidden;
+        }
+        h1, h2, .vessel-title {
+            font-family: 'Cinzel', serif;
+        }
+        .vessel-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .vessel-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.1);
+        }
+        .gradient-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex flex-col items-center justify-center px-6 text-center">
+        <div class="absolute inset-0 z-0 opacity-20">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-yellow-900/20 via-black to-black"></div>
+        </div>
+        
+        <div class="relative z-10 max-w-4xl">
+            <p class="text-accent tracking-[0.3em] uppercase text-sm mb-4 font-semibold">The Production Vessel</p>
+            <h1 class="text-6xl md:text-9xl font-bold mb-6 tracking-widest text-white">EL PERLA <span class="text-[#d4af37]">NEGRA</span></h1>
+            <div class="gradient-line mb-8"></div>
+            <p class="text-xl md:text-2xl text-gray-400 font-light leading-relaxed max-w-3xl mx-auto">
+                La fusión definitiva entre <span class="text-white">Mindz Recordz</span>, <span class="text-white">Rafa Marines</span> y <span class="text-white">Ed Studios</span>.
+            </p>
+            <p class="mt-4 text-gray-500 italic">Cámaras. Sonido. Acción.</p>
+        </div>
+    </section>
+
+    <!-- The Crew - The Three Pillars -->
+    <main class="max-w-7xl mx-auto px-6 py-24">
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- IX - EL SONIDO -->
+            <div class="vessel-card p-10 rounded-3xl relative overflow-hidden group">
+                <div class="shimmer absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="relative z-10">
+                    <div class="w-16 h-16 bg-yellow-500/10 rounded-full flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg>
+                    </div>
+                    <h3 class="vessel-title text-3xl font-bold text-white mb-2">Ix</h3>
+                    <p class="text-accent text-xs uppercase tracking-widest mb-4">Mindz Recordz | Founder</p>
+                    <h4 class="text-xl text-white mb-4">"El Sonido"</h4>
+                    <p class="text-gray-400 leading-relaxed text-sm">
+                        El oído absoluto. Productor musical detrás de Mindz Recordz e IX Advenom. Encargado de que cada proyecto no solo se vea bien, sino que golpee donde debe con una fidelidad sonora impecable.
+                    </p>
+                </div>
+            </div>
+
+            <!-- RAFA - LAS CÁMARAS -->
+            <div class="vessel-card p-10 rounded-3xl relative overflow-hidden group">
+                <div class="shimmer absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="relative z-10">
+                    <div class="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="vessel-title text-3xl font-bold text-white mb-2">Rafa Marines</h3>
+                    <p class="text-blue-400 text-xs uppercase tracking-widest mb-4">Director & Editor</p>
+                    <h4 class="text-xl text-white mb-4">"Las Cámaras"</h4>
+                    <p class="text-gray-400 leading-relaxed text-sm">
+                        El ojo experto. Con bagaje en Amazon Prime y Sony Channel, Rafa aporta la estética cinematográfica y la técnica de dirección necesaria para elevar cualquier video al estándar de la industria.
+                    </p>
+                </div>
+            </div>
+
+            <!-- EDUARDO - LA ACCIÓN -->
+            <div class="vessel-card p-10 rounded-3xl relative overflow-hidden group">
+                <div class="shimmer absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="relative z-10">
+                    <div class="w-16 h-16 bg-indigo-500/10 rounded-full flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h3 class="vessel-title text-3xl font-bold text-white mb-2">Eduardo Davila</h3>
+                    <p class="text-indigo-400 text-xs uppercase tracking-widest mb-4">Ed Studios | Action</p>
+                    <h4 class="text-xl text-white mb-4">"La Acción"</h4>
+                    <p class="text-gray-400 leading-relaxed text-sm">
+                        El motor de ejecución. Desde la animación técnica hasta la estrategia de negocio. Sé cómo empaquetar el talento, sacarle provecho y dominar lo técnico para que el barco nunca se detenga.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- The Vision -->
+        <section class="mt-32">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-4xl font-bold mb-12 vessel-title tracking-widest">Nuestra Carta de Navegación</h2>
+                <div class="space-y-12 text-left">
+                    <div class="flex gap-6">
+                        <div class="text-accent font-bold text-2xl">01.</div>
+                        <div>
+                            <h5 class="text-white font-semibold text-lg mb-2">Producción Integral para Bandas</h5>
+                            <p class="text-gray-400">Grabación sonora de alta calidad fusionada con videos musicales que mezclan live-action cinematográfico y animación 3D.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-6">
+                        <div class="text-accent font-bold text-2xl">02.</div>
+                        <div>
+                            <h5 class="text-white font-semibold text-lg mb-2">El Estandar "Perla Negra"</h5>
+                            <p class="text-gray-400">No somos un estudio de paso. Somos una disquera (Mindz), un estudio de animación (Ed Studios) y una productora de cine bajo un mismo techo.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-6">
+                        <div class="text-accent font-bold text-2xl">03.</div>
+                        <div>
+                            <h5 class="text-white font-semibold text-lg mb-2">Dominio Técnico</h5>
+                            <p class="text-gray-400">Lo técnico no es un obstáculo, es nuestra herramienta de conquista. Resolvemos lo que otros no pueden imaginar.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Quote -->
+        <section class="mt-40 text-center border-t border-white/5 pt-20">
+            <h2 class="text-5xl font-bold italic mb-6 opacity-30 vessel-title">El Perla Negra</h2>
+            <p class="text-gray-500 tracking-[0.5em] uppercase text-xs">A Collaborative Force by Eduardo, Ix & Rafa</p>
+        </section>
+
+    </main>
+
+    <footer class="py-12 text-center text-gray-600 text-xs">
+        <p>2024 © EL PERLA NEGRA | TODOS LOS DERECHOS RESERVADOS</p>
+    </footer>
+
+</body>
+</html>
