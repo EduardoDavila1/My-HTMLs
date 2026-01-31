@@ -3,131 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ED Studios | Hub</title>
+    <title>Ed's Hub | Inicio</title>
     <style>
         /* --- CSS: Estilos de la Interfaz (HUD) --- */
         :root {
             --color-bg: #000000;
             --color-text: #ffffff;
-            --color-accent: #00f7ff; /* Azul cian futurista */
-            --color-accent-secondary: #ff0055; /* Rojo neón */
-            --glass-bg: rgba(16, 22, 36, 0.65);
-            --glass-border: 1px solid rgba(0, 247, 255, 0.2);
+            --color-accent: #4db8ff; /* Azul cielo más suave */
+            --color-accent-secondary: #9370db; /* Púrpura nebulosa */
+            --glass-bg: rgba(10, 14, 26, 0.75);
+            --glass-border: 1px solid rgba(77, 184, 255, 0.15);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             margin: 0;
-            overflow: hidden; /* Ocultamos el scroll porque el 3D es fondo fijo */
-            font-family: 'Rajdhani', 'Segoe UI', Roboto, sans-serif; /* Fuente técnica si la tienen, si no, genérica */
+            overflow: hidden;
+            font-family: 'Rajdhani', sans-serif;
             background-color: var(--color-bg);
             color: var(--color-text);
         }
 
-        /* El canvas 3D va detrás de todo */
         #three-canvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: -1;
-            outline: none;
         }
 
-        /* Contenedor principal de la interfaz */
         #ui-container {
             position: relative;
             z-index: 10;
             width: 100%;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 20px;
-            pointer-events: none; /* Deja pasar el mouse al 3D a menos que toques un botón */
+            pointer-events: none;
         }
 
-        /* El contenido central */
         .content-box {
-            pointer-events: auto; /* Reactivamos el mouse aquí */
+            pointer-events: auto;
             background: var(--glass-bg);
-            backdrop-filter: blur(10px); /* Efecto vidrio esmerilado */
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border: var(--glass-border);
             padding: 40px;
-            border-radius: 15px;
+            border-radius: 12px;
             max-width: 900px;
             width: 100%;
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             text-align: center;
-            animation: slideUp 1s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
+            animation: fadeIn 1.2s ease forwards;
             opacity: 0;
         }
 
         h1 {
-            font-size: 3rem;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            margin-bottom: 10px;
-            text-shadow: 0 0 15px var(--color-accent);
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+            background: linear-gradient(90deg, #fff, var(--color-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         p.subtitle {
-            color: #a0a0a0;
-            margin-bottom: 40px;
-            font-size: 1.1rem;
-        }
-
-        /* --- BOTÓN PRINCIPAL (Adobe Portfolio) --- */
-        .main-cta-container {
-            margin-bottom: 40px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .btn-main {
-            display: inline-block;
-            text-decoration: none;
-            padding: 15px 40px;
-            background: linear-gradient(45deg, var(--color-accent), #0066ff);
-            color: #000;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border-radius: 4px;
+            color: #b0c4de;
+            margin-bottom: 35px;
             font-size: 1.2rem;
-            transition: all 0.3s ease;
-            border: none;
-            box-shadow: 0 0 20px rgba(0, 247, 255, 0.4);
-            position: relative;
-            overflow: hidden;
+            letter-spacing: 1px;
         }
 
-        .btn-main::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
-            transition: 0.5s;
+        h3.section-title {
+            text-align: left;
+            margin-bottom: 20px;
+            color: var(--color-accent);
+            letter-spacing: 1.5px;
+            font-size: 1.1rem;
+            border-bottom: 1px solid rgba(77, 184, 255, 0.2);
+            padding-bottom: 10px;
         }
-
-        .btn-main:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 40px rgba(0, 247, 255, 0.8);
-        }
-        .btn-main:hover::before { left: 100%; }
-
 
         /* --- GRID DE PROYECTOS --- */
         .grid-links {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 15px;
             width: 100%;
+            margin-bottom: 40px;
         }
 
         .project-btn {
@@ -135,53 +102,53 @@
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #ccc;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #d0d0d0;
             font-weight: 600;
-            text-transform: uppercase;
             font-size: 0.9rem;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             transition: all 0.3s ease;
-            position: relative;
-        }
-
-        /* Efecto de "esquina cortada" futurista */
-        .project-btn::after {
-            content: '';
-            position: absolute;
-            bottom: 0; right: 0;
-            width: 0; height: 0;
-            border-style: solid;
-            border-width: 0 0 15px 15px;
-            border-color: transparent transparent var(--color-accent) transparent;
-            opacity: 0;
-            transition: opacity 0.3s;
+            border-radius: 6px;
         }
 
         .project-btn:hover {
-            background: rgba(0, 247, 255, 0.1);
+            background: rgba(77, 184, 255, 0.1);
             border-color: var(--color-accent);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(77, 184, 255, 0.15);
+        }
+
+        /* --- BOTÓN SECUNDARIO (Portafolio) --- */
+        .secondary-cta-container {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 25px;
+            text-align: center;
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            text-decoration: none;
+            padding: 10px 25px;
             color: var(--color-accent);
-            transform: translateY(-3px);
-        }
-        .project-btn:hover::after { opacity: 1; }
-
-
-        /* Animación de entrada */
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            border: 1px solid var(--color-accent);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            background: transparent;
         }
 
-        /* Responsive para móviles */
-        @media (max-width: 600px) {
-            h1 { font-size: 2rem; }
-            .content-box { padding: 25px; }
-            .btn-main { width: 100%; text-align: center; padding: 15px 20px; font-size: 1rem; }
-            .grid-links { grid-template-columns: 1fr; }
+        .btn-secondary:hover {
+            background: var(--color-accent);
+            color: #000;
+            box-shadow: 0 0 20px rgba(77, 184, 255, 0.4);
         }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 600px) { h1 { font-size: 2.5rem; } .content-box { padding: 20px; } .grid-links { grid-template-columns: 1fr 1fr; } }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
 </head>
@@ -189,16 +156,10 @@
 
     <div id="ui-container">
         <div class="content-box">
-            <h1>ED Studios Hub</h1>
-            <p class="subtitle">Sistema de Navegación de Proyectos</p>
+            <h1>Ed's Hub</h1>
+            <p class="subtitle">Centro de Control de Proyectos</p>
 
-            <div class="main-cta-container">
-                <a href="https://edstudioscontact.myportfolio.com/" target="_blank" class="btn-main">
-                    ⚡ Ir al Portafolio Principal
-                </a>
-            </div>
-            
-            <h3 style="text-align: left; margin-bottom: 15px; color: var(--color-accent); letter-spacing: 2px;">> Archivos de Desarrollo</h3>
+            <h3 class="section-title">// ARCHIVOS DE DESARROLLO</h3>
             <div class="grid-links">
                 <a href="Alpha Check.html" class="project-btn">Alpha Check</a>
                 <a href="Antena.html" class="project-btn">Antena</a>
@@ -210,19 +171,23 @@
                 <a href="retiro de invierno.html" class="project-btn">Retiro Invierno</a>
                 <a href="seguridad.html" class="project-btn">Seguridad</a>
                 <a href="SharkTank.html" class="project-btn">Shark Tank</a>
+                <a href="Untitled-1.html" class="project-btn">Untitled-1</a>
+            </div>
+
+            <div class="secondary-cta-container">
+                <a href="https://edstudioscontact.myportfolio.com/" target="_blank" class="btn-secondary">
+                    Ir al Portafolio Principal ↗
+                </a>
             </div>
         </div>
     </div>
 
-
     <script type="module">
-        // Importamos Three.js desde la nube (sin instalar nada)
         import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 
-        let camera, scene, renderer;
-        let centralObject;
-        let particles;
+        let camera, scene, renderer, stars;
         let mouseX = 0, mouseY = 0;
+        // Aumentamos el rango de movimiento para mayor efecto de perspectiva
         let windowHalfX = window.innerWidth / 2;
         let windowHalfY = window.innerHeight / 2;
 
@@ -230,71 +195,70 @@
         animate();
 
         function init() {
-            // 1. La Escena y la Cámara
             scene = new THREE.Scene();
-            scene.fog = new THREE.FogExp2(0x000000, 0.0015); // Niebla negra para profundidad
+            // Niebla muy sutil y lejana para dar profundidad sin ocultar las estrellas
+            scene.fog = new THREE.FogExp2(0x000000, 0.0002);
 
-            camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 2000);
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 5000);
+            // Posición inicial de la cámara
             camera.position.z = 1000;
 
-            // 2. El Renderizador (lo que dibuja en pantalla)
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer = new THREE.WebGLRenderer({ antialias: false }); // Sin antialias para mejor rendimiento con muchas partículas
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.domElement.id = 'three-canvas'; // Le ponemos ID para el CSS
-            document.body.prepend(renderer.domElement); // Lo ponemos al principio del body
+            renderer.domElement.id = 'three-canvas';
+            document.body.prepend(renderer.domElement);
 
-            // 3. Luces (estilo Cyberpunk)
-            const light1 = new THREE.DirectionalLight(0x00f7ff, 1.5); // Luz cian
-            light1.position.set(1, 1, 1).normalize();
-            scene.add(light1);
+            // --- CREACIÓN DEL CAMPO DE ESTRELLAS ---
+            const starGeometry = new THREE.BufferGeometry();
+            const starCount = 6000; // ¡Muchas más estrellas!
+            const posArray = new Float32Array(starCount * 3);
+            const colorArray = new Float32Array(starCount * 3);
+            const sizeArray = new Float32Array(starCount);
 
-            const light2 = new THREE.DirectionalLight(0xff0055, 1); // Luz roja secundaria
-            light2.position.set(-1, -1, 1).normalize();
-            scene.add(light2);
+            const baseColor = new THREE.Color(0x4db8ff); // Color base azulado
 
-            const ambientLight = new THREE.AmbientLight(0x222222); // Luz base suave
-            scene.add(ambientLight);
+            for(let i = 0; i < starCount; i++) {
+                const i3 = i * 3;
+                // Distribución esférica para un campo más natural
+                const radius = 2000 + Math.random() * 3000;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos((Math.random() * 2) - 1);
 
-            // 4. Objeto Central (Icosaedro de alambre giratorio)
-            const geometry = new THREE.IcosahedronGeometry(300, 1);
-            const material = new THREE.MeshPhongMaterial({
-                color: 0x151515,
-                emissive: 0x00f7ff, // Brillo interno
-                emissiveIntensity: 0.2,
-                wireframe: true, // Modo "alambre"
-                transparent: true,
-                opacity: 0.6
-            });
-            centralObject = new THREE.Mesh(geometry, material);
-            scene.add(centralObject);
+                posArray[i3] = radius * Math.sin(phi) * Math.cos(theta);
+                posArray[i3+1] = radius * Math.sin(phi) * Math.sin(theta);
+                posArray[i3+2] = radius * Math.cos(phi);
 
-            // 5. Sistema de Partículas (Estrellas flotantes)
-            const particleGeometry = new THREE.BufferGeometry();
-            const particleCount = 2000;
-            const posArray = new Float32Array(particleCount * 3); // x,y,z para cada partícula
+                // Variación de color para realismo (azules, blancos, púrpuras)
+                const starColor = baseColor.clone().offsetHSL(Math.random() * 0.2 - 0.1, 0, Math.random() * 0.5);
+                colorArray[i3] = starColor.r;
+                colorArray[i3+1] = starColor.g;
+                colorArray[i3+2] = starColor.b;
 
-            for(let i = 0; i < particleCount * 3; i++) {
-                // Posiciones aleatorias en un cubo grande alrededor de la cámara
-                posArray[i] = (Math.random() - 0.5) * 4000;
+                // Variación de tamaño
+                sizeArray[i] = Math.random() * 3 + 0.5;
             }
 
-            particleGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-            
-            const particleMaterial = new THREE.PointsMaterial({
-                size: 4,
-                color: 0x88aaff,
+            starGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            starGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+            starGeometry.setAttribute('size', new THREE.BufferAttribute(sizeArray, 1));
+
+            // Material personalizado para usar los tamaños y colores variables
+            const starMaterial = new THREE.PointsMaterial({
+                size: 1, // Tamaño base, se multiplica por el atributo 'size'
+                vertexColors: true, // Usar los colores definidos por vértice
                 blending: THREE.AdditiveBlending,
                 transparent: true,
                 opacity: 0.8,
-                sizeAttenuation: true // Se ven más pequeñas lejos
+                sizeAttenuation: true // Importante para la perspectiva
             });
 
-            particles = new THREE.Points(particleGeometry, particleMaterial);
-            scene.add(particles);
+            stars = new THREE.Points(starGeometry, starMaterial);
+            scene.add(stars);
 
-            // 6. Eventos (Mouse y Resize)
-            document.addEventListener('mousemove', onDocumentMouseMove);
+            // Eventos
+            document.body.style.touchAction = 'none';
+            document.addEventListener('pointermove', onPointerMove);
             window.addEventListener('resize', onWindowResize);
         }
 
@@ -306,10 +270,11 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
-        function onDocumentMouseMove(event) {
-            // Calculamos la posición del mouse relativa al centro de la pantalla
-            mouseX = (event.clientX - windowHalfX) * 0.5;
-            mouseY = (event.clientY - windowHalfY) * 0.5;
+        function onPointerMove(event) {
+            if (event.isPrimary === false) return;
+            // Calculamos la posición del mouse desde el centro
+            mouseX = event.clientX - windowHalfX;
+            mouseY = event.clientY - windowHalfY;
         }
 
         function animate() {
@@ -318,21 +283,20 @@
         }
 
         function render() {
-            const time = Date.now() * 0.0005;
+            const time = Date.now() * 0.00005;
 
-            // Rotación constante del objeto central
-            centralObject.rotation.x += 0.002;
-            centralObject.rotation.y += 0.003;
+            // Rotación lenta y constante de todo el universo
+            stars.rotation.y = time * 0.5;
+            stars.rotation.x = time * 0.2;
 
-            // Movimiento sutil de las partículas
-            particles.rotation.y = time * 0.1;
-
-            // INTERACTIVIDAD: La cámara se mueve suavemente siguiendo al mouse
-            // Usamos interpolación para que el movimiento sea fluido y no brusco
-            camera.position.x += (mouseX - camera.position.x) * 0.05;
-            camera.position.y += (-mouseY - camera.position.y) * 0.05;
+            // --- EFECTO DE PERSPECTIVA CON EL MOUSE ---
+            // Movemos la cámara en dirección opuesta al mouse.
+            // Multiplicadores más altos = movimiento más drástico = mayor sensación de profundidad.
+            camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
             
-            camera.lookAt(scene.position); // La cámara siempre mira al centro (0,0,0)
+            // La cámara siempre mira al centro del universo (0,0,0)
+            camera.lookAt(scene.position);
 
             renderer.render(scene, camera);
         }
