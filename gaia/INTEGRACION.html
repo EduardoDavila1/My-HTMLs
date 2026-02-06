@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instrucciones de Integración - GAIA Universe</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+            color: #00d4ff;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #00d4ff;
+            padding: 30px;
+            border-radius: 5px;
+        }
+        h1 {
+            color: #ff006e;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #ff006e;
+        }
+        h2 {
+            color: #00d4ff;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #00d4ff;
+            padding-bottom: 10px;
+        }
+        h3 {
+            color: #ffbe0b;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        code {
+            background: rgba(0, 212, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #00ff88;
+        }
+        pre {
+            background: rgba(0, 0, 0, 0.5);
+            border-left: 3px solid #00d4ff;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        .step {
+            background: rgba(0, 212, 255, 0.05);
+            border-left: 4px solid #ff006e;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .success {
+            color: #00ff88;
+        }
+        .warning {
+            color: #ffbe0b;
+        }
+        .error {
+            color: #ff006e;
+        }
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+            color: #00ff88;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚙️ INSTRUCCIONES DE INTEGRACIÓN - GAIA UNIVERSE</h1>
+        
+        <h2>📋 Contenido del Paquete</h2>
+        <ul>
+            <li><code>index.html</code> - Aplicación principal compilada</li>
+            <li><code>assets/</code> - Carpeta con CSS y JavaScript</li>
+            <li><code>data.json</code> - Base de datos en JSON (opcional)</li>
+            <li><code>README.md</code> - Documentación</li>
+            <li><code>INTEGRACION.html</code> - Este archivo</li>
+        </ul>
+
+        <h2>🚀 Opción 1: Integración Directa (Más Fácil)</h2>
+        <div class="step">
+            <h3>Paso 1: Preparar carpeta en tu servidor</h3>
+            <pre>mkdir -p /var/www/html/gaia
+cd /var/www/html/gaia</pre>
+        </div>
+
+        <div class="step">
+            <h3>Paso 2: Copiar archivos</h3>
+            <pre>cp -r /ruta/a/gaia-export/* /var/www/html/gaia/</pre>
+        </div>
+
+        <div class="step">
+            <h3>Paso 3: Configurar permisos</h3>
+            <pre>chmod -R 755 /var/www/html/gaia/
+chmod -R 644 /var/www/html/gaia/*</pre>
+        </div>
+
+        <div class="step">
+            <h3>Paso 4: Acceder desde navegador</h3>
+            <pre>https://tudominio.com/gaia/</pre>
+        </div>
+
+        <h2>🎬 Opción 2: Integración como iframe</h2>
+        <p>Si deseas embeber GAIA en una página existente:</p>
+        <pre>&lt;iframe 
+    src="https://tudominio.com/gaia/" 
+    style="width: 100%; height: 100vh; border: none;"
+    title="GAIA Universe"&gt;
+&lt;/iframe&gt;</pre>
+
+        <h2>📦 Opción 3: Integración Modular</h2>
+        <h3>Solo Terminal GaiOs</h3>
+        <pre>&lt;iframe src="https://tudominio.com/gaia/" ...&gt;&lt;/iframe&gt;</pre>
+
+        <h3>Solo Biblioteca de los Antiguos</h3>
+        <pre>&lt;iframe src="https://tudominio.com/gaia/#/biblioteca" ...&gt;&lt;/iframe&gt;</pre>
+
+        <h2>⚙️ Configuración Avanzada</h2>
+
+        <h3>Nginx</h3>
+        <pre>server {
+    listen 80;
+    server_name tudominio.com;
+    
+    location /gaia/ {
+        alias /var/www/html/gaia/;
+        try_files $uri $uri/ /index.html;
+    }
+}</pre>
+
+        <h3>Apache</h3>
+        <pre>&lt;Directory /var/www/html/gaia&gt;
+    RewriteEngine On
+    RewriteBase /gaia/
+    RewriteRule ^index\.html$ - [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /gaia/index.html [L]
+&lt;/Directory&gt;</pre>
+
+        <h2>🔍 Verificación</h2>
+        <div class="step">
+            <p><span class="success">✓</span> Verifica que los archivos estén en su lugar:</p>
+            <pre>ls -la /var/www/html/gaia/
+# Debe mostrar: index.html, assets/, data.json, README.md</pre>
+        </div>
+
+        <div class="step">
+            <p><span class="success">✓</span> Verifica que el servidor sirva archivos estáticos:</p>
+            <pre>curl -I https://tudominio.com/gaia/index.html
+# Debe retornar: HTTP/2 200 OK</pre>
+        </div>
+
+        <div class="step">
+            <p><span class="success">✓</span> Abre en navegador y verifica que funcione:</p>
+            <pre>https://tudominio.com/gaia/</pre>
+        </div>
+
+        <h2>🐛 Solución de Problemas</h2>
+
+        <h3 class="error">Error 404 - Archivos no encontrados</h3>
+        <ul>
+            <li>Verifica que los archivos estén en la carpeta correcta</li>
+            <li>Revisa los permisos: <code>chmod 755</code> para carpetas, <code>644</code> para archivos</li>
+            <li>Asegúrate de que el servidor web tiene acceso de lectura</li>
+        </ul>
+
+        <h3 class="error">Error CORS - Acceso bloqueado</h3>
+        <ul>
+            <li>Si integras como iframe desde otro dominio, puede haber restricciones CORS</li>
+            <li>Solución: Sirve desde el mismo dominio o configura CORS en el servidor</li>
+        </ul>
+
+        <h3 class="error">Estilos no cargan correctamente</h3>
+        <ul>
+            <li>Verifica que la carpeta <code>assets/</code> esté presente</li>
+            <li>Revisa la consola del navegador (F12) para ver errores de carga</li>
+            <li>Asegúrate de que los archivos CSS y JS tengan permisos de lectura</li>
+        </ul>
+
+        <h2>📝 Personalización</h2>
+        <p>Para modificar datos del lore sin recompilar:</p>
+        <ol>
+            <li>Edita el archivo <code>data.json</code></li>
+            <li>Recarga la página en el navegador</li>
+            <li>Los cambios se aplicarán automáticamente</li>
+        </ol>
+
+        <h2>🔐 Seguridad</h2>
+        <ul>
+            <li>Este paquete es completamente estático - no hay riesgo de inyección SQL</li>
+            <li>No almacena datos en servidor - todo es cliente-side</li>
+            <li>Recomendado servir con HTTPS para máxima seguridad</li>
+        </ul>
+
+        <h2>📞 Soporte</h2>
+        <p>Para reportar errores o solicitar cambios, contacta al Doctor.</p>
+
+        <hr style="border: 1px solid #00d4ff; margin: 30px 0;">
+        <p style="text-align: center; color: #888;">
+            <span class="success">G.A.I.A. en línea</span> | 
+            Versión 1.0 | 
+            Febrero 2026
+        </p>
+    </div>
+</body>
+</html>
