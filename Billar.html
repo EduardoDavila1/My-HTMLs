@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Sharing & Torneo de Billar</title>
+    <style>
+        :root {
+            --bg-dark: #0f0f13;
+            --card-bg: #1a1a20;
+            --accent-pink: #ff4d6d;
+            --accent-purple: #7b2cbf;
+            --accent-green: #4cc9f0; /* Un toque neón para el billar */
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(123, 44, 191, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 77, 109, 0.1) 0%, transparent 40%);
+            min-height: 100vh;
+        }
+
+        /* Tipografía y Encabezados */
+        h1, h2, h3 {
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header Animado */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1s ease forwards;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        header p.date {
+            font-size: 1.2rem;
+            color: var(--accent-green);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        header p.intro {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Grid de Eventos */
+        .events-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        @media (min-width: 768px) {
+            .events-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Tarjetas */
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(123, 44, 191, 0.2);
+            border-color: rgba(255, 77, 109, 0.3);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .details-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .details-list li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            color: var(--text-muted);
+        }
+
+        .details-list li strong {
+            color: var(--text-main);
+            margin-right: 8px;
+            min-width: 60px;
+        }
+
+        /* Imagen en tarjeta */
+        .event-image-container {
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .event-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .event-image-container img {
+            transform: scale(1.05);
+        }
+
+        /* Interacción: Reglas (Tooltip Avanzado) */
+        .rules-trigger {
+            color: var(--accent-green);
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            position: relative;
+            display: inline-block;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .rules-trigger:hover {
+            color: #fff;
+        }
+
+        /* El "Dialoguito" (Tooltip) */
+        .rules-popup {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            bottom: 120%; /* Aparece arriba del texto */
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            width: 320px;
+            background: #252530;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+            border: 1px solid var(--accent-green);
+            z-index: 100;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            pointer-events: none; /* Para que no parpadee si el mouse se mueve rápido */
+        }
+
+        /* Flechita del tooltip */
+        .rules-popup::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -8px;
+            border-width: 8px;
+            border-style: solid;
+            border-color: var(--accent-green) transparent transparent transparent;
+        }
+
+        .rules-trigger:hover .rules-popup {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .rules-content h4 {
+            color: var(--accent-green);
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+        }
+
+        .rules-content ol {
+            padding-left: 20px;
+            margin: 0;
+        }
+        
+        .rules-content li {
+            margin-bottom: 8px;
+        }
+
+        .rules-content strong {
+            color: #fff;
+        }
+
+        /* Sección Cena / Footer */
+        .dinner-section {
+            margin-top: 60px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 40px;
+            border-radius: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .dinner-quote {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+        }
+
+        .highlight {
+            color: var(--accent-pink);
+            font-weight: bold;
+        }
+
+        /* Animaciones Keyframes */
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Utility classes for delays */
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        /* Iconos SVG simples */
+        .icon {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+            fill: currentColor;
+            margin-right: 5px;
+        }
+
+        /* Responsive adjustments for Tooltip */
+        @media (max-width: 600px) {
+            .rules-popup {
+                width: 280px;
+                left: -50%; /* Ajuste para móviles */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <header>
+            <p class="date">Viernes 13 de Febrero</p>
+            <h1>Sweet Sharing & Billiards</h1>
+            <p class="intro">
+                Están cordialmente invitados a celebrar el Amor y la Amistad. 
+                Una tarde de convivencia, estrategia y buenos momentos.
+            </p>
+        </header>
+
+        <div class="events-grid">
+            
+            <div class="card" id="card1">
+                <div class="event-image-container">
+                    <img src="bob.jpg" alt="SpongeBob Love">
+                </div>
+                <div class="card-icon">🍬</div>
+                <h2>Sweet Sharing</h2>
+                <p style="color: var(--text-muted); margin-bottom: 15px;">
+                    Trae dulces o chocolates para intercambiar.
+                </p>
+                <ul class="details-list">
+                    <li>
+                        <strong>Hora:</strong> 1:45 PM
+                    </li>
+                    <li>
+                        <strong>Lugar:</strong> Cancha W
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card delay-1" id="card2">
+                <div class="card-icon">🎱</div>
+                <h2>Torneo de Billar</h2>
+                <p style="color: var(--text-muted); margin-bottom: 15px;">
+                    Torneo por parejas "Bola 8". Limitado a 16 parejas.
+                </p>
+                
+                <ul class="details-list">
+                    <li><strong>Hora:</strong> 5:00 PM</li>
+                    <li><strong>Lugar:</strong> Mesa de Billar</li>
+                    <li><strong>Registro:</strong> Conmigo (antes del miércoles)</li>
+                </ul>
+
+                <div style="margin-top: 20px; font-size: 0.95rem; color: var(--text-muted);">
+                    <p>⏳ Partidos máx. 30 min (excepto final).</p>
+                    <p>📅 Posibles partidos desde el jueves.</p>
+                    <br>
+                    <span class="rules-trigger">
+                        Ver Reglas del Torneo
+                        <div class="rules-popup">
+                            <div class="rules-content">
+                                <h4>Reglas: Bola 8</h4>
+                                <ol>
+                                    <li><strong>Equipos:</strong> Parejas (Tiros alternados A→B→A...).</li>
+                                    <li><strong>Objetivo:</strong> Meter tus bolas (lisas/rayadas) y al final la 8.</li>
+                                    <li><strong>Break:</strong> Al azar. Si entra bola, siguen tirando.</li>
+                                    <li><strong>Faltas:</strong> Blanca entra = Bola en mano. No tocar bola o golpear contraria = Saca bola.</li>
+                                    <li><strong>Derrota:</strong> Meter la 8 antes de tiempo o golpear la 8 de primera.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="dinner-section delay-2" id="footer">
+            <h3 style="margin-bottom: 15px;">🌙 La Noche</h3>
+            <p>
+                <span class="highlight">W pondrá la cena.</span> <br>
+                Ustedes traigan lo que quieran tomar 🍻.
+            </p>
+            
+            <div class="dinner-quote">
+                "Espero que sea una oportunidad para celebrar la amistad orgánica que surge entre compañeros de trabajo que se acompañan en las buenas y las malas."
+            </div>
+            <p style="margin-top: 30px; font-size: 0.9rem; color: var(--text-muted);">
+                Quedo al pendiente de cualquier duda. <br> Saludos cordiales.
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        // Script simple para activar las animaciones de entrada al hacer scroll o cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = [
+                document.getElementById('card1'),
+                document.getElementById('card2'),
+                document.getElementById('footer')
+            ];
+
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = `fadeUp 0.8s ease forwards ${entry.target.classList.contains('delay-1') ? '0.2s' : entry.target.classList.contains('delay-2') ? '0.4s' : '0s'}`;
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            elements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
