@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Propuesta: WIDE MOAT</title>
+    <title>WM | Visual Experience</title>
     <style>
         :root {
             --bg-color: #0a0a0a;
-            --card-bg: #141414;
-            --text-main: #e0e0e0;
-            --text-muted: #888;
-            --accent: #d4af37; /* Gold/Buffett Vibe */
-            --accent-glow: rgba(212, 175, 55, 0.2);
-            --font-stack: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --accent: #d4af37; /* Oro sutil para elegancia */
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         * {
@@ -25,243 +25,296 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             font-family: var(--font-stack);
-            line-height: 1.6;
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* Utils */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-
-        .visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Header / Hero */
-        header {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+        }
+
+        /* Canvas Background */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 600px;
+            padding: 2rem;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        /* Title */
+        h1 {
+            font-size: 5rem;
+            font-weight: 200;
+            letter-spacing: -2px;
+            margin-bottom: 2rem;
+            background: linear-gradient(to bottom right, #fff, #666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: default;
+        }
+
+        /* Video Button */
+        .video-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2.5rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 50px;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .video-btn:hover {
+            border-color: var(--accent);
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+        }
+
+        .video-btn:hover::before {
+            left: 100%;
+        }
+
+        .video-btn svg {
+            margin-right: 10px;
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        /* Clients List */
+        .clients-section {
+            text-align: left;
+        }
+
+        .clients-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            display: block;
+        }
+
+        .clients-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1px; /* Gap for border effect */
+            background: linear-gradient(to bottom, transparent, var(--glass-border), transparent);
+            padding: 1px 0;
+        }
+
+        .client-item {
+            padding: 1.5rem 0;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: default;
             text-align: center;
             position: relative;
         }
 
-        h1 {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 800;
-            letter-spacing: -2px;
-            margin-bottom: 1rem;
-            background: linear-gradient(180deg, #fff 0%, #888 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .client-item:hover {
+            color: var(--text-main);
+            transform: scale(1.05);
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
         }
 
-        .subtitle {
-            font-size: 1.2rem;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            margin-bottom: 2rem;
+        /* Animations */
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            width: 1px;
-            height: 60px;
-            background: linear-gradient(to bottom, var(--accent), transparent);
-            animation: pulse 2s infinite;
-        }
-
-        /* Sections */
-        section {
-            padding: 6rem 0;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .card {
-            background: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: 0 10px 30px -10px var(--accent-glow);
-        }
-
-        .card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #fff;
-        }
-
-        .card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        /* The WM Connection */
-        .wm-section {
-            text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
-        }
-
-        .wm-logo {
-            font-size: 8rem;
-            font-weight: 900;
-            line-height: 1;
-            letter-spacing: -5px;
-            opacity: 0.1;
-            margin-bottom: -4rem;
-            user-select: none;
-        }
-
-        .highlight {
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 4rem 0;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .btn {
-            display: inline-block;
-            margin-top: 2rem;
-            padding: 1rem 3rem;
-            background: var(--accent);
-            color: #000;
-            text-decoration: none;
-            font-weight: 700;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            background: #fff;
-            box-shadow: 0 0 20px rgba(255,255,255,0.3);
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0; transform: translateY(-10px); }
-            50% { opacity: 1; }
-            100% { opacity: 0; transform: translateY(10px); }
-        }
-
+        /* Responsive */
         @media (max-width: 768px) {
             h1 { font-size: 3.5rem; }
-            .wm-logo { font-size: 5rem; margin-bottom: -2.5rem; }
+            .container { padding: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <header class="container fade-in">
-        <div class="subtitle">Propuesta de Identidad</div>
-        <h1>WIDE MOAT</h1>
-        <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto;">
-            La única agencia creativa con un principio económico inquebrantable.
-        </p>
-        <div class="scroll-indicator"></div>
-    </header>
+    <canvas id="bg-canvas"></canvas>
 
-    <section class="container fade-in">
-        <h2 style="font-size: 2rem; margin-bottom: 1rem;">¿Por qué este nombre?</h2>
-        <p style="color: var(--text-muted); max-width: 700px;">
-            Encontramos una anomalía en el mercado. El término "Wide Moat" domina en finanzas, pero es un <strong>océano azul</strong> en el sector creativo global.
-        </p>
+    <div class="container">
+        <h1>WM</h1>
 
-        <div class="grid">
-            <div class="card">
-                <h3>El Origen</h3>
-                <p>Popularizado por Warren Buffett. Un "Economic Moat" es la ventaja competitiva estructural que hace a una empresa intocable frente a la competencia.</p>
-            </div>
-            <div class="card">
-                <h3>La Autoridad</h3>
-                <p>No suena a "agencia de diseño" pequeña. Suena a consultora de estrategia, a firma de inversión, a "Old Money" inteligente. Proyecta solidez inmediata.</p>
-            </div>
-            <div class="card">
-                <h3>El Concepto</h3>
-                <p>Nosotros no vendemos logos. Construimos el "foso" (Moat) para nuestros clientes: Branding, Efecto de Red y Activos Intangibles.</p>
-            </div>
+        <a href="#" class="video-btn" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            Ver Reel
+        </a>
+
+        <div class="clients-section">
+            <span class="clients-label">Clientes Seleccionados</span>
+            <ul class="clients-list">
+                <li class="client-item">Vogue International</li>
+                <li class="client-item">Tesla Motors</li>
+                <li class="client-item">Architectural Digest</li>
+                <li class="client-item">Sony Music</li>
+                <li class="client-item">Massimo Dutti</li>
+            </ul>
         </div>
-    </section>
-
-    <section class="wm-section fade-in">
-        <div class="container">
-            <div class="wm-logo">WM</div>
-            <h2 style="font-size: 2.5rem; position: relative; z-index: 2;">El Factor Decisivo</h2>
-            <p style="margin-top: 1.5rem; font-size: 1.2rem; position: relative; z-index: 2;">
-                Mantenemos nuestras siglas.<br>
-                <span class="highlight">W</span>aterloo <span class="highlight">M</span>edia evoluciona a <span class="highlight">W</span>ide <span class="highlight">M</span>oat.
-            </p>
-            <p style="margin-top: 1rem; color: var(--text-muted); position: relative; z-index: 2;">
-                Mismo legado, mayor proyección.
-            </p>
-        </div>
-    </section>
-
-    <section class="container fade-in" style="text-align: center;">
-        <h2 style="font-size: 2rem;">Veredicto</h2>
-        <p style="margin-top: 1rem; color: var(--text-muted);">
-            Nombre disponible. Dominio conceptual libre en el sector creativo.<br>
-            Estética <i>High-Ticket</i>.
-        </p>
-        <a href="#" class="btn">Hagámoslo, Tocayo</a>
-    </section>
-
-    <footer>
-        &copy; 2026 Wide Moat Agency (Propuesta Interna)
-    </footer>
+    </div>
 
     <script>
-        // Simple Intersection Observer for reveal animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px"
-        };
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        let particles = [];
+        const mouse = { x: null, y: null };
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
+        // Configuración
+        const particleCount = 60; // Cantidad de partículas
+        const connectionDistance = 150;
+        const mouseDistance = 200;
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.baseColor = `rgba(255, 255, 255, ${Math.random() * 0.3 + 0.1})`;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Rebote en bordes
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+
+                // Interacción con el mouse
+                if (mouse.x != null) {
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < mouseDistance) {
+                        const forceDirectionX = dx / distance;
+                        const forceDirectionY = dy / distance;
+                        const force = (mouseDistance - distance) / mouseDistance;
+                        const directionX = forceDirectionX * force * 0.5; // Fuerza suave
+                        const directionY = forceDirectionY * force * 0.5;
+
+                        this.vx -= directionX;
+                        this.vy -= directionY;
+                    }
                 }
-            });
-        }, observerOptions);
+            }
 
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
+            draw() {
+                ctx.fillStyle = this.baseColor;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                // Dibujar conexiones
+                for (let j = i; j < particles.length; j++) {
+                    let dx = particles[i].x - particles[j].x;
+                    let dy = particles[i].y - particles[j].y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < connectionDistance) {
+                        ctx.beginPath();
+                        let opacity = 1 - (distance / connectionDistance);
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.05})`; // Línea muy sutil
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            resize();
+            initParticles();
         });
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+
+        window.addEventListener('mouseout', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        // Inicio
+        resize();
+        initParticles();
+        animate();
     </script>
 </body>
 </html>
