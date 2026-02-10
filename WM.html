@@ -3,340 +3,327 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WM | Portfolio</title>
+    <title>WM | Visual Experience</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-color: #050505;
-            --text-main: #ededed;
-            --accent: #ffffff;
-            --overlay: rgba(0, 0, 0, 0.7);
+            --bg-color: #080808;
+            --text-white: #ffffff;
+            --text-grey: #888888;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none; /* Ocultamos el cursor default para usar uno personalizado */
+            cursor: none; /* Cursor personalizado */
         }
 
         body {
             background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Gotham', 'Montserrat', -apple-system, sans-serif;
-            overflow: hidden;
+            color: var(--text-white);
+            font-family: 'Gotham', 'Montserrat', sans-serif;
             height: 100vh;
+            width: 100vw;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 1000px; /* Para el efecto 3D */
-        }
-
-        /* TEXTURA DE RUIDO (GRAIN) */
-        .noise-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 999;
-            opacity: 0.05;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
-
-        /* CURSOR PERSONALIZADO */
-        .cursor-dot,
-        .cursor-outline {
-            position: fixed;
-            top: 0;
-            left: 0;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            z-index: 1000;
-            pointer-events: none;
-        }
-
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: white;
-        }
-
-        .cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
-        }
-
-        body:hover .cursor-outline {
-            width: 50px;
-            height: 50px;
-        }
-
-        /* FONDO CANVAS */
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-
-        /* CONTENEDOR PRINCIPAL (Efecto Tilt) */
-        .tilt-card {
-            text-align: center;
-            padding: 3rem;
-            transform-style: preserve-3d;
-            will-change: transform;
-            /* Fondo sutil tipo tarjeta */
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(5px);
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-
-        /* TÍTULO WM */
-        h1 {
-            font-size: 8rem; /* Muy grande */
-            font-weight: 900; /* Bold extremo */
-            line-height: 0.8;
-            margin-bottom: 2rem;
-            color: #fff;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            letter-spacing: -5px;
-            transform: translateZ(50px); /* 3D pop */
-        }
-
-        /* BOTÓN */
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 3rem;
-            font-size: 1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #000;
-            background: #fff;
-            text-decoration: none;
-            border-radius: 2px;
-            margin-bottom: 3rem;
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
-            overflow: hidden;
-            transform: translateZ(40px);
         }
 
-        .cta-button:hover {
-            background: #d4d4d4;
-            transform: translateZ(60px) scale(1.05);
-            box-shadow: 0 0 30px rgba(255,255,255,0.3);
+        /* --- CAPAS DE FONDO --- */
+        .noise {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 900;
+            opacity: 0.04;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        #neural-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+        }
+
+        /* --- CURSOR --- */
+        .cursor-dot {
+            width: 6px; height: 6px; background: white;
+            position: fixed; border-radius: 50%;
+            pointer-events: none; z-index: 1000;
+        }
+        .cursor-ring {
+            width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.3);
+            position: fixed; border-radius: 50%;
+            pointer-events: none; z-index: 1000;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background 0.3s;
+        }
+
+        /* --- CONTENIDO --- */
+        .main-container {
+            z-index: 10;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* TÍTULO ESTÁTICO */
+        h1.static-title {
+            font-size: 6rem;
+            font-weight: 900;
+            letter-spacing: -4px;
+            color: #fff;
+            margin-bottom: 2rem;
+            text-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            pointer-events: none; /* No interactivo */
+        }
+
+        /* CAPA DE MOVIMIENTO SUAVE (PARALLAX) */
+        .interactive-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.1s ease-out;
+            will-change: transform;
+        }
+
+        /* VIDEO FRAME */
+        .video-wrapper {
+            width: 500px; /* Tamaño controlado */
+            max-width: 90vw;
+            aspect-ratio: 16 / 9;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.15);
+            margin-bottom: 3rem;
+            position: relative;
+            background: #000;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .video-wrapper:hover {
+            border-color: rgba(255,255,255,0.4);
+            transform: scale(1.02);
+        }
+
+        .video-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            pointer-events: auto; /* Permitir clic en el video */
         }
 
         /* LISTA CLIENTES */
-        .clients-wrapper {
-            transform: translateZ(30px);
-        }
-
-        .client-list {
-            list-style: none;
+        .clients-grid {
             display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px 25px;
+            max-width: 600px;
         }
 
-        .client-item {
-            font-size: 1.2rem;
-            font-weight: 400;
-            color: rgba(255, 255, 255, 0.5);
-            letter-spacing: 1px;
-            transition: 0.3s;
-            position: relative;
-        }
-
-        .client-item::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: -2px;
-            left: 50%;
-            background: #fff;
-            transition: 0.3s;
-            transform: translateX(-50%);
-        }
-
-        .client-item:hover {
-            color: #fff;
+        .client {
+            color: var(--text-grey);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
             letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            transition: 0.3s;
+            cursor: none; /* Mantener cursor custom */
         }
 
-        .client-item:hover::after {
-            width: 100%;
+        .client:hover {
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255,255,255,0.6);
         }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
-            h1 { font-size: 5rem; }
-            .tilt-card { padding: 1.5rem; width: 90%; }
+            h1.static-title { font-size: 3.5rem; }
+            .video-wrapper { width: 90vw; }
+            .clients-grid { flex-direction: column; gap: 10px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="noise-overlay"></div>
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
-    <canvas id="bg-canvas"></canvas>
+    <div class="noise"></div>
+    <canvas id="neural-canvas"></canvas>
+    
+    <div class="cursor-dot" id="c-dot"></div>
+    <div class="cursor-ring" id="c-ring"></div>
 
-    <div class="tilt-card" id="card">
-        <h1>WM</h1>
-        
-        <a href="https://youtu.be/YNbompiswcU" target="_blank" class="cta-button">
-            Ver Video
-        </a>
+    <div class="main-container">
+        <h1 class="static-title">WM</h1>
 
-        <div class="clients-wrapper">
-            <ul class="client-list">
-                <li class="client-item">Sony</li>
-                <li class="client-item">Betcris</li>
-                <li class="client-item">Meridianos</li>
-                <li class="client-item">XMMA</li>
-                <li class="client-item">BetDSI</li>
-                <li class="client-item">Gattaca</li>
-                <li class="client-item">Ibanera</li>
-            </ul>
+        <div class="interactive-content" id="moving-layer">
+            
+            <div class="video-wrapper">
+                <iframe 
+                    src="https://www.youtube.com/embed/YNbompiswcU?autoplay=1&mute=1&loop=1&playlist=YNbompiswcU&controls=0&showinfo=0&rel=0&modestbranding=1" 
+                    title="WM Reel" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <div class="clients-grid">
+                <div class="client">Sony</div>
+                <div class="client">Betcris</div>
+                <div class="client">Meridianos</div>
+                <div class="client">XMMA</div>
+                <div class="client">BetDSI</div>
+                <div class="client">Gattaca</div>
+                <div class="client">Ibanera</div>
+            </div>
         </div>
     </div>
 
     <script>
-        // --- CURSOR CUSTOM ---
-        const cursorDot = document.querySelector('.cursor-dot');
-        const cursorOutline = document.querySelector('.cursor-outline');
-
-        window.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-
-            // Dot sigue al instante
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-
-            // Outline con un poco de delay (animación suave)
-            cursorOutline.animate({
-                left: `${posX}px`,
-                top: `${posY}px`
-            }, { duration: 500, fill: "forwards" });
-        });
-
-        // --- EFECTO 3D TILT ---
-        const card = document.getElementById('card');
+        // --- 1. LÓGICA DE CURSOR Y PARALLAX ---
+        const cursorDot = document.getElementById('c-dot');
+        const cursorRing = document.getElementById('c-ring');
+        const movingLayer = document.getElementById('moving-layer');
         
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+
         document.addEventListener('mousemove', (e) => {
-            const x = (window.innerWidth / 2 - e.pageX) / 25; // Sensibilidad X
-            const y = (window.innerHeight / 2 - e.pageY) / 25; // Sensibilidad Y
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            cursorDot.style.left = `${mouseX}px`;
+            cursorDot.style.top = `${mouseY}px`;
             
-            card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+            cursorRing.style.left = `${mouseX}px`;
+            cursorRing.style.top = `${mouseY}px`;
+
+            // Parallax sutil inverso
+            const moveX = (window.innerWidth / 2 - mouseX) / 80; 
+            const moveY = (window.innerHeight / 2 - mouseY) / 80;
+
+            movingLayer.style.transform = `translate(${moveX}px, ${moveY}px)`;
         });
 
-        // --- BACKGROUND CANVAS (RED NEURONAL) ---
-        const canvas = document.getElementById('bg-canvas');
+        // Hover effects
+        const hoverables = document.querySelectorAll('.client, .video-wrapper');
+        hoverables.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorRing.style.width = '60px';
+                cursorRing.style.height = '60px';
+                cursorRing.style.borderColor = 'rgba(255,255,255,0.6)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorRing.style.width = '40px';
+                cursorRing.style.height = '40px';
+                cursorRing.style.borderColor = 'rgba(255,255,255,0.3)';
+            });
+        });
+
+        // --- 2. LÓGICA DE FONDO (RED NEURONAL) ---
+        const canvas = document.getElementById('neural-canvas');
         const ctx = canvas.getContext('2d');
-        let width, height;
+        let w, h;
         
-        // Ajustar canvas al tamaño de ventana
+        const config = {
+            particleCount: 80,
+            connectionDist: 150,
+            mouseConnectDist: 250,
+            baseSpeed: 0.4
+        };
+
+        const particles = [];
+
         function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
         }
         window.addEventListener('resize', resize);
         resize();
 
-        // Partículas
-        const particles = [];
-        const props = {
-            count: 100,
-            radius: 2,
-            lineDist: 150,
-            mouseDist: 250
-        };
-
-        const mouse = { x: undefined, y: undefined };
-        window.addEventListener('mousemove', e => {
-            mouse.x = e.x;
-            mouse.y = e.y;
-        });
-
         class Particle {
             constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 1;
-                this.vy = (Math.random() - 0.5) * 1;
-                this.size = Math.random() * 2 + 1;
+                this.x = Math.random() * w;
+                this.y = Math.random() * h;
+                this.vx = (Math.random() - 0.5) * config.baseSpeed;
+                this.vy = (Math.random() - 0.5) * config.baseSpeed;
+                this.size = Math.random() * 1.5 + 1;
             }
 
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
 
-                // Rebote bordes
-                if (this.x < 0 || this.x > width) this.vx *= -1;
-                if (this.y < 0 || this.y > height) this.vy *= -1;
+                if (this.x < 0 || this.x > w) this.vx *= -1;
+                if (this.y < 0 || this.y > h) this.vy *= -1;
 
-                // Interacción Mouse (Magnetismo ligero)
-                if(mouse.x) {
-                    let dx = mouse.x - this.x;
-                    let dy = mouse.y - this.y;
-                    let distance = Math.sqrt(dx*dx + dy*dy);
-                    if(distance < props.mouseDist) {
-                        const forceDirectionX = dx / distance;
-                        const forceDirectionY = dy / distance;
-                        const force = (props.mouseDist - distance) / props.mouseDist;
-                        // Atraer partículas ligeramente al mouse
-                        this.vx += forceDirectionX * force * 0.05;
-                        this.vy += forceDirectionY * force * 0.05;
-                    }
+                // Atracción suave
+                const dx = mouseX - this.x;
+                const dy = mouseY - this.y;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                
+                if (dist < config.mouseConnectDist) {
+                    this.x += dx * 0.008; 
+                    this.y += dy * 0.008;
                 }
             }
 
             draw() {
+                ctx.fillStyle = 'rgba(255,255,255,0.3)';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255,255,255,0.5)';
                 ctx.fill();
             }
         }
 
-        // Inicializar
-        for(let i=0; i<props.count; i++) particles.push(new Particle());
+        for(let i=0; i<config.particleCount; i++) particles.push(new Particle());
 
         function animate() {
-            ctx.clearRect(0, 0, width, height);
+            ctx.clearRect(0, 0, w, h);
             
-            for(let i=0; i<particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
+            for (let i = 0; i < particles.length; i++) {
+                let p1 = particles[i];
+                p1.update();
+                p1.draw();
 
-                // Conexiones
-                for(let j=i; j<particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx*dx + dy*dy);
+                // Conexiones entre puntos
+                for (let j = i; j < particles.length; j++) {
+                    let p2 = particles[j];
+                    let dx = p1.x - p2.x;
+                    let dy = p1.y - p2.y;
+                    let dist = Math.sqrt(dx*dx + dy*dy);
 
-                    if(distance < props.lineDist) {
+                    if (dist < config.connectionDist) {
+                        ctx.strokeStyle = `rgba(255,255,255,${0.08 - (dist/config.connectionDist)*0.08})`;
+                        ctx.lineWidth = 1;
                         ctx.beginPath();
-                        ctx.strokeStyle = `rgba(255,255,255,${1 - distance/props.lineDist})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
                         ctx.stroke();
                     }
+                }
+
+                // Conexiones al Mouse
+                let dx = mouseX - p1.x;
+                let dy = mouseY - p1.y;
+                let distMouse = Math.sqrt(dx*dx + dy*dy);
+
+                if (distMouse < config.mouseConnectDist) {
+                    let alpha = (1 - distMouse / config.mouseConnectDist) * 0.25;
+                    ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(p1.x, p1.y);
+                    ctx.lineTo(mouseX, mouseY);
+                    ctx.stroke();
                 }
             }
             requestAnimationFrame(animate);
