@@ -3,37 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WM | Visual Experience</title>
+    <title>WM | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --bg-color: #0a0a0a;
-            --text-main: #ffffff;
-            --text-muted: #888888;
-            --accent: #d4af37; /* Oro sutil para elegancia */
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --bg-color: #050505;
+            --text-main: #ededed;
+            --accent: #ffffff;
+            --overlay: rgba(0, 0, 0, 0.7);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            cursor: none; /* Ocultamos el cursor default para usar uno personalizado */
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: var(--font-stack);
-            overflow-x: hidden;
-            min-height: 100vh;
+            font-family: 'Gotham', 'Montserrat', -apple-system, sans-serif;
+            overflow: hidden;
+            height: 100vh;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            perspective: 1000px; /* Para el efecto 3D */
         }
 
-        /* Canvas Background */
+        /* TEXTURA DE RUIDO (GRAIN) */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* CURSOR PERSONALIZADO */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: white;
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        body:hover .cursor-outline {
+            width: 50px;
+            height: 50px;
+        }
+
+        /* FONDO CANVAS */
         #bg-canvas {
             position: fixed;
             top: 0;
@@ -41,252 +84,255 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: 0.6;
         }
 
-        /* Main Container */
-        .container {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 600px;
-            padding: 2rem;
+        /* CONTENEDOR PRINCIPAL (Efecto Tilt) */
+        .tilt-card {
             text-align: center;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            padding: 3rem;
+            transform-style: preserve-3d;
+            will-change: transform;
+            /* Fondo sutil tipo tarjeta */
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
-        /* Title */
+        /* TÍTULO WM */
         h1 {
-            font-size: 5rem;
-            font-weight: 200;
-            letter-spacing: -2px;
+            font-size: 8rem; /* Muy grande */
+            font-weight: 900; /* Bold extremo */
+            line-height: 0.8;
             margin-bottom: 2rem;
-            background: linear-gradient(to bottom right, #fff, #666);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            cursor: default;
+            color: #fff;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            letter-spacing: -5px;
+            transform: translateZ(50px); /* 3D pop */
         }
 
-        /* Video Button */
-        .video-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem 2.5rem;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            color: var(--text-main);
-            text-decoration: none;
-            font-size: 0.9rem;
+        /* BOTÓN */
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 3rem;
+            font-size: 1rem;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
-            border-radius: 50px;
-            transition: all 0.4s ease;
-            backdrop-filter: blur(10px);
-            margin-bottom: 4rem;
+            color: #000;
+            background: #fff;
+            text-decoration: none;
+            border-radius: 2px;
+            margin-bottom: 3rem;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
             overflow: hidden;
+            transform: translateZ(40px);
         }
 
-        .video-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: 0.5s;
+        .cta-button:hover {
+            background: #d4d4d4;
+            transform: translateZ(60px) scale(1.05);
+            box-shadow: 0 0 30px rgba(255,255,255,0.3);
         }
 
-        .video-btn:hover {
-            border-color: var(--accent);
-            transform: scale(1.02);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+        /* LISTA CLIENTES */
+        .clients-wrapper {
+            transform: translateZ(30px);
         }
 
-        .video-btn:hover::before {
-            left: 100%;
-        }
-
-        .video-btn svg {
-            margin-right: 10px;
-            width: 16px;
-            height: 16px;
-            fill: currentColor;
-        }
-
-        /* Clients List */
-        .clients-section {
-            text-align: left;
-        }
-
-        .clients-label {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            display: block;
-        }
-
-        .clients-list {
+        .client-list {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 1px; /* Gap for border effect */
-            background: linear-gradient(to bottom, transparent, var(--glass-border), transparent);
-            padding: 1px 0;
+            gap: 0.8rem;
         }
 
         .client-item {
-            padding: 1.5rem 0;
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            font-weight: 300;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.5);
             letter-spacing: 1px;
-            transition: all 0.3s ease;
-            cursor: default;
-            text-align: center;
+            transition: 0.3s;
             position: relative;
         }
 
+        .client-item::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 50%;
+            background: #fff;
+            transition: 0.3s;
+            transform: translateX(-50%);
+        }
+
         .client-item:hover {
-            color: var(--text-main);
-            transform: scale(1.05);
-            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+            color: #fff;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
 
-        /* Animations */
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .client-item:hover::after {
+            width: 100%;
         }
 
-        /* Responsive */
+        /* RESPONSIVE */
         @media (max-width: 768px) {
-            h1 { font-size: 3.5rem; }
-            .container { padding: 1.5rem; }
+            h1 { font-size: 5rem; }
+            .tilt-card { padding: 1.5rem; width: 90%; }
         }
     </style>
 </head>
 <body>
 
+    <div class="noise-overlay"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
     <canvas id="bg-canvas"></canvas>
 
-    <div class="container">
+    <div class="tilt-card" id="card">
         <h1>WM</h1>
-
-        <a href="#" class="video-btn" target="_blank">
-            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            Ver Reel
+        
+        <a href="https://youtu.be/YNbompiswcU" target="_blank" class="cta-button">
+            Ver Video
         </a>
 
-        <div class="clients-section">
-            <span class="clients-label">Clientes Seleccionados</span>
-            <ul class="clients-list">
-                <li class="client-item">Vogue International</li>
-                <li class="client-item">Tesla Motors</li>
-                <li class="client-item">Architectural Digest</li>
-                <li class="client-item">Sony Music</li>
-                <li class="client-item">Massimo Dutti</li>
+        <div class="clients-wrapper">
+            <ul class="client-list">
+                <li class="client-item">Sony</li>
+                <li class="client-item">Betcris</li>
+                <li class="client-item">Meridianos</li>
+                <li class="client-item">XMMA</li>
+                <li class="client-item">BetDSI</li>
+                <li class="client-item">Gattaca</li>
+                <li class="client-item">Ibanera</li>
             </ul>
         </div>
     </div>
 
     <script>
+        // --- CURSOR CUSTOM ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot sigue al instante
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline con un poco de delay (animación suave)
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // --- EFECTO 3D TILT ---
+        const card = document.getElementById('card');
+        
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth / 2 - e.pageX) / 25; // Sensibilidad X
+            const y = (window.innerHeight / 2 - e.pageY) / 25; // Sensibilidad Y
+            
+            card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+        });
+
+        // --- BACKGROUND CANVAS (RED NEURONAL) ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
-        
         let width, height;
-        let particles = [];
-        const mouse = { x: null, y: null };
-
-        // Configuración
-        const particleCount = 60; // Cantidad de partículas
-        const connectionDistance = 150;
-        const mouseDistance = 200;
-
+        
+        // Ajustar canvas al tamaño de ventana
         function resize() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
         }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Partículas
+        const particles = [];
+        const props = {
+            count: 100,
+            radius: 2,
+            lineDist: 150,
+            mouseDist: 250
+        };
+
+        const mouse = { x: undefined, y: undefined };
+        window.addEventListener('mousemove', e => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
 
         class Particle {
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.size = Math.random() * 1.5 + 0.5;
-                this.baseColor = `rgba(255, 255, 255, ${Math.random() * 0.3 + 0.1})`;
+                this.vx = (Math.random() - 0.5) * 1;
+                this.vy = (Math.random() - 0.5) * 1;
+                this.size = Math.random() * 2 + 1;
             }
 
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
 
-                // Rebote en bordes
+                // Rebote bordes
                 if (this.x < 0 || this.x > width) this.vx *= -1;
                 if (this.y < 0 || this.y > height) this.vy *= -1;
 
-                // Interacción con el mouse
-                if (mouse.x != null) {
+                // Interacción Mouse (Magnetismo ligero)
+                if(mouse.x) {
                     let dx = mouse.x - this.x;
                     let dy = mouse.y - this.y;
-                    let distance = Math.sqrt(dx * dx + dy * dy);
-
-                    if (distance < mouseDistance) {
+                    let distance = Math.sqrt(dx*dx + dy*dy);
+                    if(distance < props.mouseDist) {
                         const forceDirectionX = dx / distance;
                         const forceDirectionY = dy / distance;
-                        const force = (mouseDistance - distance) / mouseDistance;
-                        const directionX = forceDirectionX * force * 0.5; // Fuerza suave
-                        const directionY = forceDirectionY * force * 0.5;
-
-                        this.vx -= directionX;
-                        this.vy -= directionY;
+                        const force = (props.mouseDist - distance) / props.mouseDist;
+                        // Atraer partículas ligeramente al mouse
+                        this.vx += forceDirectionX * force * 0.05;
+                        this.vy += forceDirectionY * force * 0.05;
                     }
                 }
             }
 
             draw() {
-                ctx.fillStyle = this.baseColor;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255,255,255,0.5)';
                 ctx.fill();
             }
         }
 
-        function initParticles() {
-            particles = [];
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
-            }
-        }
+        // Inicializar
+        for(let i=0; i<props.count; i++) particles.push(new Particle());
 
         function animate() {
             ctx.clearRect(0, 0, width, height);
             
-            for (let i = 0; i < particles.length; i++) {
+            for(let i=0; i<particles.length; i++) {
                 particles[i].update();
                 particles[i].draw();
 
-                // Dibujar conexiones
-                for (let j = i; j < particles.length; j++) {
-                    let dx = particles[i].x - particles[j].x;
-                    let dy = particles[i].y - particles[j].y;
-                    let distance = Math.sqrt(dx * dx + dy * dy);
+                // Conexiones
+                for(let j=i; j<particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx*dx + dy*dy);
 
-                    if (distance < connectionDistance) {
+                    if(distance < props.lineDist) {
                         ctx.beginPath();
-                        let opacity = 1 - (distance / connectionDistance);
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.05})`; // Línea muy sutil
-                        ctx.lineWidth = 1;
+                        ctx.strokeStyle = `rgba(255,255,255,${1 - distance/props.lineDist})`;
+                        ctx.lineWidth = 0.5;
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
                         ctx.stroke();
@@ -295,25 +341,6 @@
             }
             requestAnimationFrame(animate);
         }
-
-        window.addEventListener('resize', () => {
-            resize();
-            initParticles();
-        });
-
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = e.x;
-            mouse.y = e.y;
-        });
-
-        window.addEventListener('mouseout', () => {
-            mouse.x = null;
-            mouse.y = null;
-        });
-
-        // Inicio
-        resize();
-        initParticles();
         animate();
     </script>
 </body>
