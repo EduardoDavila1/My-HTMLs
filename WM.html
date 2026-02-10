@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WM | Visual Experience</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --bg-color: #080808;
             --text-white: #ffffff;
             --text-grey: #888888;
-            --accent-gold: #d4af37; /* Un toque dorado muy sutil para hovers */
         }
 
         * {
@@ -64,7 +63,7 @@
             transition: width 0.3s, height 0.3s, background 0.3s, border-color 0.3s;
         }
 
-        /* --- CONTENIDO --- */
+        /* --- CONTENIDO PRINCIPAL --- */
         .main-container {
             z-index: 10;
             text-align: center;
@@ -73,6 +72,8 @@
             align-items: center;
             justify-content: center;
             width: 100%;
+            /* Empujamos un poco arriba para dejar espacio al texto de abajo */
+            transform: translateY(-5%); 
         }
 
         /* TÍTULO ESTÁTICO */
@@ -86,7 +87,7 @@
             pointer-events: none;
         }
 
-        /* CAPA DE MOVIMIENTO SUAVE (PARALLAX) */
+        /* LAYER DE MOVIMIENTO (PARALLAX) */
         .interactive-content {
             display: flex;
             flex-direction: column;
@@ -97,17 +98,22 @@
 
         /* VIDEO FRAME */
         .video-wrapper {
-            width: 480px;
+            width: 500px;
             max-width: 90vw;
             aspect-ratio: 16 / 9;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 15px 50px rgba(0,0,0,0.7);
             border: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 3.5rem;
+            margin-bottom: 3rem;
             position: relative;
             background: #000;
             transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .video-wrapper:hover {
+            border-color: rgba(255,255,255,0.3);
+            transform: scale(1.02);
         }
 
         .video-wrapper iframe {
@@ -116,97 +122,72 @@
             pointer-events: auto;
         }
 
-        /* LISTA CLIENTES */
+        /* LISTA CLIENTES (GRID) */
         .clients-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 20px 40px; /* Más espacio horizontal */
+            gap: 25px 40px;
             max-width: 800px;
-            position: relative;
-        }
-
-        .client-item {
-            position: relative; /* Necesario para posicionar la descripción */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
         .client-name {
             color: var(--text-grey);
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 2px;
-            transition: 0.3s ease;
-            cursor: pointer; /* Indicar interactividad */
+            transition: 0.4s ease;
+            cursor: pointer;
             padding: 5px 10px;
+            position: relative;
         }
 
-        /* Efecto Hover Nombre */
-        .client-item:hover .client-name {
+        .client-name:hover {
             color: #fff;
-            text-shadow: 0 0 15px rgba(255,255,255,0.8);
+            text-shadow: 0 0 20px rgba(255,255,255,0.6);
             transform: translateY(-2px);
         }
 
-        /* DESCRIPCIÓN (Tooltip) */
-        .client-desc {
-            position: absolute;
-            top: 100%; /* Justo debajo */
-            left: 50%;
-            transform: translateX(-50%) translateY(10px); /* Centrado y desplazado abajo */
-            width: 280px; /* Ancho máximo del tooltip */
-            background: rgba(10, 10, 10, 0.95);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 12px 15px;
-            border-radius: 4px;
-            
-            /* Tipografía */
-            font-size: 0.75rem;
-            color: #ccc;
-            line-height: 1.4;
-            font-weight: 400;
+        /* --- ÁREA DE DESCRIPCIÓN (PIE DE PÁGINA) --- */
+        #footer-info {
+            position: fixed;
+            bottom: 8%; /* Posición fija abajo */
+            left: 0;
+            width: 100%;
             text-align: center;
+            z-index: 20;
+            pointer-events: none; /* Para que el mouse pase a través */
+            padding: 0 2rem;
+        }
+
+        #info-text {
+            display: inline-block;
+            max-width: 800px;
+            font-size: 1.3rem; /* Texto grande */
+            font-weight: 300; /* Letra fina elegante */
+            color: #eee;
+            line-height: 1.5;
             letter-spacing: 0.5px;
-            
-            /* Animación (Oculto por defecto) */
             opacity: 0;
-            visibility: hidden;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            pointer-events: none;
-            z-index: 100;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
         }
 
-        /* Flechita decorativa arriba del tooltip */
-        .client-desc::before {
-            content: '';
-            position: absolute;
-            top: -4px;
-            left: 50%;
-            transform: translateX(-50%) rotate(45deg);
-            width: 8px;
-            height: 8px;
-            background: rgba(10, 10, 10, 0.95);
-            border-left: 1px solid rgba(255,255,255,0.1);
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        /* Mostrar descripción al hacer Hover en el item */
-        .client-item:hover .client-desc {
+        /* Clase para activar la visibilidad */
+        #info-text.visible {
             opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(5px); /* Sube un poco al aparecer */
+            transform: translateY(0);
         }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
-            h1.static-title { font-size: 3.5rem; }
-            .video-wrapper { width: 90vw; }
+            h1.static-title { font-size: 3.5rem; margin-bottom: 1.5rem; }
+            .video-wrapper { width: 90vw; margin-bottom: 2rem; }
             .clients-grid { gap: 15px; }
-            .client-desc { width: 200px; font-size: 0.7rem; }
+            #info-text { font-size: 1rem; bottom: 5%; }
+            .main-container { transform: translateY(-10%); }
         }
     </style>
 </head>
@@ -234,56 +215,41 @@
             </div>
 
             <div class="clients-grid">
-                
-                <div class="client-item">
-                    <div class="client-name">Sony</div>
-                    <div class="client-desc">
-                        Creamos más de 300 videos para cubrir series de TV como Shark Tank, alcanzando más de 200 millones de visitas en un año.
-                    </div>
-                </div>
-
-                <div class="client-item">
-                    <div class="client-name">Betcris</div>
-                    <div class="client-desc">
-                        Aumentamos su alcance un 30% actualizando su estilo visual e identidad de marca.
-                    </div>
-                </div>
-
-                <div class="client-item">
-                    <div class="client-name">Meridianos</div>
-                    <div class="client-desc">
-                        Alcanzamos millones de personas con nuestros anuncios en Costa Rica, aumentando sus ventas en más de un 50%.
-                    </div>
-                </div>
-
-                <div class="client-item">
-                    <div class="client-name">XMMA</div>
-                    <div class="client-desc">
-                        Creamos su identidad visual completa y generamos su primera colección de NFTs.
-                    </div>
-                </div>
-
-                <div class="client-item">
-                    <div class="client-name">BetDSI</div>
-                    <div class="client-desc">
-                        Creamos más de 50 juegos móviles totalmente personalizados, animados y musicalizados.
-                    </div>
-                </div>
-
-                <div class="client-item">
-                    <div class="client-name">Gattaca</div>
-                </div>
-
-                <div class="client-item">
-                    <div class="client-name">Ibanera</div>
-                </div>
-
+                <div class="client-name" data-desc="Creamos más de 300 videos para cubrir series de TV como Shark Tank, alcanzando más de 200 millones de visitas en un año.">Sony</div>
+                <div class="client-name" data-desc="Aumentamos su alcance un 30% actualizando su estilo visual e identidad de marca.">Betcris</div>
+                <div class="client-name" data-desc="Alcanzamos millones de personas con nuestros anuncios en Costa Rica, aumentando sus ventas en más de un 50%.">Meridianos</div>
+                <div class="client-name" data-desc="Creamos su identidad visual completa y generamos su primera colección de NFTs.">XMMA</div>
+                <div class="client-name" data-desc="Creamos más de 50 juegos móviles totalmente personalizados, animados y musicalizados.">BetDSI</div>
+                <div class="client-name" data-desc="Innovación y consultoría estratégica para soluciones tecnológicas de alto nivel.">Gattaca</div>
+                <div class="client-name" data-desc="Plataforma financiera global: Desarrollamos su experiencia visual corporativa.">Ibanera</div>
             </div>
         </div>
     </div>
 
+    <div id="footer-info">
+        <div id="info-text"></div>
+    </div>
+
     <script>
-        // --- 1. LÓGICA DE CURSOR Y PARALLAX ---
+        // --- 1. LÓGICA DE TEXTOS DINÁMICOS ---
+        const infoText = document.getElementById('info-text');
+        const clients = document.querySelectorAll('.client-name');
+
+        clients.forEach(client => {
+            client.addEventListener('mouseenter', () => {
+                const desc = client.getAttribute('data-desc');
+                if (desc) {
+                    infoText.textContent = desc;
+                    infoText.classList.add('visible');
+                }
+            });
+
+            client.addEventListener('mouseleave', () => {
+                infoText.classList.remove('visible');
+            });
+        });
+
+        // --- 2. LÓGICA DE CURSOR Y PARALLAX ---
         const cursorDot = document.getElementById('c-dot');
         const cursorRing = document.getElementById('c-ring');
         const movingLayer = document.getElementById('moving-layer');
@@ -297,46 +263,39 @@
 
             cursorDot.style.left = `${mouseX}px`;
             cursorDot.style.top = `${mouseY}px`;
-            
             cursorRing.style.left = `${mouseX}px`;
             cursorRing.style.top = `${mouseY}px`;
 
-            // Parallax sutil inverso
             const moveX = (window.innerWidth / 2 - mouseX) / 90; 
             const moveY = (window.innerHeight / 2 - mouseY) / 90;
-
             movingLayer.style.transform = `translate(${moveX}px, ${moveY}px)`;
         });
 
-        // Hover effects para cursor
         const hoverables = document.querySelectorAll('.client-name, .video-wrapper');
         hoverables.forEach(el => {
             el.addEventListener('mouseenter', () => {
-                cursorRing.style.width = '50px';
-                cursorRing.style.height = '50px';
+                cursorRing.style.width = '60px';
+                cursorRing.style.height = '60px';
                 cursorRing.style.background = 'rgba(255,255,255,0.05)';
-                cursorRing.style.borderColor = 'rgba(255,255,255,0.5)';
             });
             el.addEventListener('mouseleave', () => {
                 cursorRing.style.width = '40px';
                 cursorRing.style.height = '40px';
                 cursorRing.style.background = 'transparent';
-                cursorRing.style.borderColor = 'rgba(255,255,255,0.3)';
             });
         });
 
-        // --- 2. LÓGICA DE FONDO (RED NEURONAL) ---
+        // --- 3. LÓGICA DE FONDO (RED NEURONAL) ---
         const canvas = document.getElementById('neural-canvas');
         const ctx = canvas.getContext('2d');
         let w, h;
         
         const config = {
-            particleCount: 85,
+            particleCount: 80,
             connectionDist: 140,
             mouseConnectDist: 220,
             baseSpeed: 0.35
         };
-
         const particles = [];
 
         function resize() {
@@ -354,25 +313,20 @@
                 this.vy = (Math.random() - 0.5) * config.baseSpeed;
                 this.size = Math.random() * 1.5 + 1;
             }
-
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
-
                 if (this.x < 0 || this.x > w) this.vx *= -1;
                 if (this.y < 0 || this.y > h) this.vy *= -1;
-
-                // Atracción suave
+                
                 const dx = mouseX - this.x;
                 const dy = mouseY - this.y;
                 const dist = Math.sqrt(dx*dx + dy*dy);
-                
                 if (dist < config.mouseConnectDist) {
                     this.x += dx * 0.006; 
                     this.y += dy * 0.006;
                 }
             }
-
             draw() {
                 ctx.fillStyle = 'rgba(255,255,255,0.25)';
                 ctx.beginPath();
@@ -385,19 +339,15 @@
 
         function animate() {
             ctx.clearRect(0, 0, w, h);
-            
             for (let i = 0; i < particles.length; i++) {
                 let p1 = particles[i];
                 p1.update();
                 p1.draw();
-
-                // Conexiones entre puntos
                 for (let j = i; j < particles.length; j++) {
                     let p2 = particles[j];
                     let dx = p1.x - p2.x;
                     let dy = p1.y - p2.y;
                     let dist = Math.sqrt(dx*dx + dy*dy);
-
                     if (dist < config.connectionDist) {
                         ctx.strokeStyle = `rgba(255,255,255,${0.07 - (dist/config.connectionDist)*0.07})`;
                         ctx.lineWidth = 1;
@@ -407,12 +357,9 @@
                         ctx.stroke();
                     }
                 }
-
-                // Conexiones al Mouse
                 let dx = mouseX - p1.x;
                 let dy = mouseY - p1.y;
                 let distMouse = Math.sqrt(dx*dx + dy*dy);
-
                 if (distMouse < config.mouseConnectDist) {
                     let alpha = (1 - distMouse / config.mouseConnectDist) * 0.2;
                     ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
