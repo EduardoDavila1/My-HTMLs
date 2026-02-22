@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -9,13 +10,19 @@
         :root {
             --color-bg: #000000;
             --color-text: #ffffff;
-            --color-accent: #4db8ff; /* Azul cielo más suave */
-            --color-accent-secondary: #9370db; /* Púrpura nebulosa */
+            --color-accent: #4db8ff;
+            /* Azul cielo más suave */
+            --color-accent-secondary: #9370db;
+            /* Púrpura nebulosa */
             --glass-bg: rgba(10, 14, 26, 0.75);
             --glass-border: 1px solid rgba(77, 184, 255, 0.15);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             margin: 0;
@@ -27,8 +34,10 @@
 
         #three-canvas {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: -1;
         }
 
@@ -147,11 +156,35 @@
             box-shadow: 0 0 20px rgba(77, 184, 255, 0.4);
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 600px) { h1 { font-size: 2.5rem; } .content-box { padding: 20px; } .grid-links { grid-template-columns: 1fr 1fr; } }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .content-box {
+                padding: 20px;
+            }
+
+            .grid-links {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
     <div id="ui-container">
@@ -160,26 +193,27 @@
             <p class="subtitle">Centro de Control de Proyectos</p>
 
             <h3 class="section-title">// ARCHIVOS DE DESARROLLO</h3>
-            
+
             <div class="grid-links">
                 <a href="Alpha Check.html" class="project-btn">Alpha Check</a>
                 <a href="Antena.html" class="project-btn">Antena</a>
                 <a href="Cazando la nieve.html" class="project-btn">Cazando Nieve</a>
                 <a href="EdDoc.HTML" class="project-btn">EdDoc</a>
-                
+
                 <a href="Estoyfuera.html" class="project-btn">Estoy Fuera</a>
                 <a href="PerlaNegra.html" class="project-btn">Perla Negra</a>
-                
+
                 <a href="SharkTank.html" class="project-btn">Shark Tank</a>
-                
+
                 <a href="WM.html" class="project-btn">WM</a>
-                
+
                 <a href="ffmpg.html" class="project-btn">FFMPEG Tool</a>
                 <a href="formato.html" class="project-btn">Formato</a>
                 <a href="mision nieve.html" class="project-btn">Misión Nieve</a>
                 <a href="retiro de invierno.html" class="project-btn">Retiro Invierno</a>
                 <a href="seguridad.html" class="project-btn">Seguridad</a>
-                 <a href="https://gaiaverse-bxtss7u5.manus.space" class="project-btn">GAIA</a>
+                <a href="https://gaiaverse-bxtss7u5.manus.space" class="project-btn">GAIA</a>
+                <a href="Aquila.html" class="project-btn">Aquila</a>
             </div>
 
             <div class="secondary-cta-container">
@@ -223,20 +257,20 @@
 
             const baseColor = new THREE.Color(0x4db8ff);
 
-            for(let i = 0; i < starCount; i++) {
+            for (let i = 0; i < starCount; i++) {
                 const i3 = i * 3;
                 const radius = 2000 + Math.random() * 3000;
                 const theta = Math.random() * Math.PI * 2;
                 const phi = Math.acos((Math.random() * 2) - 1);
 
                 posArray[i3] = radius * Math.sin(phi) * Math.cos(theta);
-                posArray[i3+1] = radius * Math.sin(phi) * Math.sin(theta);
-                posArray[i3+2] = radius * Math.cos(phi);
+                posArray[i3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+                posArray[i3 + 2] = radius * Math.cos(phi);
 
                 const starColor = baseColor.clone().offsetHSL(Math.random() * 0.2 - 0.1, 0, Math.random() * 0.5);
                 colorArray[i3] = starColor.r;
-                colorArray[i3+1] = starColor.g;
-                colorArray[i3+2] = starColor.b;
+                colorArray[i3 + 1] = starColor.g;
+                colorArray[i3 + 2] = starColor.b;
 
                 sizeArray[i] = Math.random() * 3 + 0.5;
             }
@@ -289,12 +323,12 @@
 
             camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
             camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
-            
+
             camera.lookAt(scene.position);
 
             renderer.render(scene, camera);
         }
     </script>
 </body>
-</html>
 
+</html>

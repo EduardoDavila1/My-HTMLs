@@ -1,7 +1,7 @@
-git pull (Para asegurarte de traer lo último si editaste en la web).
+git pull
 
-git add . (Prepara todo).
+git add
 
-git commit -m "Un mensaje corto" (Guarda la foto).
+git commit -m "algo" 
 
-git push (Sube a la nube).
+git push
