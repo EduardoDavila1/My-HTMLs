@@ -5,13 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ed's Hub | Navegación</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Orbitron:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Fredoka:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --color-bg: #000000;
             --color-text: #ffffff;
             --color-accent: #4db8ff;
+            --color-glow: rgba(77, 184, 255, 0.8);
             --glass-bg: rgba(10, 14, 26, 0.75);
             --glass-border: 1px solid rgba(77, 184, 255, 0.2);
             --transition-speed: 0.8s;
@@ -54,53 +55,52 @@
             padding: 20px;
         }
 
-        /* --- HEADER (TÍTULO REACTIVO) --- */
+        /* --- HEADER (TÍTULO CON DEGRADADO Y GLOW) --- */
         #main-header {
             text-align: center;
             margin-bottom: 50px;
             transition: all var(--transition-speed) ease;
-            position: relative;
         }
 
         h1#dynamic-title {
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Fredoka', sans-serif;
             font-size: 6rem;
-            font-weight: 900;
-            letter-spacing: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
             margin-bottom: 10px;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.1); /* Color base apagado */
+            text-transform: none;
+            
+            /* Degradado Azul */
+            background: linear-gradient(180deg, #fff 0%, var(--color-accent) 50%, #0077ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            
+            /* Efecto de Resplandor (Glow) */
+            filter: drop-shadow(0 0 10px var(--color-glow)) drop-shadow(0 0 20px rgba(0, 119, 255, 0.4));
             position: relative;
             display: inline-block;
-            background: #111;
-            -webkit-background-clip: text;
-            background-clip: text;
-            transition: color 0.2s ease;
             user-select: none;
+            animation: title-glow 3s ease-in-out infinite alternate;
         }
 
-        /* Capa de brillo reactivo */
-        h1#dynamic-title::after {
-            content: "Ed's Hub";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            color: var(--color-accent);
-            pointer-events: none;
-            clip-path: circle(0% at 0% 0%);
-            transition: clip-path 0.1s linear;
-            text-shadow: 0 0 20px var(--color-accent), 0 0 40px var(--color-accent);
+        @keyframes title-glow {
+            from {
+                filter: drop-shadow(0 0 10px var(--color-glow)) drop-shadow(0 0 20px rgba(0, 119, 255, 0.4));
+            }
+            to {
+                filter: drop-shadow(0 0 15px var(--color-glow)) drop-shadow(0 0 35px rgba(0, 119, 255, 0.6));
+                transform: scale(1.02);
+            }
         }
 
         p.subtitle {
             color: #b0c4de;
             font-size: 1.4rem;
             letter-spacing: 4px;
-            opacity: 0.6;
+            opacity: 0.9;
             text-transform: uppercase;
-            font-weight: 500;
+            text-shadow: 0 0 10px rgba(77, 184, 255, 0.3);
         }
 
         /* --- VISTA DE ICONOS --- */
@@ -119,7 +119,7 @@
             height: 140px;
             background: var(--glass-bg);
             border: var(--glass-border);
-            border-radius: 15px;
+            border-radius: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -137,6 +137,7 @@
             margin-bottom: 12px;
             color: var(--color-accent);
             transition: transform 0.3s ease;
+            filter: drop-shadow(0 0 5px var(--color-glow));
         }
 
         .category-card span {
@@ -149,7 +150,7 @@
 
         .category-card:hover {
             border-color: var(--color-accent);
-            box-shadow: 0 0 30px rgba(77, 184, 255, 0.4);
+            box-shadow: 0 0 30px rgba(77, 184, 255, 0.5);
             transform: translateY(-10px) scale(1.05);
             background: rgba(77, 184, 255, 0.2);
         }
@@ -272,7 +273,7 @@
         }
 
         @media (max-width: 600px) {
-            h1#dynamic-title { font-size: 3rem; letter-spacing: 5px; }
+            h1#dynamic-title { font-size: 3.5rem; }
             .category-card { width: 120px; height: 120px; }
         }
     </style>
@@ -391,18 +392,6 @@
             document.addEventListener('pointermove', (e) => {
                 mouseX = e.clientX - windowHalfX;
                 mouseY = e.clientY - windowHalfY;
-                
-                // Efecto de luz en el título
-                const title = document.getElementById('dynamic-title');
-                if (title) {
-                    const rect = title.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    title.style.setProperty('--x', `${x}px`);
-                    title.style.setProperty('--y', `${y}px`);
-                    title.style.webkitClipPath = `circle(100px at ${x}px ${y}px)`;
-                    title.style.clipPath = `circle(100px at ${x}px ${y}px)`;
-                }
             });
 
             window.addEventListener('resize', () => {
