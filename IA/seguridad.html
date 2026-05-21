@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Viaje a la Montaña</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f0fdf4; /* Fondo verde muy suave */
+        }
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s;
+        }
+        .icon-box {
+            background-color: #dcfce7;
+            color: #166534;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 16px;
+            font-size: 1.25rem;
+        }
+    </style>
+</head>
+<body class="text-gray-700 antialiased pb-12">
+
+    <!-- Header con Imagen Sugerida -->
+    <div class="relative h-48 bg-emerald-700 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-emerald-900/60 to-transparent z-10"></div>
+        <!-- Placeholder visual para la sierra -->
+        <div class="absolute inset-0 flex items-center justify-center z-0 opacity-30">
+            <i class="fas fa-mountain text-9xl text-white"></i>
+        </div>
+        <div class="relative z-20 h-full flex flex-col justify-end p-6 max-w-2xl mx-auto">
+            <h1 class="text-3xl font-bold text-white mb-2">Viaje a Bosques de la Montaña</h1>
+            <p class="text-emerald-50 text-lg">Guía para un trayecto cómodo y seguro.</p>
+        </div>
+    </div>
+
+    <main class="max-w-2xl mx-auto px-4 -mt-6 relative z-30 space-y-6">
+
+        <!-- Sección 1: Preparativos Esenciales -->
+        <div class="card p-6">
+            <h2 class="text-xl font-bold text-emerald-800 mb-4 flex items-center">
+                <i class="fas fa-suitcase-medical mr-2"></i> Antes de Salir
+            </h2>
+            <ul class="space-y-4">
+                <li class="flex items-start">
+                    <div class="icon-box flex-shrink-0"><i class="fas fa-pills"></i></div>
+                    <div>
+                        <p class="font-bold text-gray-800">Tu rutina es importante</p>
+                        <p class="text-sm text-gray-600">No suspendas tu tratamiento. Toma tus medicamentos a la hora habitual. Lleva dosis extra a la mano (no en la cajuela) para el camino.</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <div class="icon-box flex-shrink-0"><i class="fas fa-temperature-low"></i></div>
+                    <div>
+                        <p class="font-bold text-gray-800">Abrigo en capas</p>
+                        <p class="text-sm text-gray-600">En la montaña hace más frío. Viste en "capas" (camisa, suéter, chamarra) para ajustar tu temperatura fácilmente.</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <div class="icon-box flex-shrink-0"><i class="fas fa-tint"></i></div>
+                    <div>
+                        <p class="font-bold text-gray-800">Hidratación</p>
+                        <p class="text-sm text-gray-600">Bebe agua constantemente, incluso si no tienes sed. La altura requiere que el cuerpo esté bien hidratado.</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Sección 2: La Parada Estratégica (Alameda) -->
+        <div class="card p-6 border-l-4 border-emerald-500 bg-emerald-50">
+            <h2 class="text-xl font-bold text-emerald-800 mb-3 flex items-center">
+                <i class="fas fa-map-marker-alt mr-2"></i> Recomendación Clave: Aclimatación
+            </h2>
+            <p class="text-gray-700 mb-4">
+                Para disfrutar más el viaje y evitar molestias por el cambio de altura, recomendamos hacer una <strong>parada técnica en la Alameda de Arteaga</strong> antes de subir a la montaña.
+            </p>
+            
+            <div class="bg-white p-4 rounded-lg shadow-sm">
+                <h3 class="font-bold text-emerald-700 mb-2">¿Por qué parar aquí?</h3>
+                <p class="text-sm text-gray-600 mb-3">
+                    Arteaga está a una altura intermedia. Detenerse unos <strong>20 o 30 minutos</strong> permite que tu cuerpo se adapte suavemente al cambio de presión antes de llegar a la zona más alta.
+                </p>
+                <div class="flex items-center text-sm text-emerald-800 font-medium bg-emerald-100 p-3 rounded-lg">
+                    <i class="fas fa-info-circle mr-3 text-lg"></i>
+                    <span>Si sientes algún mareo ligero en el auto, este es el lugar ideal para caminar despacio, respirar aire fresco y estabilizarte.</span>
+                </div>
+            </div>
+            <div class="mt-4 flex gap-2">
+                <a href="https://www.google.com/maps/search/Alameda+Venustiano+Carranza+Arteaga" target="_blank" class="flex-1 bg-emerald-600 text-white text-center py-2 rounded-lg font-medium hover:bg-emerald-700 transition">
+                    <i class="fas fa-map mr-2"></i> Ver Mapa Alameda
+                </a>
+            </div>
+        </div>
+
+        <!-- Sección 3: Llegada a la Cabaña -->
+        <div class="card p-6">
+            <h2 class="text-xl font-bold text-emerald-800 mb-4">
+                <i class="fas fa-home mr-2"></i> Al llegar a Bosques de la Montaña
+            </h2>
+            <div class="space-y-3">
+                <p class="text-gray-700">
+                    ¡Ya llegaste! Ahora, tómalo con calma:
+                </p>
+                <ul class="list-disc list-inside text-gray-600 space-y-2 ml-2">
+                    <li><strong>Descanso inicial:</strong> Al bajar del auto, siéntate a descansar unos 20 minutos. Deja que otros bajen las maletas.</li>
+                    <li><strong>Comida ligera:</strong> Evita comidas muy pesadas al llegar.</li>
+                    <li><strong>Mantente caliente:</strong> Asegúrate de usar tu chamarra o una manta, el frío puede sentirse más intenso de golpe.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Botón de Información Útil (Desplegable) -->
+        <div class="mt-8">
+            <details class="group">
+                <summary class="flex justify-between items-center font-medium cursor-pointer list-none bg-emerald-800 text-white p-4 rounded-lg">
+                    <span><i class="fas fa-address-book mr-2"></i> Información de Servicios Locales</span>
+                    <span class="transition group-open:rotate-180">
+                        <i class="fas fa-chevron-down"></i>
+                    </span>
+                </summary>
+                <div class="text-gray-600 mt-3 bg-white p-4 rounded-lg shadow border border-gray-100">
+                    <p class="text-sm mb-3">Ten a la mano estos datos para tu tranquilidad:</p>
+                    
+                    <div class="grid gap-3">
+                        <div class="p-3 bg-gray-50 rounded border border-gray-200">
+                            <p class="font-bold text-gray-800">Emergencias Generales</p>
+                            <p class="text-lg text-emerald-700 font-bold">911</p>
+                        </div>
+                        
+                        <div class="p-3 bg-gray-50 rounded border border-gray-200">
+                            <p class="font-bold text-gray-800">Servicio Médico más cercano (Ruta)</p>
+                            <p class="text-sm">Clínica San Antonio de las Alazanas</p>
+                            <p class="text-xs text-gray-500">Calle Eulalio Gutiérrez S/N (A 15 min de la cabaña)</p>
+                        </div>
+
+                        <div class="p-3 bg-gray-50 rounded border border-gray-200">
+                            <p class="font-bold text-gray-800">Farmacias en el camino</p>
+                            <p class="text-sm">Disponibles en la Cabecera de Arteaga (zona de la Alameda).</p>
+                        </div>
+                    </div>
+                </div>
+            </details>
+        </div>
+        
+        <p class="text-center text-gray-400 text-sm mt-8 mb-4">
+            Disfruta de la naturaleza y el aire puro.
+        </p>
+
+    </main>
+
+</body>
+</html>

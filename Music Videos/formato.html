@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Especificación Técnica de Assets</title>
+    <style>
+        :root {
+            --bg-body: #121212;
+            --bg-card: #1e1e1e;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --accent-green: #4ade80;
+            --accent-orange: #fb923c;
+            --border: #333333;
+            --code-bg: #161b22;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .anim {
+            opacity: 0;
+            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .d-1 { animation-delay: 0.1s; }
+        .d-2 { animation-delay: 0.2s; }
+        .d-3 { animation-delay: 0.3s; }
+
+        /* --- Header --- */
+        header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            background: #2d2d2d;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            font-family: monospace;
+        }
+
+        /* --- Comparison Grid --- */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 25px;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: #555;
+        }
+
+        .card-header {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .card.opt .card-header { color: var(--accent-green); }
+        .card.warn .card-header { color: var(--accent-orange); }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #2a2a2a;
+            padding-bottom: 8px;
+        }
+        .stat-row:last-child { border-bottom: none; }
+        .stat-label { color: var(--text-muted); }
+        .stat-value { font-family: monospace; }
+
+        /* --- Technical Summary --- */
+        .summary {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            gap: 40px;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+
+        .tech-item { text-align: center; }
+        .tech-val { font-size: 1.2rem; font-weight: 700; margin-bottom: 5px; display: block; }
+        .tech-desc { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* --- Code Snippet --- */
+        .code-block {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            position: relative;
+        }
+        .code-label {
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--bg-body);
+            padding: 0 10px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+        pre { color: #d4d4d4; white-space: pre-wrap; }
+        .kw { color: #569cd6; } /* Keyword */
+        .fn { color: #dcdcaa; } /* Function */
+        .st { color: #ce9178; } /* String */
+        .cm { color: #6a9955; } /* Comment */
+
+        @media (max-width: 600px) {
+            .grid { grid-template-columns: 1fr; }
+            .summary { flex-direction: column; gap: 20px; text-align: left; }
+            .tech-item { text-align: left; display: flex; align-items: center; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <header class="anim">
+            <h1>Evaluación de Formato: Animación Pixel</h1>
+            <span class="tag">TARGET: JAVA / ANDROID / IOS</span>
+        </header>
+
+        <div class="grid anim d-1">
+            <div class="card warn">
+                <div class="card-header">Lottie (JSON + Bitmap)</div>
+                <div class="stat-row">
+                    <span class="stat-label">Método</span>
+                    <span class="stat-value">Decoding Base64</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Uso CPU</span>
+                    <span class="stat-value">Alto (Main Thread)</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Eficiencia</span>
+                    <span class="stat-value">Baja para Raster</span>
+                </div>
+            </div>
+
+            <div class="card opt">
+                <div class="card-header">WebP Animado</div>
+                <div class="stat-row">
+                    <span class="stat-label">Método</span>
+                    <span class="stat-value">Nativo (Hardware)</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Uso CPU</span>
+                    <span class="stat-value">Bajo (GPU Assisted)</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Compatibilidad</span>
+                    <span class="stat-value">Android 4+ / iOS 14+</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary anim d-2">
+            <div class="tech-item">
+                <span class="tech-val" style="color: var(--accent-green)">~30%</span>
+                <span class="tech-desc">Reducción de Peso vs PNG</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-val">24-bit</span>
+                <span class="tech-desc">Soporte Color RGB + Alpha</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-val">Nativo</span>
+                <span class="tech-desc">Sin dependencias externas</span>
+            </div>
+        </div>
+
+        <div class="code-block anim d-3">
+            <div class="code-label">IMPLEMENTACIÓN (GLIDE / PICASSO)</div>
+            <pre>
+<span class="cm">// No requiere parsers de Lottie.</span>
+<span class="cm">// Se maneja como drawable estándar.</span>
+
+<span class="kw">Glide</span>.<span class="fn">with</span>(<span class="kw">this</span>)
+     .<span class="fn">load</span>(R.drawable.<span class="st">asset_animado_webp</span>)
+     .<span class="fn">into</span>(binding.imageView);</pre>
+        </div>
+
+    </div>
+
+</body>
+</html>

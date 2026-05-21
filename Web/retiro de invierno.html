@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retiro en la Cabaña</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* --- ESTILOS GENERALES Y FONDO DE MADERA --- */
+        body {
+            font-family: 'Lora', serif;
+            background-color: #2e2017; /* Base oscura */
+            /* Patrón CSS simulando madera oscura */
+            background-image: repeating-linear-gradient(90deg, #3d2b1f 0px, #3d2b1f 2px, #2e2017 2px, #2e2017 40px),
+                              repeating-linear-gradient(0deg, #3d2b1f 0px, #3d2b1f 2px, #2e2017 2px, #2e2017 40px);
+            color: #2d241e;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* --- NIEVE --- */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1em;
+            user-select: none;
+            z-index: 10;
+            pointer-events: none;
+            animation-name: fall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0.2; }
+        }
+
+        /* --- TARJETAS TIPO PERGAMINO --- */
+        .parchment-card {
+            background-color: #f3e9d2;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+            border: 1px solid #d4c5a9;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(139, 69, 19, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .parchment-card:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+            z-index: 20;
+        }
+
+        /* Cinta decorativa en tarjetas */
+        .card-accent {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 6px;
+            border-top-left-radius: 0.5rem;
+            border-bottom-left-radius: 0.5rem;
+        }
+
+        /* --- EFECTO FUEGO --- */
+        .fire-glow {
+            animation: flicker 1.5s infinite alternate;
+            text-shadow: 0 0 10px #ff4500, 0 0 20px #ff8c00;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; transform: scale(1); filter: brightness(100%); }
+            50% { opacity: 0.8; transform: scale(1.1); filter: brightness(120%); }
+        }
+        
+        /* Contenedor del icono de fuego */
+        .fire-container {
+            position: relative;
+            display: inline-block;
+        }
+        .fire-container::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, rgba(255,69,0,0.4) 0%, rgba(255,255,0,0) 70%);
+            transform: translate(-50%, -50%);
+            animation: pulse-fire 2s infinite;
+            z-index: 0;
+        }
+        @keyframes pulse-fire {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+        }
+
+        /* --- CHECKBOX RÚSTICO --- */
+        .checkbox-rustic input:checked + div {
+            background-color: #5c4033; /* Café oscuro */
+            border-color: #3e2b22;
+        }
+    </style>
+</head>
+<body class="bg-opacity-90">
+
+    <!-- Contenedor de nieve (generado por JS) -->
+    <div id="snow-container"></div>
+
+    <div class="max-w-3xl mx-auto px-4 py-12 relative z-20">
+        
+        <!-- Header -->
+        <header class="text-center mb-12 relative">
+            <div class="inline-block p-4 rounded-full border-4 border-[#8B4513] bg-[#f3e9d2] text-[#8B4513] mb-6 shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+            </div>
+            <h1 class="text-4xl sm:text-5xl font-bold text-[#f3e9d2] mb-3 tracking-wide drop-shadow-md">Retiro de Invierno</h1>
+            <p class="text-xl text-[#dccbb5] italic border-t border-b border-[#dccbb5] inline-block py-2 px-8">Guía para conectar, soñar y renovarse</p>
+        </header>
+
+        <div class="space-y-8">
+
+            <!-- Card 1: La Quema (Efecto Fuego) -->
+            <div class="parchment-card rounded-lg overflow-hidden relative">
+                <div class="card-accent bg-red-700"></div>
+                <div class="p-8">
+                    <div class="flex items-center justify-between mb-4 border-b border-[#d4c5a9] pb-2">
+                        <span class="text-red-800 font-bold uppercase tracking-widest text-xs">Noche 1 • Soltar Cargas</span>
+                        <label class="cursor-pointer checkbox-rustic flex items-center">
+                            <input type="checkbox" class="hidden">
+                            <div class="w-6 h-6 border-2 border-[#8B4513] bg-[#fff8e7] rounded flex items-center justify-center transition-colors">
+                                <svg class="w-4 h-4 text-[#f3e9d2] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                        </label>
+                    </div>
+                    <h2 class="text-2xl font-bold text-[#5c2415] flex items-center mb-4">
+                        <span class="text-3xl mr-4 fire-container"><span class="fire-glow relative z-10">🔥</span></span>
+                        Ceremonia de la Quema
+                    </h2>
+                    <p class="text-[#4a3b32] mb-4 text-lg">
+                        El fuego transmuta. Esta noche es para dejar ir lo que ya no sirve.
+                    </p>
+                    <div class="bg-[#e8dbc3] p-4 rounded border border-[#d4c5a9] text-[#5c4033]">
+                        <p class="mb-2"><strong>Instrucciones:</strong></p>
+                        <ul class="list-disc list-inside space-y-1 ml-1 marker:text-red-700">
+                            <li>Escriban en privado qué les causó dolor el año pasado.</li>
+                            <li>Arrojen el papel al fuego.</li>
+                            <li><strong>Visualicen</strong> cómo la carga se convierte en calor y luz.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Baño de Bosque -->
+            <div class="parchment-card rounded-lg overflow-hidden">
+                <div class="card-accent bg-green-700"></div>
+                <div class="p-8">
+                    <div class="flex items-center justify-between mb-4 border-b border-[#d4c5a9] pb-2">
+                        <span class="text-green-800 font-bold uppercase tracking-widest text-xs">Diario • Conexión</span>
+                        <label class="cursor-pointer checkbox-rustic flex items-center">
+                            <input type="checkbox" class="hidden">
+                            <div class="w-6 h-6 border-2 border-[#8B4513] bg-[#fff8e7] rounded flex items-center justify-center transition-colors">
+                                <svg class="w-4 h-4 text-[#f3e9d2] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                        </label>
+                    </div>
+                    <h2 class="text-2xl font-bold text-[#1f4026] flex items-center mb-4">
+                        <span class="text-3xl mr-4">🌲</span> Shinrin Yoku (Baño de Bosque)
+                    </h2>
+                    <p class="text-[#4a3b32] mb-4 text-lg">
+                        Apaguen la mente racional y enciendan los sentidos.
+                    </p>
+                    <div class="bg-[#dde6d5] p-4 rounded border border-[#b8c9ad] text-[#2c3e24]">
+                        <p class="font-bold text-center mb-2 tracking-widest text-xs uppercase">— Regla de Oro: Prohibido hablar de problemas —</p>
+                        <p>Busquen activamente:</p>
+                        <div class="grid grid-cols-3 gap-2 mt-2 text-center text-sm font-semibold">
+                            <div class="bg-white/50 p-2 rounded">5 Texturas</div>
+                            <div class="bg-white/50 p-2 rounded">3 Sonidos</div>
+                            <div class="bg-white/50 p-2 rounded">1 Aroma</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Gratitud -->
+            <div class="parchment-card rounded-lg overflow-hidden">
+                <div class="card-accent bg-yellow-600"></div>
+                <div class="p-8">
+                    <div class="flex items-center justify-between mb-4 border-b border-[#d4c5a9] pb-2">
+                        <span class="text-yellow-800 font-bold uppercase tracking-widest text-xs">Cena • Positivismo</span>
+                        <label class="cursor-pointer checkbox-rustic flex items-center">
+                            <input type="checkbox" class="hidden">
+                            <div class="w-6 h-6 border-2 border-[#8B4513] bg-[#fff8e7] rounded flex items-center justify-center transition-colors">
+                                <svg class="w-4 h-4 text-[#f3e9d2] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                        </label>
+                    </div>
+                    <h2 class="text-2xl font-bold text-[#6b4c1e] flex items-center mb-4">
+                        <span class="text-3xl mr-4">🍽️</span> Las Tres Gratitudes
+                    </h2>
+                    <p class="text-[#4a3b32] mb-4 text-lg">
+                        Cambien la química cerebral buscando lo bueno en lo inmediato.
+                    </p>
+                    <div class="bg-[#fff3cd] p-4 rounded border border-[#ffeeba] text-[#856404]">
+                        <p>Durante la cena, compartan 3 cosas de las <strong>últimas 24 horas</strong>.</p>
+                        <p class="mt-2 text-sm italic border-l-4 border-yellow-500 pl-3">"La leña crujiendo", "El chocolate caliente", "Ver nevar por la ventana".</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Detox -->
+            <div class="parchment-card rounded-lg overflow-hidden">
+                <div class="card-accent bg-gray-600"></div>
+                <div class="p-8">
+                    <div class="flex items-center justify-between mb-4 border-b border-[#d4c5a9] pb-2">
+                        <span class="text-gray-800 font-bold uppercase tracking-widest text-xs">Todo el viaje • Claridad</span>
+                        <label class="cursor-pointer checkbox-rustic flex items-center">
+                            <input type="checkbox" class="hidden">
+                            <div class="w-6 h-6 border-2 border-[#8B4513] bg-[#fff8e7] rounded flex items-center justify-center transition-colors">
+                                <svg class="w-4 h-4 text-[#f3e9d2] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                        </label>
+                    </div>
+                    <h2 class="text-2xl font-bold text-[#374151] flex items-center mb-4">
+                        <span class="text-3xl mr-4">📵</span> La Caja de Desconexión
+                    </h2>
+                    <p class="text-[#4a3b32] mb-4 text-lg">
+                        Recuperen la conversación cara a cara.
+                    </p>
+                    <div class="flex items-center bg-[#e5e7eb] p-3 rounded-lg border border-gray-300">
+                        <div class="font-bold text-gray-700 mr-3 text-2xl">09:00 - 21:00</div>
+                        <div class="text-sm text-gray-600 leading-tight">Horario libre de pantallas. Celulares en la caja.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: Carta de Intenciones (CONTENIDO ACTUALIZADO) -->
+            <div class="parchment-card rounded-lg overflow-hidden">
+                <div class="card-accent bg-blue-700"></div>
+                <div class="p-8">
+                    <div class="flex items-center justify-between mb-4 border-b border-[#d4c5a9] pb-2">
+                        <span class="text-blue-900 font-bold uppercase tracking-widest text-xs">Día Final • Visión</span>
+                        <label class="cursor-pointer checkbox-rustic flex items-center">
+                            <input type="checkbox" class="hidden">
+                            <div class="w-6 h-6 border-2 border-[#8B4513] bg-[#fff8e7] rounded flex items-center justify-center transition-colors">
+                                <svg class="w-4 h-4 text-[#f3e9d2] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                        </label>
+                    </div>
+                    <h2 class="text-2xl font-bold text-[#1e3a8a] flex items-center mb-4">
+                        <span class="text-3xl mr-4">🏔️</span> Carta de Proyectos y Sueños
+                    </h2>
+                    <p class="text-[#4a3b32] mb-4 text-lg">
+                        Visualicen el éxito. ¿Qué van a construir este año?
+                    </p>
+                    <div class="bg-[#dbeafe] p-5 rounded border border-[#bfdbfe] text-[#1e40af]">
+                        <p class="mb-3">Escriban una carta a su "Yo del Futuro" detallando lo que lograrán:</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <span class="mr-2 mt-1">🚀</span>
+                                <span><strong>Proyectos:</strong> ¿Qué emprendimiento, viaje o creación vas a lanzar?</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="mr-2 mt-1">⚡</span>
+                                <span><strong>Hábitos:</strong> ¿Qué rutinas diarias te darán energía y fuerza?</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="mr-2 mt-1">🌟</span>
+                                <span><strong>Sueños Grandes:</strong> Atrévete a escribir eso que parece imposible pero que tu alma desea.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <footer class="text-center mt-16 pb-8 relative z-20">
+            <div class="text-[#f3e9d2] opacity-80 mb-4 font-cinzel text-sm tracking-widest">
+                ~ Tiempo en Familia ~
+            </div>
+            <button onclick="window.print()" class="px-6 py-2 bg-[#3d2b1f] text-[#f3e9d2] border border-[#d4c5a9] rounded shadow-lg hover:bg-[#5c4033] transition-colors font-serif">
+                Imprimir Guía Rústica
+            </button>
+        </footer>
+
+    </div>
+
+    <script>
+        // --- GENERADOR DE NIEVE ---
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.textContent = '❄';
+            
+            // Posición horizontal aleatoria
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            
+            // Tamaño aleatorio
+            const size = Math.random() * 10 + 10 + 'px';
+            snowflake.style.fontSize = size;
+            
+            // Duración de caída aleatoria (entre 5s y 15s)
+            const duration = Math.random() * 10 + 5 + 's';
+            snowflake.style.animationDuration = duration;
+            
+            // Opacidad aleatoria
+            snowflake.style.opacity = Math.random();
+
+            document.getElementById('snow-container').appendChild(snowflake);
+
+            // Eliminar copo después de que termine la animación para no saturar memoria
+            setTimeout(() => {
+                snowflake.remove();
+            }, parseFloat(duration) * 1000);
+        }
+
+        // Crear copos continuamente
+        setInterval(createSnowflake, 300);
+
+        // --- INTERACTIVIDAD CHECKBOX ---
+        document.querySelectorAll('.checkbox-rustic input').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const card = this.closest('.parchment-card');
+                if(this.checked) {
+                    // Efecto visual de "Completado"
+                    card.style.opacity = '0.7';
+                    card.style.transform = 'scale(0.98)';
+                    // Quitar sombra para que parezca pegado al fondo
+                    card.style.boxShadow = 'none';
+                } else {
+                    card.style.opacity = '1';
+                    card.style.transform = 'scale(1)';
+                    card.style.boxShadow = ''; // Restaurar CSS original
+                }
+            });
+        });
+    </script>
+</body>
+</html>

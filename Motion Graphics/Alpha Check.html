@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Asset Checker... except mov </title>
+    <style>
+        :root {
+            --bg-app: #0f172a;
+            --text-main: #f1f5f9;
+            --text-muted: #64748b;
+            --accent: #6366f1; /* Indigo */
+            --accent-glow: rgba(99, 102, 241, 0.2);
+            --border: #334155;
+            
+            /* Checkerboard Logic */
+            --check-1: #1e293b;
+            --check-2: #334155;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg-app);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* --- Top Bar --- */
+        header {
+            height: 60px;
+            padding: 0 25px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 20;
+        }
+
+        .brand { 
+            font-weight: 700; 
+            font-size: 0.95rem; 
+            letter-spacing: -0.02em; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        }
+        
+        .format-badge {
+            font-family: monospace;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: #1e293b;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+        }
+
+        .controls { display: flex; gap: 6px; background: #1e293b; padding: 4px; border-radius: 8px; border: 1px solid var(--border); }
+
+        button {
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        button:hover { color: var(--text-main); }
+        button.active { background: var(--border); color: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+
+        /* --- Main Stage --- */
+        main {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .viewer-container {
+            flex: 1;
+            border-radius: 12px;
+            border: 2px dashed var(--border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        /* Background Systems */
+        .bg-check {
+            background-color: #e5e5e5;
+            background-image: linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc),
+            linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+        
+        .bg-dark-check {
+            background-color: var(--check-1);
+            background-image: linear-gradient(45deg, var(--check-2) 25%, transparent 25%, transparent 75%, var(--check-2) 75%, var(--check-2)),
+            linear-gradient(45deg, var(--check-2) 25%, transparent 25%, transparent 75%, var(--check-2) 75%, var(--check-2));
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+
+        .bg-black { background: #000; }
+        .bg-white { background: #fff; }
+        .bg-green { background: #00ff00; }
+        .bg-magenta { background: #ff00ff; }
+
+        /* Content */
+        #media-img, #media-vid {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            display: none;
+            animation: zoomIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            pointer-events: none;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+        .empty-icon { font-size: 3rem; margin-bottom: 15px; display: block; filter: drop-shadow(0 0 20px var(--accent-glow)); }
+        .supported-list { font-size: 0.75rem; color: var(--text-muted); margin-top: 10px; font-family: monospace; }
+
+        /* Drag Overlay */
+        .viewer-container.drag-active {
+            border-color: var(--accent);
+            background: var(--accent-glow);
+        }
+        .viewer-container.drag-active .empty-state { opacity: 1; transform: scale(1.05); }
+
+        /* Info Float */
+        .meta-tag {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 30px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: all 0.3s;
+            pointer-events: none;
+        }
+        .meta-tag.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .meta-type { color: var(--accent); font-weight: 700; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.5px;}
+
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">
+            <span>UNIVERSAL CHECKER except MOV</span>
+            <span class="format-badge">V3.0</span>
+        </div>
+        <div class="controls">
+            <button onclick="setBg('bg-dark-check')" class="active">Dark Check</button>
+            <button onclick="setBg('bg-check')">Light Check</button>
+            <button onclick="setBg('bg-black')">Black</button>
+            <button onclick="setBg('bg-white')">White</button>
+            <button onclick="setBg('bg-green')">Green</button>
+            <button onclick="setBg('bg-magenta')">Magenta</button>
+        </div>
+    </header>
+
+    <main>
+        <div id="drop-zone" class="viewer-container bg-dark-check">
+            
+            <div id="empty-state" class="empty-state">
+                <span class="empty-icon">💎</span>
+                <p>Arrastra tus Assets aquí</p>
+                <div class="supported-list">WEBM • WEBP • GIF • PNG • MOV • APNG</div>
+            </div>
+
+            <img id="media-img" alt="Preview">
+            <video id="media-vid" loop muted playsinline></video>
+
+            <div id="meta-tag" class="meta-tag">
+                <span id="meta-type" class="meta-type">FMT</span>
+                <span id="meta-name">Filename</span>
+                <span id="meta-dims" style="color:#64748b; border-left:1px solid #334155; padding-left:10px;">0x0</span>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const dropZone = document.getElementById('drop-zone');
+        const img = document.getElementById('media-img');
+        const vid = document.getElementById('media-vid');
+        const emptyState = document.getElementById('empty-state');
+        const metaTag = document.getElementById('meta-tag');
+        const btns = document.querySelectorAll('.controls button');
+
+        // Background Switcher
+        function setBg(bgClass) {
+            dropZone.className = `viewer-container ${bgClass}`;
+            btns.forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Drag & Drop Events
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(e => {
+            dropZone.addEventListener(e, ev => { ev.preventDefault(); ev.stopPropagation(); });
+        });
+
+        dropZone.addEventListener('dragenter', () => dropZone.classList.add('drag-active'));
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-active'));
+        
+        dropZone.addEventListener('drop', e => {
+            dropZone.classList.remove('drag-active');
+            if(e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+        });
+
+        // Main Logic
+        function handleFile(file) {
+            const url = URL.createObjectURL(file);
+            const ext = file.name.split('.').pop().toLowerCase();
+            
+            // Reset
+            img.style.display = 'none'; img.src = '';
+            vid.style.display = 'none'; vid.pause();
+            emptyState.style.display = 'none';
+
+            // Detection Logic
+            const isVideo = file.type.startsWith('video/') || ['webm','mp4','mov','m4v'].includes(ext);
+            const isImage = file.type.startsWith('image/') || ['webp','png','gif','jpg','apng','avif','svg'].includes(ext);
+
+            if (isVideo) {
+                vid.src = url;
+                vid.style.display = 'block';
+                vid.play().catch(e => console.log("Autoplay blocked or codec error"));
+                
+                vid.onloadedmetadata = () => updateMeta(file.name, ext, vid.videoWidth, vid.videoHeight);
+
+            } else if (isImage) {
+                img.src = url;
+                img.style.display = 'block';
+                
+                img.onload = () => updateMeta(file.name, ext, img.naturalWidth, img.naturalHeight);
+
+            } else {
+                alert('Formato desconocido. Intenta con una imagen o video estándar.');
+                emptyState.style.display = 'block';
+                return;
+            }
+        }
+
+        function updateMeta(name, type, w, h) {
+            document.getElementById('meta-name').textContent = name;
+            document.getElementById('meta-type').textContent = type.toUpperCase();
+            document.getElementById('meta-dims').textContent = `${w} × ${h}px`;
+            metaTag.classList.add('visible');
+        }
+    </script>
+</body>
+</html>
