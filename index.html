@@ -4,18 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ed's Hub | Inicio</title>
+    <title>Ed's Hub | Navegación</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Orbitron:wght@900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- CSS: Estilos de la Interfaz (HUD) --- */
         :root {
             --color-bg: #000000;
             --color-text: #ffffff;
             --color-accent: #4db8ff;
-            /* Azul cielo más suave */
-            --color-accent-secondary: #9370db;
-            /* Púrpura nebulosa */
             --glass-bg: rgba(10, 14, 26, 0.75);
-            --glass-border: 1px solid rgba(77, 184, 255, 0.15);
+            --glass-border: 1px solid rgba(77, 184, 255, 0.2);
+            --transition-speed: 0.8s;
         }
 
         * {
@@ -26,8 +25,7 @@
 
         body {
             margin: 0;
-            overflow-y: auto;
-            overflow-x: hidden;
+            overflow: hidden;
             font-family: 'Rajdhani', sans-serif;
             background-color: var(--color-bg);
             color: var(--color-text);
@@ -40,79 +38,198 @@
             width: 100%;
             height: 100%;
             z-index: -1;
+            transition: transform var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         #ui-container {
             position: relative;
             z-index: 10;
             width: 100%;
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
+            perspective: 1000px;
             padding: 20px;
-            pointer-events: none;
         }
 
-        .content-box {
-            pointer-events: auto;
-            background: var(--glass-bg);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: var(--glass-border);
-            padding: 40px;
-            border-radius: 12px;
-            max-width: 1000px;
-            width: 100%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        /* --- HEADER (TÍTULO REACTIVO) --- */
+        #main-header {
             text-align: center;
-            animation: fadeIn 1.2s ease forwards;
-            opacity: 0;
-            margin-top: 30px;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
+            transition: all var(--transition-speed) ease;
+            position: relative;
         }
 
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            letter-spacing: 3px;
-            margin-bottom: 5px;
-            background: linear-gradient(90deg, #fff, var(--color-accent));
+        h1#dynamic-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 6rem;
+            font-weight: 900;
+            letter-spacing: 10px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.1); /* Color base apagado */
+            position: relative;
+            display: inline-block;
+            background: #111;
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: color 0.2s ease;
+            user-select: none;
+        }
+
+        /* Capa de brillo reactivo */
+        h1#dynamic-title::after {
+            content: "Ed's Hub";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: var(--color-accent);
+            pointer-events: none;
+            clip-path: circle(0% at 0% 0%);
+            transition: clip-path 0.1s linear;
+            text-shadow: 0 0 20px var(--color-accent), 0 0 40px var(--color-accent);
         }
 
         p.subtitle {
             color: #b0c4de;
-            margin-bottom: 35px;
-            font-size: 1.2rem;
-            letter-spacing: 1px;
+            font-size: 1.4rem;
+            letter-spacing: 4px;
+            opacity: 0.6;
+            text-transform: uppercase;
+            font-weight: 500;
         }
 
-        h2.group-title {
-            text-align: left;
-            margin-top: 30px;
-            margin-bottom: 20px;
+        /* --- VISTA DE ICONOS --- */
+        #icon-menu {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            max-width: 1100px;
+            transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .category-card {
+            width: 140px;
+            height: 140px;
+            background: var(--glass-bg);
+            border: var(--glass-border);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            text-decoration: none;
+            color: white;
+        }
+
+        .category-card i {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
             color: var(--color-accent);
-            letter-spacing: 1.5px;
-            font-size: 1.3rem;
+            transition: transform 0.3s ease;
+        }
+
+        .category-card span {
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .category-card:hover {
+            border-color: var(--color-accent);
+            box-shadow: 0 0 30px rgba(77, 184, 255, 0.4);
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(77, 184, 255, 0.2);
+        }
+
+        /* --- VISTA DE PROYECTOS --- */
+        #project-view {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateZ(-500px) scale(0.5);
+            transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .content-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 75vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 60px rgba(0, 0, 0, 0.9);
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            background: rgba(77, 184, 255, 0.1);
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .back-btn:hover {
+            background: var(--color-accent);
+            color: black;
+            box-shadow: 0 0 25px var(--color-accent);
+        }
+
+        h2#selected-category-title {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 4px;
             border-bottom: 2px solid rgba(77, 184, 255, 0.3);
             padding-bottom: 10px;
-            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        h2.group-title:first-of-type {
-            margin-top: 0;
-        }
-
-        /* --- GRID DE PROYECTOS --- */
         .grid-links {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 15px;
             width: 100%;
-            margin-bottom: 20px;
         }
 
         .project-btn {
@@ -120,110 +237,93 @@
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: #d0d0d0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
             font-weight: 600;
-            font-size: 0.9rem;
-            letter-spacing: 0.5px;
+            border-radius: 8px;
             transition: all 0.3s ease;
-            border-radius: 6px;
             text-align: center;
-            word-break: break-word;
         }
 
         .project-btn:hover {
-            background: rgba(77, 184, 255, 0.1);
+            background: rgba(77, 184, 255, 0.2);
             border-color: var(--color-accent);
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(77, 184, 255, 0.15);
+            transform: translateY(-3px);
         }
 
-        /* --- BOTÓN SECUNDARIO (Portafolio) --- */
-        .secondary-cta-container {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 25px;
-            text-align: center;
-            margin-top: 30px;
+        /* --- ANIMACIONES --- */
+        body.entering-category #main-header {
+            opacity: 0;
+            transform: translateY(-100px) scale(0.5);
         }
 
-        .btn-secondary {
-            display: inline-block;
-            text-decoration: none;
-            padding: 10px 25px;
-            color: var(--color-accent);
-            border: 1px solid var(--color-accent);
-            border-radius: 50px;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            background: transparent;
+        body.entering-category #icon-menu {
+            opacity: 0;
+            transform: translateZ(600px) scale(2);
+            pointer-events: none;
         }
 
-        .btn-secondary:hover {
-            background: var(--color-accent);
-            color: #000;
-            box-shadow: 0 0 20px rgba(77, 184, 255, 0.4);
-        }
-
-        .empty-group {
-            color: #888;
-            font-size: 0.9rem;
-            padding: 20px;
-            text-align: center;
-            font-style: italic;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        body.entering-category #project-view {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateZ(0) scale(1);
         }
 
         @media (max-width: 600px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .content-box {
-                padding: 20px;
-            }
-
-            .grid-links {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            h2.group-title {
-                font-size: 1.1rem;
-            }
+            h1#dynamic-title { font-size: 3rem; letter-spacing: 5px; }
+            .category-card { width: 120px; height: 120px; }
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
     <div id="ui-container">
-        <div class="content-box">
-            <h1>Ed's Hub</h1>
-            <p class="subtitle">Centro de Control de Proyectos</p>
+        <header id="main-header">
+            <h1 id="dynamic-title">Ed's Hub</h1>
+            <p class="subtitle">Módulos de Control de Proyectos</p>
+        </header>
 
-            <div id="groups-container">
-                <!-- Los grupos y botones se generarán automáticamente aquí -->
+        <div id="icon-menu">
+            <div class="category-card" onclick="enterCategory('Music Videos', 'fa-video')">
+                <i class="fas fa-video"></i>
+                <span>Music Videos</span>
             </div>
+            <div class="category-card" onclick="enterCategory('IA', 'fa-robot')">
+                <i class="fas fa-robot"></i>
+                <span>IA</span>
+            </div>
+            <div class="category-card" onclick="enterCategory('Motion Graphics', 'fa-bezier-curve')">
+                <i class="fas fa-bezier-curve"></i>
+                <span>Motion</span>
+            </div>
+            <div class="category-card" onclick="enterCategory('Web', 'fa-code')">
+                <i class="fas fa-code"></i>
+                <span>Web</span>
+            </div>
+            <div class="category-card" onclick="enterCategory('My Music', 'fa-music')">
+                <i class="fas fa-music"></i>
+                <span>My Music</span>
+            </div>
+            <div class="category-card" onclick="enterCategory('Games', 'fa-gamepad')">
+                <i class="fas fa-gamepad"></i>
+                <span>Games</span>
+            </div>
+            <div class="category-card" onclick="enterCategory('tools', 'fa-tools')">
+                <i class="fas fa-tools"></i>
+                <span>Tools</span>
+            </div>
+        </div>
 
-            <div class="secondary-cta-container">
-                <a href="https://edstudioscontact.myportfolio.com/" target="_blank" class="btn-secondary">
-                    Ir al Portafolio Principal ↗
-                </a>
+        <div id="project-view">
+            <button class="back-btn" onclick="exitCategory()">
+                <i class="fas fa-arrow-left"></i> VOLVER
+            </button>
+            <div class="content-box">
+                <h2 id="selected-category-title">// CATEGORÍA</h2>
+                <div class="grid-links" id="project-grid"></div>
             </div>
         </div>
     </div>
@@ -242,23 +342,19 @@
         function init() {
             scene = new THREE.Scene();
             scene.fog = new THREE.FogExp2(0x000000, 0.0002);
-
             camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 5000);
             camera.position.z = 1000;
-
             renderer = new THREE.WebGLRenderer({ antialias: false });
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.domElement.id = 'three-canvas';
             document.body.prepend(renderer.domElement);
 
-            // --- CREACIÓN DEL CAMPO DE ESTRELLAS ---
             const starGeometry = new THREE.BufferGeometry();
             const starCount = 6000;
             const posArray = new Float32Array(starCount * 3);
             const colorArray = new Float32Array(starCount * 3);
             const sizeArray = new Float32Array(starCount);
-
             const baseColor = new THREE.Color(0x4db8ff);
 
             for (let i = 0; i < starCount; i++) {
@@ -266,16 +362,13 @@
                 const radius = 2000 + Math.random() * 3000;
                 const theta = Math.random() * Math.PI * 2;
                 const phi = Math.acos((Math.random() * 2) - 1);
-
                 posArray[i3] = radius * Math.sin(phi) * Math.cos(theta);
                 posArray[i3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
                 posArray[i3 + 2] = radius * Math.cos(phi);
-
                 const starColor = baseColor.clone().offsetHSL(Math.random() * 0.2 - 0.1, 0, Math.random() * 0.5);
                 colorArray[i3] = starColor.r;
                 colorArray[i3 + 1] = starColor.g;
                 colorArray[i3 + 2] = starColor.b;
-
                 sizeArray[i] = Math.random() * 3 + 0.5;
             }
 
@@ -295,139 +388,98 @@
             stars = new THREE.Points(starGeometry, starMaterial);
             scene.add(stars);
 
-            document.body.style.touchAction = 'none';
-            document.addEventListener('pointermove', onPointerMove);
-            window.addEventListener('resize', onWindowResize);
-        }
+            document.addEventListener('pointermove', (e) => {
+                mouseX = e.clientX - windowHalfX;
+                mouseY = e.clientY - windowHalfY;
+                
+                // Efecto de luz en el título
+                const title = document.getElementById('dynamic-title');
+                if (title) {
+                    const rect = title.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    title.style.setProperty('--x', `${x}px`);
+                    title.style.setProperty('--y', `${y}px`);
+                    title.style.webkitClipPath = `circle(100px at ${x}px ${y}px)`;
+                    title.style.clipPath = `circle(100px at ${x}px ${y}px)`;
+                }
+            });
 
-        function onWindowResize() {
-            windowHalfX = window.innerWidth / 2;
-            windowHalfY = window.innerHeight / 2;
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        function onPointerMove(event) {
-            if (event.isPrimary === false) return;
-            mouseX = event.clientX - windowHalfX;
-            mouseY = event.clientY - windowHalfY;
+            window.addEventListener('resize', () => {
+                windowHalfX = window.innerWidth / 2;
+                windowHalfY = window.innerHeight / 2;
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
         }
 
         function animate() {
             requestAnimationFrame(animate);
-            render();
-        }
-
-        function render() {
             const time = Date.now() * 0.00005;
-
             stars.rotation.y = time * 0.5;
             stars.rotation.x = time * 0.2;
-
             camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
             camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
-
             camera.lookAt(scene.position);
-
             renderer.render(scene, camera);
         }
     </script>
 
-    <!-- Script para generación automática de botones desde carpetas de GitHub -->
     <script>
-        async function loadProjectsByGroups() {
-            const user = 'EduardoDavila1';
-            const repo = 'My-HTMLs';
-            const container = document.getElementById('groups-container');
-            
-            // Definir los grupos y sus carpetas
-            const groups = {
-                'Music Videos': 'Music Videos',
-                'IA': 'IA',
-                'Motion Graphics': 'Motion Graphics',
-                'Web': 'Web',
-                'My Music': 'My Music',
-                'Games': 'Games',
-                'tools': 'tools'
-            };
+        const repoData = {
+            user: 'EduardoDavila1',
+            repo: 'My-HTMLs',
+            ignoreFiles: ['index.html', '404.html', 'CNAME', 'README.md', 'push.txt']
+        };
 
-            // Archivos que queremos ignorar
-            const ignoreFiles = ['index.html', '404.html', 'CNAME', 'README.md', 'push.txt'];
+        let allFiles = [];
 
+        async function fetchRepoContents() {
             try {
-                // Obtener la lista de archivos y carpetas del repositorio
-                const response = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/`);
-                const files = await response.json();
-
-                if (!Array.isArray(files)) throw new Error('No se pudo obtener la lista de archivos');
-
-                // Para cada grupo, buscar archivos en esa carpeta
-                for (const [groupDisplay, folderName] of Object.entries(groups)) {
-                    // Buscar la carpeta en los archivos
-                    const folder = files.find(f => f.type === 'dir' && f.name === folderName);
-                    
-                    let htmlFiles = [];
-                    
-                    if (folder) {
-                        // Obtener contenido de la carpeta
-                        const folderResponse = await fetch(folder.url);
-                        const folderContents = await folderResponse.json();
-                        
-                        if (Array.isArray(folderContents)) {
-                            htmlFiles = folderContents.filter(file => 
-                                file.name.toLowerCase().endsWith('.html') && 
-                                !ignoreFiles.includes(file.name.toLowerCase())
-                            );
-                        }
-                    }
-
-                    // Crear sección del grupo
-                    const groupSection = document.createElement('div');
-                    
-                    // Título del grupo
-                    const groupTitle = document.createElement('h2');
-                    groupTitle.className = 'group-title';
-                    groupTitle.textContent = `// ${groupDisplay}`;
-                    groupSection.appendChild(groupTitle);
-
-                    // Grid de proyectos
-                    const grid = document.createElement('div');
-                    grid.className = 'grid-links';
-
-                    if (htmlFiles.length === 0) {
-                        const emptyMsg = document.createElement('div');
-                        emptyMsg.className = 'empty-group';
-                        emptyMsg.textContent = 'No hay proyectos en este grupo aún.';
-                        groupSection.appendChild(emptyMsg);
-                    } else {
-                        htmlFiles.forEach(file => {
-                            const btn = document.createElement('a');
-                            btn.href = `${folderName}/${file.name}`;
-                            btn.className = 'project-btn';
-                            
-                            // Limpiar el nombre del archivo para el texto del botón
-                            let displayName = file.name
-                                .replace(/\.[^/.]+$/, "") // Quita la extensión
-                                .replace(/[-_]/g, " ");   // Cambia guiones por espacios
-                            
-                            btn.textContent = displayName;
-                            grid.appendChild(btn);
-                        });
-                        groupSection.appendChild(grid);
-                    }
-
-                    container.appendChild(groupSection);
-                }
-
+                const response = await fetch(`https://api.github.com/repos/${repoData.user}/${repoData.repo}/contents/`);
+                allFiles = await response.json();
             } catch (error) {
-                console.error('Error cargando proyectos:', error);
-                container.innerHTML = '<p style="color: red;">Error al cargar los proyectos automáticamente.</p>';
+                console.error('Error fetching repo:', error);
             }
         }
 
-        // Ejecutar la función al cargar la página
-        document.addEventListener('DOMContentLoaded', loadProjectsByGroups);
+        async function enterCategory(categoryName, iconClass) {
+            const title = document.getElementById('selected-category-title');
+            const grid = document.getElementById('project-grid');
+            title.innerHTML = `<i class="fas ${iconClass}"></i> ${categoryName}`;
+            grid.innerHTML = '<p>Escaneando módulos...</p>';
+            document.body.classList.add('entering-category');
+            const folder = allFiles.find(f => f.type === 'dir' && f.name === categoryName);
+            if (folder) {
+                try {
+                    const response = await fetch(folder.url);
+                    const contents = await response.json();
+                    const htmlFiles = contents.filter(file => 
+                        file.name.toLowerCase().endsWith('.html') && 
+                        !repoData.ignoreFiles.includes(file.name.toLowerCase())
+                    );
+                    grid.innerHTML = '';
+                    if (htmlFiles.length === 0) {
+                        grid.innerHTML = '<p class="empty-group">No se encontraron archivos.</p>';
+                    } else {
+                        htmlFiles.forEach(file => {
+                            const btn = document.createElement('a');
+                            btn.href = `${categoryName}/${file.name}`;
+                            btn.className = 'project-btn';
+                            btn.textContent = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+                            grid.appendChild(btn);
+                        });
+                    }
+                } catch (e) { grid.innerHTML = '<p>Error.</p>'; }
+            } else { grid.innerHTML = '<p class="empty-group">No encontrada.</p>'; }
+        }
+
+        function exitCategory() {
+            document.body.classList.remove('entering-category');
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchRepoContents);
     </script>
 </body>
 
