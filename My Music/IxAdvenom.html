@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IX ADVENOM — Videos Musicales</title>
+  <meta name="description" content="Lista oficial de videos musicales de IX ADVENOM — Banda de metal industrial de Torreón, México." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --fire1: #ff6600;
+      --fire2: #ff9900;
+      --fire3: #ffcc00;
+      --lightning1: #a855f7;
+      --lightning2: #7c3aed;
+      --lightning3: #c4b5fd;
+      --blood: #8b0000;
+      --bg-deep: #030008;
+      --bg-mid: #0a0015;
+      --gold: #d4af37;
+      --silver: #c0c0c0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg-deep);
+      color: #e8e0ff;
+      font-family: 'Rajdhani', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* ─── THREE.JS CANVAS (3D bg) ─────────────────────────── */
+    #bg-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ─── PARTICLE CANVAS (fire + sparks) ─────────────────── */
+    #particle-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* ─── LIGHTNING CANVAS ────────────────────────────────── */
+    #lightning-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* ─── OVERLAY GRADIENT ───────────────────────────────── */
+    .bg-overlay {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(120,0,200,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at 0% 100%, rgba(200,60,0,0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 100% 100%, rgba(180,40,0,0.12) 0%, transparent 50%);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    /* ─── MAIN CONTENT ───────────────────────────────────── */
+    .content-wrapper {
+      position: relative;
+      z-index: 10;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+    }
+
+    /* ─── HEADER ─────────────────────────────────────────── */
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px 40px;
+      position: relative;
+    }
+
+    .logo-container {
+      position: relative;
+      width: 450px;
+      height: 450px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: logoFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes logoFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(1deg); }
+    }
+
+    .logo-img {
+      width: 400px;
+      height: auto;
+      position: relative;
+      z-index: 2;
+      filter:
+        invert(1)
+        drop-shadow(0 0 10px var(--lightning3))
+        drop-shadow(0 0 30px var(--fire2))
+        drop-shadow(0 0 60px var(--fire1))
+        drop-shadow(0 0 80px #7c3aed);
+      animation: logoGlow 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes logoGlow {
+      0% {
+        filter:
+          invert(1)
+          drop-shadow(0 0 10px var(--lightning3))
+          drop-shadow(0 0 20px var(--fire2))
+          drop-shadow(0 0 40px var(--fire1))
+          drop-shadow(0 0 60px #7c3aed);
+      }
+      50% {
+        filter:
+          invert(1)
+          drop-shadow(0 0 25px #fff)
+          drop-shadow(0 0 50px var(--fire3))
+          drop-shadow(0 0 90px var(--fire1))
+          drop-shadow(0 0 120px var(--fire1));
+      }
+      100% {
+        filter:
+          invert(1)
+          drop-shadow(0 0 15px var(--lightning3))
+          drop-shadow(0 0 40px var(--fire2))
+          drop-shadow(0 0 80px var(--lightning1))
+          drop-shadow(0 0 100px #5b21b6);
+      }
+    }
+
+    .band-name {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 900;
+      text-align: center;
+      margin-top: 20px;
+      background: linear-gradient(135deg, #fff 0%, var(--lightning3) 30%, var(--fire2) 70%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: none;
+      position: relative;
+      animation: nameGlow 3s ease-in-out infinite alternate;
+      letter-spacing: 0.1em;
+    }
+
+    @keyframes nameGlow {
+      0% { filter: drop-shadow(0 0 8px rgba(168,85,247,0.8)) drop-shadow(0 0 20px rgba(124,58,237,0.5)); }
+      50% { filter: drop-shadow(0 0 16px rgba(255,153,0,0.8)) drop-shadow(0 0 30px rgba(255,102,0,0.5)); }
+      100% { filter: drop-shadow(0 0 12px rgba(196,181,253,0.8)) drop-shadow(0 0 25px rgba(168,85,247,0.6)); }
+    }
+
+    .band-tagline {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(0.7rem, 2vw, 1rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--lightning3);
+      margin-top: 10px;
+      opacity: 0.8;
+    }
+
+    /* ─── DIVIDER ─────────────────────────────────────────── */
+    .fire-divider {
+      width: 100%;
+      height: 4px;
+      margin: 30px 0;
+      position: relative;
+      background: linear-gradient(90deg, transparent, var(--fire1), var(--fire2), var(--fire3), var(--fire2), var(--fire1), transparent);
+      box-shadow: 0 0 10px var(--fire1), 0 0 25px rgba(255,102,0,0.5);
+      animation: dividerPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes dividerPulse {
+      0%, 100% { opacity: 0.7; box-shadow: 0 0 10px var(--fire1), 0 0 25px rgba(255,102,0,0.4); }
+      50% { opacity: 1; box-shadow: 0 0 20px var(--fire2), 0 0 40px rgba(255,153,0,0.7), 0 0 60px rgba(255,102,0,0.3); }
+    }
+
+    .lightning-divider {
+      width: 100%;
+      height: 2px;
+      margin: 10px 0;
+      background: linear-gradient(90deg, transparent, var(--lightning2), var(--lightning3), var(--lightning1), var(--lightning3), var(--lightning2), transparent);
+      box-shadow: 0 0 8px var(--lightning1), 0 0 20px rgba(168,85,247,0.4);
+      animation: dividerPulse 1.8s ease-in-out infinite 0.5s;
+    }
+
+    /* ─── SECTION TITLE ──────────────────────────────────── */
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--lightning3);
+      margin: 40px 0 30px;
+      position: relative;
+    }
+
+    .section-title::before,
+    .section-title::after {
+      content: '';
+      margin: 0;
+      display: none;
+    }
+
+    @keyframes boltSpin {
+      0%, 100% { opacity: 0.4; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* ─── VIDEO GRID ─────────────────────────────────────── */
+    .video-grid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 60px;
+      padding: 20px 0;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* ─── VIDEO CARD ─────────────────────────────────────── */
+    .video-card,
+    .video-card-link {
+      position: relative;
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+      display: block;
+      text-decoration: none;
+      box-shadow: 0 0 30px rgba(255,60,0,0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .video-card-link:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 50px rgba(255,102,0,0.6), 0 0 80px rgba(168,85,247,0.4);
+    }
+
+    /* Fire border permanent and intense */
+    .card-fire-border {
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      pointer-events: none;
+      z-index: 10;
+      box-shadow: inset 0 0 20px rgba(255,102,0,0.8), 0 0 15px rgba(255,60,0,0.5);
+      border: 2px solid rgba(255,102,0,0.6);
+      animation: heavyFirePulse 1s ease-in-out infinite alternate;
+    }
+
+    @keyframes heavyFirePulse {
+      0% { box-shadow: inset 0 0 15px rgba(255,102,0,0.5), 0 0 10px rgba(255,60,0,0.3); border-color: rgba(255,102,0,0.4); }
+      100% { box-shadow: inset 0 0 40px rgba(255,153,0,1), 0 0 30px rgba(255,102,0,0.8); border-color: rgba(255,153,0,1); }
+    }
+
+    /* ─── VIDEO THUMBNAIL WRAPPER ─────────────────────────── */
+    .video-thumb-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 */
+      overflow: hidden;
+      background: #000;
+    }
+
+    .video-thumb-wrapper iframe,
+    .video-thumb-wrapper img {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+      z-index: 1;
+    }
+
+    .video-thumb-wrapper img {
+      object-fit: cover;
+      filter: brightness(0.9) saturate(1.2);
+      transition: filter 0.3s, transform 0.5s;
+    }
+
+    .video-card-link:hover .video-thumb-wrapper img {
+      filter: brightness(1.1) saturate(1.4);
+      transform: scale(1.05);
+    }
+
+    /* Play button overlay */
+    .play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.4);
+      transition: background 0.3s;
+      z-index: 5;
+    }
+
+    .video-card-link:hover .play-overlay {
+      background: rgba(0,0,0,0.1);
+    }
+
+    .play-btn {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.8);
+      border: 3px solid rgba(255,102,0,0.8);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      box-shadow: 0 0 30px rgba(255,102,0,0.6);
+    }
+
+    .play-btn::before {
+      content: '';
+      width: 0; height: 0;
+      border-style: solid;
+      border-width: 18px 0 18px 30px;
+      border-color: transparent transparent transparent #ff9900;
+      margin-left: 8px;
+    }
+
+    .video-card-link:hover .play-btn {
+      transform: scale(1.1);
+      border-color: #ffcc00;
+      box-shadow: 0 0 40px #ff6600, 0 0 60px rgba(255,102,0,0.8);
+    }
+
+    /* Fire licks on play button */
+    .play-fire {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+
+    .video-card-link:hover .play-fire { opacity: 1; }
+
+    .play-fire-lick {
+      width: 8px;
+      border-radius: 50% 50% 30% 30%;
+      animation: fireLick 0.8s ease-in-out infinite;
+    }
+
+    .play-fire-lick:nth-child(1) { height: 16px; background: var(--fire1); animation-delay: 0.1s; }
+    .play-fire-lick:nth-child(2) { height: 26px; background: var(--fire2); animation-delay: 0s; }
+    .play-fire-lick:nth-child(3) { height: 20px; background: var(--fire1); animation-delay: 0.2s; }
+    .play-fire-lick:nth-child(4) { height: 30px; background: var(--fire3); animation-delay: 0.05s; }
+    .play-fire-lick:nth-child(5) { height: 18px; background: var(--fire1); animation-delay: 0.15s; }
+
+    @keyframes fireLick {
+      text-shadow: 0 0 15px rgba(168,85,247,0.6), 0 0 30px rgba(168,85,247,0.3);
+    }
+
+    .video-subtitle {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem;
+      color: rgba(196,181,253,0.6);
+      letter-spacing: 0.05em;
+    }
+
+    .video-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 8px;
+      margin-right: 5px;
+    }
+
+    .tag-official { background: rgba(168,85,247,0.2); color: var(--lightning3); border: 1px solid rgba(168,85,247,0.4); }
+    .tag-live { background: rgba(255,102,0,0.2); color: var(--fire2); border: 1px solid rgba(255,102,0,0.4); }
+    .tag-session { background: rgba(212,175,55,0.15); color: var(--gold); border: 1px solid rgba(212,175,55,0.4); }
+
+    /* Bottom fire stripe on card */
+    .card-bottom-fire {
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--fire1), var(--fire2), var(--fire3), var(--fire2), var(--fire1), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+      animation: fireStripe 1.5s ease-in-out infinite;
+    }
+
+    .video-card:hover .card-bottom-fire { opacity: 1; }
+
+    @keyframes fireStripe {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* ─── MODAL ──────────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s;
+      backdrop-filter: blur(8px);
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      position: relative;
+      width: 90vw;
+      max-width: 900px;
+      background: rgba(5,0,20,0.95);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(168,85,247,0.4);
+      box-shadow:
+        0 0 60px rgba(168,85,247,0.3),
+        0 0 120px rgba(255,102,0,0.15),
+        inset 0 0 60px rgba(168,85,247,0.05);
+      transform: scale(0.9);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-video-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+    }
+
+    .modal-video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 12px; right: 12px;
+      width: 40px; height: 40px;
+      background: rgba(168,85,247,0.3);
+      border: 1px solid rgba(168,85,247,0.5);
+      border-radius: 50%;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 10;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .modal-close:hover {
+      background: rgba(255,102,0,0.5);
+      transform: rotate(90deg);
+    }
+
+    .modal-info {
+      padding: 20px 24px;
+    }
+
+    .modal-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.4rem;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .modal-sub {
+      font-family: 'Rajdhani', sans-serif;
+      color: var(--lightning3);
+      font-size: 0.95rem;
+      opacity: 0.8;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 10;
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      color: rgba(196,181,253,0.4);
+      letter-spacing: 0.2em;
+    }
+
+    .footer-link {
+      color: var(--fire2);
+      text-decoration: none;
+      transition: color 0.2s, text-shadow 0.2s;
+    }
+
+    .footer-link:hover {
+      color: var(--fire3);
+      text-shadow: 0 0 10px var(--fire1);
+    }
+
+    /* ─── SCROLL TO TOP ──────────────────────────────────── */
+    .scroll-top {
+      position: fixed;
+      bottom: 30px; right: 30px;
+      width: 50px; height: 50px;
+      background: rgba(168,85,247,0.2);
+      border: 1px solid rgba(168,85,247,0.5);
+      border-radius: 50%;
+      color: var(--lightning3);
+      font-size: 1.4rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 100;
+      transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+      text-decoration: none;
+      box-shadow: 0 0 15px rgba(168,85,247,0.3);
+    }
+
+    .scroll-top:hover {
+      background: rgba(255,102,0,0.3);
+      box-shadow: 0 0 25px rgba(255,102,0,0.5);
+      transform: translateY(-3px);
+    }
+
+    /* ─── CHANNEL LINK BUTTON ───────────────────────────── */
+    .channel-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 32px;
+      background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(255,102,0,0.15));
+      border: 1px solid rgba(168,85,247,0.4);
+      border-radius: 50px;
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(168,85,247,0.2);
+      margin: 30px auto;
+    }
+
+    .channel-btn:hover {
+      background: linear-gradient(135deg, rgba(168,85,247,0.4), rgba(255,102,0,0.3));
+      border-color: var(--fire2);
+      box-shadow: 0 0 30px rgba(255,102,0,0.4), 0 0 60px rgba(168,85,247,0.2);
+      transform: translateY(-2px);
+    }
+
+    .channel-btn-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 10px 0 40px;
+    }
+
+    /* ─── LOADING ANIMATION ─────────────────────────────── */
+    .loading-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-deep);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 20px;
+      transition: opacity 0.8s ease, visibility 0.8s;
+    }
+
+    .loading-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loading-logo {
+      width: 150px;
+      filter: invert(1) drop-shadow(0 0 20px var(--lightning1));
+      animation: loadingSpin 2s linear infinite;
+    }
+
+    @keyframes loadingSpin {
+      0%, 100% { filter: invert(1) drop-shadow(0 0 10px var(--lightning1)); }
+      50% { filter: invert(1) drop-shadow(0 0 30px var(--fire2)); }
+    }
+
+    .loading-text {
+      font-family: 'Cinzel', serif;
+      color: var(--lightning3);
+      letter-spacing: 0.4em;
+      font-size: 0.9rem;
+      animation: blink 1s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 700px) {
+      .video-grid { grid-template-columns: 1fr; }
+      .logo-container { width: 240px; height: 240px; }
+      .logo-img { width: 200px; }
+      .logo-ring-1 { width: 230px; height: 230px; }
+      .logo-ring-2 { width: 250px; height: 250px; }
+      .logo-ring-3 { width: 270px; height: 270px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div class="loading-screen" id="loadingScreen">
+    <img src="IX.png" alt="Cargando" class="loading-logo" />
+    <div class="loading-text">CARGANDO</div>
+  </div>
+
+  <!-- BACKGROUND CANVASES -->
+  <canvas id="bg-canvas"></canvas>
+  <canvas id="particle-canvas"></canvas>
+  <canvas id="lightning-canvas"></canvas>
+  <div class="bg-overlay"></div>
+
+  <!-- MODAL DE VIDEO FLOTANTE -->
+  <div class="modal-overlay" id="videoModal">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose" aria-label="Cerrar reproductor">×</button>
+      <div class="modal-video-wrapper" id="modalVideoWrapper"></div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="content-wrapper">
+
+    <!-- HEADER -->
+    <header>
+      <div class="logo-container">
+        <img src="IX.png" alt="IX ADVENOM Logo" class="logo-img" />
+      </div>
+    </header>
+
+    <div class="fire-divider"></div>
+    <div class="lightning-divider"></div>
+
+    <!-- CHANNEL BUTTON -->
+    <div class="channel-btn-wrap">
+      <a href="https://www.youtube.com/@IXAdvenom" target="_blank" rel="noopener" class="channel-btn" id="ytChannelBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+        Ver Canal Completo
+      </a>
+    </div>
+
+    <!-- VIDEO LIST -->
+    <h2 class="section-title">Videos Musicales</h2>
+
+    <div class="video-grid" id="videoGrid"></div>
+
+    <div class="fire-divider" style="margin-top:50px;"></div>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>© 2025 IX ADVENOM · Todos los derechos reservados</p>
+      <p style="margin-top:8px;">
+        <a href="https://www.youtube.com/@IXAdvenom" target="_blank" class="footer-link">YouTube</a>
+        &nbsp;·&nbsp;
+        <a href="https://www.instagram.com/ixadvenom" target="_blank" class="footer-link">Instagram</a>
+      </p>
+    </footer>
+  </div>
+
+  <!-- SCROLL TOP -->
+  <a href="#" class="scroll-top" aria-label="Volver arriba">↑</a>
+
+  <script>
+  // ═══════════════════════════════════════════════════════
+  //  CONFIGURACIÓN — CANAL DE YOUTUBE
+  // ═══════════════════════════════════════════════════════
+  const YT_CHANNEL_ID  = 'UCMW-KR5CcIIEQmbzkAkWLvw'; // ID del canal IX Advenom
+  const YT_CHANNEL_URL = 'https://www.youtube.com/@IXAdvenom';
+  const RSS_URL        = `https://www.youtube.com/feeds/videos.xml?channel_id=${YT_CHANNEL_ID}`;
+  // Usamos rss2json.com como proxy CORS gratuito (sin API key necesaria)
+  const RSS_API        = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}&api_key=&count=50`;
+
+  // Videos de respaldo (se muestran si no hay conexión o falla el RSS)
+  const FALLBACK_VIDEOS = [
+    {
+      id: 'LMFEwmnEpaA',
+      title: 'IX ADVENOM',
+      subtitle: 'Video Oficial',
+      pubDate: '',
+      thumb: 'https://img.youtube.com/vi/LMFEwmnEpaA/maxresdefault.jpg'
+    },
+    {
+      id: 'k6dxjxYUDzc',
+      title: 'Balas de Plata',
+      subtitle: 'IX ADVENOM · Video Oficial',
+      pubDate: '',
+      thumb: 'https://img.youtube.com/vi/k6dxjxYUDzc/maxresdefault.jpg'
+    },
+    {
+      id: 'v1u3zhyDweE',
+      title: 'Balas de Plata (Live Session)',
+      subtitle: 'IX ADVENOM · Mindz Recordz',
+      pubDate: '',
+      thumb: 'https://img.youtube.com/vi/v1u3zhyDweE/maxresdefault.jpg'
+    }
+  ];
+
+  // ═══════════════════════════════════════════════════════
+  //  OBTENER VIDEOS DEL CANAL (RSS AUTO)
+  // ═══════════════════════════════════════════════════════
+  const grid    = document.getElementById('videoGrid');
+  const sTitle  = document.querySelector('.section-title');
+
+  function extractVideoId(url) {
+    if (!url) return null;
+    const m = url.match(/[?&]v=([A-Za-z0-9_-]{11})/) ||
+              url.match(/youtu\.be\/([A-Za-z0-9_-]{11})/) ||
+              url.match(/embed\/([A-Za-z0-9_-]{11})/);
+    return m ? m[1] : null;
+  }
+
+  function formatDate(dateStr) {
+    if (!dateStr) return '';
+    try {
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('es-MX', { year:'numeric', month:'long', day:'numeric' });
+    } catch(e) { return ''; }
+  }
+
+  function buildCards(videos, source) {
+    grid.innerHTML = '';
+
+    // Cards
+    videos.forEach((v) => {
+      const ytUrl = `https://www.youtube.com/watch?v=${v.id}`;
+      const card = document.createElement('a');
+      card.href = ytUrl;
+      card.className = 'video-card-link';
+      card.setAttribute('aria-label', `Ver video: ${v.title}`);
+
+      card.innerHTML = `
+        <div class="card-fire-border"></div>
+        <div class="card-lightning-corner corner-tl"></div>
+        <div class="card-lightning-corner corner-tr"></div>
+        <div class="card-lightning-corner corner-bl"></div>
+        <div class="card-lightning-corner corner-br"></div>
+        <div class="video-thumb-wrapper">
+          <img src="${v.thumb}" alt="${v.title}" loading="lazy"
+               onerror="this.src='https://img.youtube.com/vi/${v.id}/hqdefault.jpg'" />
+          <div class="play-overlay">
+            <div class="play-btn">
+              <div class="play-fire">
+                <div class="play-fire-lick"></div>
+                <div class="play-fire-lick"></div>
+                <div class="play-fire-lick"></div>
+                <div class="play-fire-lick"></div>
+                <div class="play-fire-lick"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      card.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal(v.id);
+      });
+
+      grid.appendChild(card);
+    });
+  }
+
+  function showSkeleton() {
+    grid.innerHTML = '';
+    for(let i=0; i<3; i++) {
+      const sk = document.createElement('div');
+      sk.className = 'video-card';
+      sk.style.cssText = 'pointer-events:none;animation:skeletonPulse 1.5s ease-in-out infinite;margin-bottom:20px;';
+      sk.innerHTML = `
+        <div style="width:100%;padding-top:56.25%;background:rgba(168,85,247,0.08);
+                    border-radius:12px;"></div>
+      `;
+      grid.appendChild(sk);
+    }
+  }
+
+  async function loadVideos() {
+    showSkeleton();
+
+    try {
+      const res  = await fetch(RSS_API);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+
+      if (data.status !== 'ok' || !data.items?.length) throw new Error('RSS vacío');
+
+      const videos = data.items.map(item => {
+        const id = extractVideoId(item.link) || extractVideoId(item.guid);
+        return {
+          id,
+          title:   item.title || 'Sin título',
+          subtitle: data.feed?.title || 'IX ADVENOM',
+          pubDate:  item.pubDate || '',
+          thumb:    id ? `https://img.youtube.com/vi/${id}/maxresdefault.jpg`
+                       : (item.thumbnail || item.enclosure?.link || '')
+        };
+      }).filter(v => v.id); // descartar si no se pudo extraer el ID
+
+      buildCards(videos, 'rss');
+
+    } catch(err) {
+      console.warn('[IX Advenom] RSS fetch falló:', err.message, '— usando respaldo.');
+      buildCards(FALLBACK_VIDEOS, 'fallback');
+    }
+  }
+
+  // Agregar estilos del skeleton
+  const skStyle = document.createElement('style');
+  skStyle.textContent = `
+    @keyframes skeletonPulse {
+      0%,100% { opacity:.4; }
+      50%      { opacity:.8; }
+    }
+  `;
+  document.head.appendChild(skStyle);
+
+  // ─── ARRANCAR CARGA ─────────────────────────────────────
+  loadVideos();
+
+  // ─── CONTROL DEL REPRODUCTOR FLOTANTE ────────────────────
+  const modal = document.getElementById('videoModal');
+  const modalVideoWrapper = document.getElementById('modalVideoWrapper');
+  const modalClose = document.getElementById('modalClose');
+
+  function openModal(videoId) {
+    // Insertamos el iframe EXACTO provisto por YouTube con las opciones y políticas adecuadas
+    modalVideoWrapper.innerHTML = `
+      <div class="card-fire-border"></div>
+      <iframe 
+        width="100%" 
+        height="100%" 
+        src="https://www.youtube.com/embed/${videoId}?autoplay=1" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin" 
+        allowfullscreen>
+      </iframe>
+    `;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Evitar scroll del fondo
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+    modalVideoWrapper.innerHTML = ''; // Vaciar el reproductor para detener el video
+    document.body.style.overflow = ''; // Restaurar scroll del fondo
+  }
+
+  modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+
+  // ═══════════════════════════════════════════════════════
+  //  BACKGROUND — 3D STAR FIELD (Canvas)
+  // ═══════════════════════════════════════════════════════
+  (function initBgCanvas() {
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H;
+
+    const stars = [];
+    const STAR_COUNT = 180;
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    for(let i = 0; i < STAR_COUNT; i++) {
+      stars.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        z: Math.random() * W,
+        size: Math.random() * 1.5 + 0.3,
+        speed: Math.random() * 0.5 + 0.1,
+        color: Math.random() < 0.3 ? '#a855f7' : Math.random() < 0.5 ? '#ff6600' : '#ffffff',
+        alpha: Math.random()
+      });
+    }
+
+    // 3D rotating geometry points
+    const geomPoints = [];
+    for(let i = 0; i < 60; i++) {
+      const theta = Math.random() * Math.PI * 2;
+      const phi   = Math.acos(2 * Math.random() - 1);
+      const r     = 250 + Math.random() * 150;
+      geomPoints.push({
+        x: r * Math.sin(phi) * Math.cos(theta),
+        y: r * Math.sin(phi) * Math.sin(theta),
+        z: r * Math.cos(phi),
+        alpha: Math.random() * 0.5 + 0.1
+      });
+    }
+
+    let rot = 0;
+
+    function drawBg(t) {
+      ctx.clearRect(0, 0, W, H);
+
+      // Subtle dark gradient
+      const grad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W,H)*0.7);
+      grad.addColorStop(0, 'rgba(20,0,40,0.4)');
+      grad.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0,0,W,H);
+
+      // Stars
+      stars.forEach(s => {
+        s.z -= s.speed;
+        if(s.z <= 0) { s.z = W; s.x = Math.random() * W; s.y = Math.random() * H; }
+        const px = (s.x - W/2) * (W / s.z) + W/2;
+        const py = (s.y - H/2) * (W / s.z) + H/2;
+        const ps = s.size * (1 - s.z/W);
+        const alpha = (1 - s.z/W) * 0.8;
+        ctx.beginPath();
+        ctx.arc(px, py, Math.max(ps, 0.3), 0, Math.PI*2);
+        ctx.fillStyle = s.color;
+        ctx.globalAlpha = alpha;
+        ctx.fill();
+      });
+
+      // 3D wireframe sphere segments
+      rot += 0.003;
+      ctx.globalAlpha = 0.08;
+      ctx.strokeStyle = '#a855f7';
+      ctx.lineWidth = 0.5;
+
+      for(let i=0; i<geomPoints.length; i++) {
+        const p = geomPoints[i];
+        const rx = p.x * Math.cos(rot) - p.z * Math.sin(rot);
+        const rz = p.x * Math.sin(rot) + p.z * Math.cos(rot);
+        const ry = p.y;
+        const scale = 500 / (500 + rz);
+        const sx = W/2 + rx * scale;
+        const sy = H/2 + ry * scale;
+
+        for(let j=i+1; j<Math.min(i+4, geomPoints.length); j++) {
+          const q = geomPoints[j];
+          const qrx = q.x * Math.cos(rot) - q.z * Math.sin(rot);
+          const qrz = q.x * Math.sin(rot) + q.z * Math.cos(rot);
+          const qscale = 500 / (500 + qrz);
+          const qx = W/2 + qrx * qscale;
+          const qy = H/2 + q.y * qscale;
+          const dist = Math.hypot(sx-qx, sy-qy);
+          if(dist < 120) {
+            ctx.globalAlpha = 0.05 * (1 - dist/120);
+            ctx.beginPath();
+            ctx.moveTo(sx, sy);
+            ctx.lineTo(qx, qy);
+            ctx.stroke();
+          }
+        }
+
+        ctx.globalAlpha = 0.15;
+        ctx.fillStyle = '#c4b5fd';
+        ctx.beginPath();
+        ctx.arc(sx, sy, 1, 0, Math.PI*2);
+        ctx.fill();
+      }
+
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(drawBg);
+    }
+
+    requestAnimationFrame(drawBg);
+  })();
+
+  // ═══════════════════════════════════════════════════════
+  //  FIRE + EMBER PARTICLES
+  // ═══════════════════════════════════════════════════════
+  (function initParticles() {
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H;
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const fireParticles = [];
+    const emberParticles = [];
+    const FIRE_COUNT = 350;
+    const EMBER_COUNT = 150;
+
+    // Fire columns at edges
+    const fireSources = [
+      { x: 0,    spread: 80  },
+      { x: W,    spread: 80  },
+      { x: W/2,  spread: 200 },
+    ];
+
+    function spawnFire() {
+      const src = fireSources[Math.floor(Math.random() * fireSources.length)];
+      const x = src.x === 0 ? Math.random() * src.spread
+              : src.x === W ? W - Math.random() * src.spread
+              : src.x + (Math.random()-0.5) * src.spread;
+      return {
+        x,
+        y: H + Math.random() * 60,
+        vx: (Math.random()-0.5) * 0.8,
+        vy: -(Math.random() * 2.5 + 1.5),
+        life: 1.0,
+        decay: Math.random() * 0.012 + 0.006,
+        size: Math.random() * 18 + 8,
+        hue: Math.floor(Math.random() * 30) + 5, // 5-35 range (red-orange)
+        sat: 90 + Math.random() * 10,
+        type: 'fire'
+      };
+    }
+
+    function spawnEmber() {
+      return {
+        x: Math.random() * W,
+        y: H + 10,
+        vx: (Math.random()-0.5) * 2,
+        vy: -(Math.random() * 4 + 2),
+        life: 1.0,
+        decay: Math.random() * 0.008 + 0.004,
+        size: Math.random() * 3 + 1,
+        glow: Math.random() < 0.5 ? '#ff6600' : '#a855f7',
+        type: 'ember'
+      };
+    }
+
+    for(let i=0; i<FIRE_COUNT; i++) {
+      const p = spawnFire();
+      p.y = Math.random() * H;
+      p.life = Math.random();
+      fireParticles.push(p);
+    }
+
+    for(let i=0; i<EMBER_COUNT; i++) {
+      const p = spawnEmber();
+      p.y = Math.random() * H;
+      p.life = Math.random();
+      emberParticles.push(p);
+    }
+
+    function drawParticles(t) {
+      ctx.clearRect(0, 0, W, H);
+
+      // Update fire sources positions (responsive)
+      fireSources[1].x = W;
+      fireSources[2].x = W/2;
+
+      // Draw fire
+      fireParticles.forEach(p => {
+        p.x += p.vx + Math.sin(t*0.001 + p.y*0.01) * 0.4;
+        p.y += p.vy;
+        p.life -= p.decay;
+        p.size *= 0.995;
+
+        if(p.life <= 0) {
+          Object.assign(p, spawnFire());
+        }
+
+        const alpha = Math.min(p.life * 1.5, 1) * 0.4;
+        const lightness = 40 + (1-p.life) * 30;
+        const rad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
+        rad.addColorStop(0, `hsla(${p.hue + 20}, ${p.sat}%, ${lightness + 20}%, ${alpha})`);
+        rad.addColorStop(0.5, `hsla(${p.hue}, ${p.sat}%, ${lightness}%, ${alpha * 0.6})`);
+        rad.addColorStop(1, `hsla(${p.hue}, 80%, 30%, 0)`);
+        ctx.fillStyle = rad;
+        ctx.beginPath();
+        ctx.ellipse(p.x, p.y, p.size * 0.5, p.size, 0, 0, Math.PI*2);
+        ctx.fill();
+      });
+
+      // Draw embers
+      emberParticles.forEach(p => {
+        p.x += p.vx + Math.sin(t*0.002 + p.x*0.01) * 0.6;
+        p.y += p.vy;
+        p.life -= p.decay;
+        p.vx *= 0.99;
+
+        if(p.life <= 0 || p.y < -20) {
+          Object.assign(p, spawnEmber());
+        }
+
+        ctx.save();
+        ctx.globalAlpha = p.life * 0.9;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = p.glow;
+        ctx.fillStyle = p.glow;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+        ctx.fill();
+        ctx.restore();
+      });
+
+      requestAnimationFrame(drawParticles);
+    }
+
+    requestAnimationFrame(drawParticles);
+  })();
+
+  // ═══════════════════════════════════════════════════════
+  //  LIGHTNING
+  // ═══════════════════════════════════════════════════════
+  (function initLightning() {
+    const canvas = document.getElementById('lightning-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H;
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const bolts = [];
+    let nextBolt = 0;
+
+    function createBolt() {
+      const startX = Math.random() * W;
+      const startY = 0;
+      const endX   = startX + (Math.random()-0.5) * 300;
+      const endY   = Math.random() * H * 0.6 + H * 0.1;
+      const segments = [];
+
+      let cx = startX, cy = startY;
+      const steps = Math.floor(Math.random() * 8) + 6;
+
+      for(let i=0; i<=steps; i++) {
+        const t = i / steps;
+        const tx = startX + (endX-startX) * t + (Math.random()-0.5) * 80;
+        const ty = startY + (endY-startY) * t;
+        segments.push({ x: tx, y: ty });
+        // Branches
+        if(i > 0 && Math.random() < 0.35) {
+          const bx = tx + (Math.random()-0.5) * 100;
+          const by = ty + Math.random() * 80;
+          segments.push({ x: bx, y: by, branch: true, parent: segments.length-1 });
+        }
+      }
+
+      const colors = ['#c4b5fd','#a855f7','#7c3aed','#ffffff'];
+      const col = colors[Math.floor(Math.random() * colors.length)];
+
+      bolts.push({
+        segments,
+        life: 1.0,
+        decay: Math.random() * 0.08 + 0.04,
+        color: col,
+        width: Math.random() * 1.5 + 0.5
+      });
+    }
+
+    function drawSegPath(ctx, segs) {
+      if(segs.length < 2) return;
+      ctx.beginPath();
+      ctx.moveTo(segs[0].x, segs[0].y);
+      for(let i=1; i<segs.length; i++) {
+        if(!segs[i].branch) ctx.lineTo(segs[i].x, segs[i].y);
+      }
+      ctx.stroke();
+    }
+
+    function drawLightning(t) {
+      ctx.clearRect(0, 0, W, H);
+
+      // Spawn bolts randomly (more intense)
+      if(t > nextBolt) {
+        createBolt();
+        createBolt(); // Spawn at least two at a time
+        if(Math.random() < 0.5) createBolt();
+        nextBolt = t + 200 + Math.random() * 1500;
+      }
+
+      for(let i = bolts.length-1; i >= 0; i--) {
+        const b = bolts[i];
+        b.life -= b.decay;
+        if(b.life <= 0) { bolts.splice(i, 1); continue; }
+
+        // Glow pass
+        ctx.save();
+        ctx.globalAlpha = b.life * 0.15;
+        ctx.strokeStyle = b.color;
+        ctx.lineWidth = b.width * 6;
+        ctx.shadowBlur = 30;
+        ctx.shadowColor = b.color;
+        ctx.lineCap = 'round';
+        drawSegPath(ctx, b.segments);
+        ctx.restore();
+
+        // Core pass
+        ctx.save();
+        ctx.globalAlpha = b.life * 0.9;
+        ctx.strokeStyle = b.life > 0.5 ? '#ffffff' : b.color;
+        ctx.lineWidth = b.width;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = b.color;
+        ctx.lineCap = 'round';
+        drawSegPath(ctx, b.segments);
+        ctx.restore();
+      }
+
+      requestAnimationFrame(drawLightning);
+    }
+
+    requestAnimationFrame(drawLightning);
+  })();
+
+  // ═══════════════════════════════════════════════════════
+  //  LOADING SCREEN HIDE
+  // ═══════════════════════════════════════════════════════
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loadingScreen').classList.add('hidden');
+    }, 1200);
+  });
+
+  </script>
+</body>
+</html>
