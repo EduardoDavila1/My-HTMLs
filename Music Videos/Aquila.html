@@ -66,7 +66,7 @@
             opacity: 0.3;
         }
 
-        /* --- 3. HEADER FIJO (MINIMALISTA) --- */
+        /* --- 3. HEADER FIJO CON LOGO ORIGINAL Y EFECTOS --- */
         header {
             position: fixed;
             top: 0;
@@ -75,19 +75,29 @@
             z-index: 1000;
             display: flex;
             justify-content: center;
-            padding: 35px 0;
+            padding: 25px 0;
             background: linear-gradient(to bottom, #020000 20%, rgba(2, 0, 0, 0.9) 60%, transparent 100%);
             pointer-events: none;
         }
 
-        .portfolio-title {
-            font-size: 1rem;
-            font-weight: 300;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            color: #fff;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        .band-logo {
+            width: 320px;
+            max-width: 85%;
+            height: auto;
+            filter: drop-shadow(0 0 20px rgba(255, 80, 0, 0.8));
             pointer-events: auto;
+            animation: logoBurn 3s infinite alternate ease-in-out;
+        }
+
+        @keyframes logoBurn {
+            from {
+                filter: drop-shadow(0 0 20px rgba(255, 80, 0, 0.6));
+                transform: scale(1);
+            }
+            to {
+                filter: drop-shadow(0 0 40px rgba(255, 120, 0, 1));
+                transform: scale(1.02);
+            }
         }
 
         /* --- 4. CONTENEDOR PRINCIPAL (PARALLAX LIGERO) --- */
@@ -98,7 +108,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 180px;
+            padding-top: 220px;
             padding-bottom: 120px;
             will-change: transform;
         }
@@ -306,7 +316,8 @@
             .video-wrapper-landscape { order: 0; }
             .meta-right { order: 2; }
 
-            header { padding: 20px 0; }
+            header { padding: 15px 0; }
+            .band-logo { width: 260px; }
         }
     </style>
 </head>
@@ -320,7 +331,7 @@
     <canvas id="canvas-ash" class="fixed-bg"></canvas>
 
     <header>
-        <div class="portfolio-title">Proyectos Seleccionados</div>
+        <img src="AquilaLogo.png" alt="AQUILA INFERNA" class="band-logo">
     </header>
 
     <div class="main-content" id="main-content">
