@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portafolio | ACTIVO SMMS</title>
+    <title>ACTIVO SMMS</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,16 +11,14 @@
     
     <style>
         :root {
-            /* Colores Corporativos ACTIVO */
             --brand-main-blue: #8DB4D9;
             --brand-main-indigo: #66729D;
             --brand-main-purple: #7C569F;
             --brand-dark-purple: #2C1864;
             --brand-accent-blue: #7DB8DC;
             
-            /* Light Mode Colors (basados en el manual) */
-            --bg-color: #f8f9fc; /* Fondo claro con ligero toque azulado/frío */
-            --text-color: #2C1864; /* Texto principal oscuro de la marca */
+            --bg-color: #f8f9fc; 
+            --text-color: #2C1864; 
             --text-secondary: #4a4a5a;
         }
 
@@ -38,7 +36,6 @@
             font-family: 'Avenir', 'Avenir Next', 'Montserrat', 'Nunito', sans-serif;
         }
 
-        /* ThreeJS Canvas Background */
         #canvas-container {
             position: fixed;
             top: 0;
@@ -50,44 +47,6 @@
             background: radial-gradient(circle at center, #ffffff 0%, var(--bg-color) 100%);
         }
 
-        /* Fixed Title */
-        .header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            text-align: center;
-            padding: 40px 0;
-            z-index: 100;
-            background: linear-gradient(to bottom, rgba(248,249,252,0.95) 0%, rgba(248,249,252,0.8) 50%, rgba(248,249,252,0) 100%);
-            pointer-events: none;
-        }
-        
-        .logo {
-            max-width: 140px;
-            height: auto;
-            margin: 0 auto 15px auto;
-            display: block;
-            filter: drop-shadow(0 0 10px rgba(0,0,0,0.05));
-        }
-        
-        .header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            letter-spacing: 4px;
-            font-weight: 700;
-            text-transform: uppercase;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            color: var(--brand-dark-purple);
-        }
-        
-        .header h2 {
-            margin: 10px 0 0;
-            font-size: 1rem;
-            color: var(--brand-main-purple);
-            font-weight: 700;
-            letter-spacing: 3px;
-        }
-
         /* Scrollable Content */
         .content-wrapper {
             position: relative;
@@ -95,7 +54,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 240px 20px 120px; 
+            padding: 80px 20px 80px; 
             max-width: 950px;
             margin: 0 auto;
         }
@@ -107,7 +66,7 @@
             border: 1px solid rgba(141, 180, 217, 0.4);
             border-radius: 24px;
             padding: 60px;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
             width: 100%;
             box-sizing: border-box;
             box-shadow: 0 30px 60px rgba(44, 24, 100, 0.05), inset 0 0 20px rgba(255, 255, 255, 0.8);
@@ -171,6 +130,38 @@
             font-weight: 700;
         }
 
+        /* Títulos y Logo Reubicados */
+        .bottom-branding {
+            text-align: center;
+            padding: 20px 0 40px;
+        }
+        
+        .bottom-branding .logo {
+            max-width: 140px;
+            height: auto;
+            margin: 0 auto 15px auto;
+            display: block;
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.05));
+        }
+        
+        .bottom-branding h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            color: var(--brand-dark-purple);
+        }
+        
+        .bottom-branding h2 {
+            margin: 10px 0 0;
+            font-size: 1rem;
+            color: var(--brand-main-purple);
+            font-weight: 700;
+            letter-spacing: 3px;
+        }
+
         @keyframes pulseGlow {
             0% { box-shadow: 0 30px 60px rgba(44, 24, 100, 0.05), 0 0 20px rgba(124, 86, 159, 0.05); }
             50% { box-shadow: 0 30px 60px rgba(44, 24, 100, 0.08), 0 0 40px rgba(141, 180, 217, 0.15); }
@@ -191,18 +182,12 @@
 
     <div id="canvas-container"></div>
 
-    <header class="header">
-        <img src="Activo.png" alt="ACTIVO Logo" class="logo">
-        <h1>Portafolio Interactivo</h1>
-        <h2>INNOVACIÓN Y AUTOMATIZACIÓN</h2>
-    </header>
-
     <main class="content-wrapper">
         <section class="portfolio-section glow-effect" id="content-card">
             
             <div class="video-container">
-                <!-- Se ha cambiado el dominio para saltar el error 153 -->
-                <iframe src="https://www.youtube-nocookie.com/embed/ls9oipLnQTU?si=p-sw6TvQbENqJ9kX" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <!-- URL corregida: youtube-nocookie.com sin parámetros extra (como ?si=...) para forzar el funcionamiento -->
+                <iframe src="https://www.youtube-nocookie.com/embed/ls9oipLnQTU" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
 
             <div class="text-content">
@@ -218,14 +203,20 @@
                 </p>
             </div>
         </section>
+
+        <!-- Cabecera movida a la parte inferior -->
+        <div class="bottom-branding">
+            <img src="Activo.png" alt="ACTIVO Logo" class="logo">
+            <h1>IA para empresas</h1>
+            <h2>INNOVACIÓN Y AUTOMATIZACIÓN</h2>
+        </div>
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // --- THREE.JS SCENE SETUP ---
         const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0xf8f9fc, 0.0007); // Fog adaptado a modo claro
+        scene.fog = new THREE.FogExp2(0xf8f9fc, 0.0007); 
 
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 3000);
         camera.position.z = 800;
@@ -235,7 +226,6 @@
         renderer.setPixelRatio(window.devicePixelRatio);
         container.appendChild(renderer.domElement);
 
-        // --- PARTICLES & TEXTURES ---
         const geometry = new THREE.BufferGeometry();
         const particlesCount = 12000; 
         
@@ -253,7 +243,6 @@
             posArray[i+1] = (Math.random() - 0.5) * 3000;
             posArray[i+2] = (Math.random() - 0.5) * 3000;
 
-            // Mezcla de colores de la marca para que resalten en fondo blanco
             const mixRatio = Math.random();
             let finalColor;
             if (mixRatio < 0.3) finalColor = colorMainBlue;
@@ -300,7 +289,6 @@
             transparent: true,
             opacity: 0.7,
             vertexColors: true,
-            // NormalBlending es esencial para que los colores oscuros se vean en un fondo claro
             blending: THREE.NormalBlending, 
             depthWrite: false
         });
@@ -308,7 +296,6 @@
         const particlesMesh = new THREE.Points(geometry, material);
         scene.add(particlesMesh);
 
-        // Nubes de luz (Nebulosa ambiental)
         const lightGeo = new THREE.BufferGeometry();
         const lightCount = 30;
         const lightPos = new Float32Array(lightCount * 3);
@@ -337,7 +324,6 @@
         const lightMesh = new THREE.Points(lightGeo, lightMat);
         scene.add(lightMesh);
 
-        // --- INTERACCIÓN Y PARALLAX ---
         const card = document.getElementById('content-card');
         
         let mouseX = 0;
