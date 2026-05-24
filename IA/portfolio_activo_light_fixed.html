@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio | ACTIVO SMMS</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Colores Corporativos ACTIVO */
+            --brand-main-blue: #8DB4D9;
+            --brand-main-indigo: #66729D;
+            --brand-main-purple: #7C569F;
+            --brand-dark-purple: #2C1864;
+            --brand-accent-blue: #7DB8DC;
+            
+            /* Light Mode Colors (basados en el manual) */
+            --bg-color: #f8f9fc; /* Fondo claro con ligero toque azulado/frío */
+            --text-color: #2C1864; /* Texto principal oscuro de la marca */
+            --text-secondary: #4a4a5a;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Roboto', sans-serif; 
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        h1, h2, h3, .avenir-font {
+            font-family: 'Avenir', 'Avenir Next', 'Montserrat', 'Nunito', sans-serif;
+        }
+
+        /* ThreeJS Canvas Background */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(circle at center, #ffffff 0%, var(--bg-color) 100%);
+        }
+
+        /* Fixed Title */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            text-align: center;
+            padding: 40px 0;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(248,249,252,0.95) 0%, rgba(248,249,252,0.8) 50%, rgba(248,249,252,0) 100%);
+            pointer-events: none;
+        }
+        
+        .logo {
+            max-width: 140px;
+            height: auto;
+            margin: 0 auto 15px auto;
+            display: block;
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.05));
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            color: var(--brand-dark-purple);
+        }
+        
+        .header h2 {
+            margin: 10px 0 0;
+            font-size: 1rem;
+            color: var(--brand-main-purple);
+            font-weight: 700;
+            letter-spacing: 3px;
+        }
+
+        /* Scrollable Content */
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 240px 20px 120px; 
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        .portfolio-section {
+            background: rgba(255, 255, 255, 0.7); 
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(141, 180, 217, 0.4);
+            border-radius: 24px;
+            padding: 60px;
+            margin-bottom: 50px;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: 0 30px 60px rgba(44, 24, 100, 0.05), inset 0 0 20px rgba(255, 255, 255, 0.8);
+            transition: transform 0.1s ease-out;
+            text-align: center;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; 
+            height: 0;
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(44, 24, 100, 0.15);
+            margin-bottom: 60px;
+            background: #000;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .text-content {
+            text-align: left;
+            line-height: 2;
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+            font-weight: 400;
+        }
+        
+        .text-content h3 {
+            color: var(--brand-dark-purple);
+            font-size: 1.8rem;
+            margin-top: 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(141, 180, 217, 0.4);
+            padding-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .text-content p {
+            margin-bottom: 30px;
+        }
+        
+        .text-content strong {
+            color: var(--brand-main-purple);
+            font-weight: 700;
+        }
+        
+        .text-content em {
+            color: var(--brand-main-blue);
+            font-style: normal;
+            font-weight: 700;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 30px 60px rgba(44, 24, 100, 0.05), 0 0 20px rgba(124, 86, 159, 0.05); }
+            50% { box-shadow: 0 30px 60px rgba(44, 24, 100, 0.08), 0 0 40px rgba(141, 180, 217, 0.15); }
+            100% { box-shadow: 0 30px 60px rgba(44, 24, 100, 0.05), 0 0 20px rgba(124, 86, 159, 0.05); }
+        }
+        
+        .glow-effect {
+            animation: pulseGlow 6s infinite alternate ease-in-out;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--brand-main-blue); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--brand-main-purple); }
+    </style>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+
+    <header class="header">
+        <img src="Activo.png" alt="ACTIVO Logo" class="logo">
+        <h1>Portafolio Interactivo</h1>
+        <h2>INNOVACIÓN Y AUTOMATIZACIÓN</h2>
+    </header>
+
+    <main class="content-wrapper">
+        <section class="portfolio-section glow-effect" id="content-card">
+            
+            <div class="video-container">
+                <!-- Se ha cambiado el dominio para saltar el error 153 -->
+                <iframe src="https://www.youtube-nocookie.com/embed/ls9oipLnQTU?si=p-sw6TvQbENqJ9kX" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+
+            <div class="text-content">
+                <h3>Integración de IA Generativa</h3>
+                <p>
+                    Este proyecto audiovisual fue desarrollado para <strong>ACTIVO</strong>, una plataforma de software diseñada para la automatización de procesos y la gestión inteligente de mantenimiento empresarial.
+                </p>
+                <p>
+                    Para lograr una estética de vanguardia acorde al perfil tecnológico del cliente, el flujo de trabajo integró IA Generativa mediante modelos de difusión de imagen y video.
+                </p>
+                <p>
+                    La sinergia entre las técnicas de <em>motion graphics</em> tradicionales y la síntesis generada por IA permitió no solo acelerar el proceso creativo, sino alcanzar una gran riqueza visual llena de detalles.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // --- THREE.JS SCENE SETUP ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0xf8f9fc, 0.0007); // Fog adaptado a modo claro
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 3000);
+        camera.position.z = 800;
+
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        // --- PARTICLES & TEXTURES ---
+        const geometry = new THREE.BufferGeometry();
+        const particlesCount = 12000; 
+        
+        const posArray = new Float32Array(particlesCount * 3);
+        const colorsArray = new Float32Array(particlesCount * 3);
+        const sizesArray = new Float32Array(particlesCount);
+
+        const colorMainBlue = new THREE.Color(0x8DB4D9);
+        const colorMainPurple = new THREE.Color(0x7C569F);
+        const colorDarkPurple = new THREE.Color(0x2C1864);
+        const colorIndigo = new THREE.Color(0x66729D);
+
+        for(let i = 0; i < particlesCount * 3; i+=3) {
+            posArray[i] = (Math.random() - 0.5) * 3000;
+            posArray[i+1] = (Math.random() - 0.5) * 3000;
+            posArray[i+2] = (Math.random() - 0.5) * 3000;
+
+            // Mezcla de colores de la marca para que resalten en fondo blanco
+            const mixRatio = Math.random();
+            let finalColor;
+            if (mixRatio < 0.3) finalColor = colorMainBlue;
+            else if (mixRatio < 0.6) finalColor = colorMainPurple;
+            else if (mixRatio < 0.8) finalColor = colorIndigo;
+            else finalColor = colorDarkPurple;
+
+            colorsArray[i] = finalColor.r;
+            colorsArray[i+1] = finalColor.g;
+            colorsArray[i+2] = finalColor.b;
+            
+            sizesArray[i/3] = Math.random() * 2.5;
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colorsArray, 3));
+        geometry.setAttribute('size', new THREE.BufferAttribute(sizesArray, 1));
+
+        const createSoftParticle = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = 64;
+            canvas.height = 64;
+            const context = canvas.getContext('2d');
+            
+            const gradient = context.createRadialGradient(32, 32, 0, 32, 32, 32);
+            gradient.addColorStop(0, 'rgba(255,255,255,1)');
+            gradient.addColorStop(0.2, 'rgba(255,255,255,0.8)');
+            gradient.addColorStop(0.5, 'rgba(255,255,255,0.2)');
+            gradient.addColorStop(1, 'rgba(255,255,255,0)');
+            
+            context.fillStyle = gradient;
+            context.beginPath();
+            context.arc(32, 32, 32, 0, Math.PI * 2);
+            context.fill();
+            
+            return new THREE.CanvasTexture(canvas);
+        };
+
+        const particleTexture = createSoftParticle();
+
+        const material = new THREE.PointsMaterial({
+            size: 8,
+            map: particleTexture,
+            transparent: true,
+            opacity: 0.7,
+            vertexColors: true,
+            // NormalBlending es esencial para que los colores oscuros se vean en un fondo claro
+            blending: THREE.NormalBlending, 
+            depthWrite: false
+        });
+
+        const particlesMesh = new THREE.Points(geometry, material);
+        scene.add(particlesMesh);
+
+        // Nubes de luz (Nebulosa ambiental)
+        const lightGeo = new THREE.BufferGeometry();
+        const lightCount = 30;
+        const lightPos = new Float32Array(lightCount * 3);
+        const lightColors = new Float32Array(lightCount * 3);
+
+        for(let i=0; i < lightCount * 3; i+=3){
+            lightPos[i] = (Math.random() - 0.5) * 1500;
+            lightPos[i+1] = (Math.random() - 0.5) * 1500;
+            lightPos[i+2] = (Math.random() - 0.5) * 1000 - 500;
+
+            const c = Math.random() > 0.5 ? colorMainBlue : colorMainPurple;
+            lightColors[i] = c.r; lightColors[i+1] = c.g; lightColors[i+2] = c.b;
+        }
+        lightGeo.setAttribute('position', new THREE.BufferAttribute(lightPos, 3));
+        lightGeo.setAttribute('color', new THREE.BufferAttribute(lightColors, 3));
+        
+        const lightMat = new THREE.PointsMaterial({
+            size: 500,
+            map: particleTexture,
+            transparent: true,
+            opacity: 0.12,
+            vertexColors: true,
+            blending: THREE.NormalBlending,
+            depthWrite: false
+        });
+        const lightMesh = new THREE.Points(lightGeo, lightMat);
+        scene.add(lightMesh);
+
+        // --- INTERACCIÓN Y PARALLAX ---
+        const card = document.getElementById('content-card');
+        
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
+
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX - windowHalfX);
+            mouseY = (event.clientY - windowHalfY);
+        });
+
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const elapsedTime = clock.getElapsedTime();
+
+            particlesMesh.rotation.y = elapsedTime * 0.02;
+            particlesMesh.rotation.x = elapsedTime * 0.005;
+
+            lightMesh.rotation.y = -elapsedTime * 0.01;
+            lightMesh.rotation.z = elapsedTime * 0.005;
+            
+            targetX = mouseX * 0.5;
+            targetY = mouseY * 0.5;
+            camera.position.x += (targetX - camera.position.x) * 0.02;
+            camera.position.y += (-targetY - camera.position.y) * 0.02;
+            camera.lookAt(scene.position);
+
+            const cardX = (mouseX * 0.01).toFixed(2);
+            const cardY = (mouseY * 0.01).toFixed(2);
+            card.style.transform = `translate3d(${cardX}px, ${cardY}px, 0)`;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
