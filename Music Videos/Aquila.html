@@ -165,60 +165,16 @@
             max-width: 850px;
             aspect-ratio: 16 / 9;
             z-index: 2;
-            cursor: pointer;
         }
 
-        .youtube-link {
-            display: block;
-            width: 100%;
-            height: 100%;
-            position: relative;
-            text-decoration: none;
-        }
-
-        .youtube-link img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            opacity: 0.8;
-            transition: opacity 0.4s ease;
-        }
-
-        .youtube-link:hover img {
-            opacity: 0.95;
-        }
-
-        .play-button {
+        .video-wrapper-landscape iframe {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 70px;
-            height: 70px;
-            background: rgba(255, 60, 0, 0.85);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 25px rgba(255, 60, 0, 0.5);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
             z-index: 10;
-        }
-
-        .play-button::after {
-            content: '';
-            display: block;
-            border-style: solid;
-            border-width: 12px 0 12px 20px;
-            border-color: transparent transparent transparent #fff;
-            margin-left: 4px;
-        }
-
-        .youtube-link:hover .play-button {
-            background: #ff3c00;
-            transform: translate(-50%, -50%) scale(1.1);
-            box-shadow: 0 0 40px #ff3c00;
         }
 
         /* Fichas Técnicas Laterales */
@@ -343,10 +299,8 @@
             </div>
             
             <div class="video-wrapper-landscape video-container-style">
-                <a href="https://www.youtube.com/watch?v=0v2_mWd1swg" target="_blank" class="youtube-link">
-                    <img src="https://img.youtube.com/vi/0v2_mWd1swg/maxresdefault.jpg" alt="Ver video en YouTube">
-                    <div class="play-button"></div>
-                </a>
+                <!-- Iframe actualizado implementando la solución de youtube-nocookie.com -->
+                <iframe src="https://www.youtube-nocookie.com/embed/0v2_mWd1swg" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
             
             <div class="project-meta meta-right">

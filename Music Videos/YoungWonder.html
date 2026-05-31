@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Young Wonder - Un Sueño Espacial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <style>
+        /* Reseteo y estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #d4f0f0; /* Fondo azul cielo pastel */
+            color: #5c6bc0;
+            overflow-x: hidden;
+        }
+
+        /* Contenedor del fondo animado de Three.js */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+        }
+
+        /* Contenido Principal */
+        main {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        /* Títulos estilo Cartoon */
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 3.5rem;
+            color: #ffb7b2; /* Rosa pastel */
+            text-shadow: 3px 3px 0px #fff, 6px 6px 0px #b5ead7;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            animation: floatText 3s ease-in-out infinite;
+        }
+
+        p.subtitle {
+            font-size: 1.5rem;
+            color: #ff9a9e;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px 25px;
+            border-radius: 30px;
+            border: 3px dashed #ffdac1;
+            margin-bottom: 50px;
+            max-width: 600px;
+        }
+
+        /* --- MARCO DE ACUARELA QUE SE DISUELVE --- */
+        .watercolor-frame {
+            position: relative;
+            width: 100%;
+            max-width: 850px;
+            padding: 60px; /* Espacio para que la acuarela respire alrededor del video */
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.8) 40%, transparent 70%),
+                radial-gradient(circle at 70% 80%, rgba(255, 218, 193, 0.9) 0%, rgba(255, 218, 193, 0.6) 35%, transparent 65%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.9) 50%, transparent 75%);
+            filter: url(#watercolor-filter); /* Filtro SVG para deformar los bordes como pintura */
+            animation: gentleBleed 6s ease-in-out infinite alternate;
+        }
+
+        /* Contenedor interno del video para mantenerlo nítido */
+        .video-container {
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(92, 107, 192, 0.15);
+            width: 100%;
+            transition: transform 0.3s ease;
+            /* Protege al video del filtro de deformación de la acuarela exterior */
+            filter: none !important; 
+        }
+
+        .video-container:hover {
+            transform: scale(1.01);
+        }
+
+        /* Aspect Ratio para el iframe */
+        .iframe-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+        }
+
+        .iframe-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Adornos CSS (Nubes sutiles en el fondo) */
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+            opacity: 0.5;
+            z-index: 0;
+        }
+        
+        .cloud::before, .cloud::after {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .cloud1 { width: 150px; height: 50px; top: 10%; left: 5%; animation: floatCloud 8s ease-in-out infinite; }
+        .cloud1::before { width: 70px; height: 70px; top: -30px; left: 20px; }
+        .cloud1::after { width: 50px; height: 50px; top: -20px; right: 20px; }
+
+        .cloud2 { width: 200px; height: 60px; top: 20%; right: 5%; animation: floatCloud 10s ease-in-out infinite reverse; }
+        .cloud2::before { width: 80px; height: 80px; top: -40px; left: 30px; }
+        .cloud2::after { width: 60px; height: 60px; top: -20px; right: 30px; }
+
+        /* Keyframes para animaciones */
+        @keyframes floatText {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes floatCloud {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-15px) translateX(10px); }
+        }
+
+        /* Efecto de expansión lenta de la "humedad" de la acuarela */
+        @keyframes gentleBleed {
+            0% { transform: scale(1) rotate(0deg); opacity: 0.95; }
+            100% { transform: scale(1.02) rotate(0.5deg); opacity: 1; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <svg style="position: absolute; width: 0; height: 0;">
+        <filter id="watercolor-filter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="35" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+            <feGaussianBlur in="displaced" stdDeviation="8" />
+            <feMerge>
+                <feMergeNode />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+    </svg>
+
+    <div id="canvas-container"></div>
+
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+
+    <main>
+        <h1>Young Wonder</h1>
+        <p class="subtitle">Donde los sueños de la infancia despegan hacia las estrellas. ¡Un viaje animado directo a la NASA!</p>
+        
+        <div class="watercolor-frame">
+            <div class="video-container">
+                <div class="iframe-wrapper">
+                    <iframe 
+                        src="https://www.youtube.com/embed/FMapLgPUpPk?autoplay=0&rel=0" 
+                        title="Animación Young Wonder" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0xd4f0f0, 0.0015);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 400;
+
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0xd4f0f0, 1); 
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 800; 
+        
+        const posArray = new Float32Array(particlesCount * 3);
+        const colorsArray = new Float32Array(particlesCount * 3);
+
+        const palette = [
+            new THREE.Color(0xffb7b2), 
+            new THREE.Color(0xffdac1), 
+            new THREE.Color(0xe2f0cb), 
+            new THREE.Color(0xc7ceea),
+            new THREE.Color(0xfff5ba)
+        ];
+
+        for(let i = 0; i < particlesCount; i++) {
+            posArray[i * 3] = (Math.random() - 0.5) * 1500;     
+            posArray[i * 3 + 1] = (Math.random() - 0.5) * 1500; 
+            posArray[i * 3 + 2] = (Math.random() - 0.5) * 1000; 
+
+            const randomColor = palette[Math.floor(Math.random() * palette.length)];
+            colorsArray[i * 3] = randomColor.r;
+            colorsArray[i * 3 + 1] = randomColor.g;
+            colorsArray[i * 3 + 2] = randomColor.b;
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorsArray, 3));
+
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 8,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.8,
+            blending: THREE.NormalBlending
+        });
+
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX / window.innerWidth) - 0.5;
+            mouseY = (event.clientY / window.innerHeight) - 0.5;
+        });
+
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const elapsedTime = clock.getElapsedTime();
+
+            particlesMesh.rotation.y = elapsedTime * 0.05;
+            particlesMesh.rotation.x = elapsedTime * 0.02;
+
+            camera.position.x += (mouseX * 100 - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY * 100 - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
