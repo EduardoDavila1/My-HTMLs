@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WM Studio | Navegación</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Fredoka:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-bg: #000000;
+            --color-text: #ffffff;
+            --color-accent: #ffffff;
+            --color-glow: rgba(255, 255, 255, 0.8);
+            --glass-bg: rgba(10, 14, 26, 0.75);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+            --transition-speed: 0.8s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+        }
+
+        #three-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            transition: transform var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #ui-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+            padding: 20px;
+        }
+
+        /* --- HEADER (LOGO CENTRADO) --- */
+        #main-header {
+            text-align: center;
+            margin-bottom: 50px;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .logo-img {
+            height: 120px;
+            width: auto;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
+            transition: filter 0.3s ease;
+        }
+
+        .logo-img:hover {
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 30px rgba(192, 192, 192, 0.5));
+        }
+
+        p.subtitle {
+            color: #C0C0C0;
+            font-size: 1.4rem;
+            letter-spacing: 4px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            margin-top: 15px;
+        }
+
+        /* --- VISTA DE ICONOS --- */
+        #icon-menu {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            max-width: 1100px;
+            transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .category-card {
+            width: 140px;
+            height: 140px;
+            background: var(--glass-bg);
+            border: var(--glass-border);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            text-decoration: none;
+            color: white;
+        }
+
+        .category-card i {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            color: var(--color-accent);
+            transition: transform 0.3s ease;
+            filter: drop-shadow(0 0 5px var(--color-glow));
+        }
+
+        .category-card span {
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .category-card:hover {
+            border-color: var(--color-accent);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* --- VISTA DE PROYECTOS --- */
+        #project-view {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateZ(-500px) scale(0.5);
+            transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .content-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 75vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 60px rgba(0, 0, 0, 0.9);
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .back-btn:hover {
+            background: var(--color-accent);
+            color: black;
+            box-shadow: 0 0 25px var(--color-accent);
+        }
+
+        h2#selected-category-title {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .grid-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            width: 100%;
+        }
+
+        .project-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .project-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--color-accent);
+            transform: translateY(-3px);
+        }
+
+        /* --- BOTÓN WHATSAPP PARA CONTACTO --- */
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #25D366;
+            color: #fff;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin: 20px auto;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 35px rgba(37, 211, 102, 0.7);
+            background: #128C7E;
+        }
+
+        .whatsapp-btn i {
+            font-size: 1.5rem;
+        }
+
+        /* --- ANIMACIONES --- */
+        body.entering-category #main-header {
+            opacity: 0;
+            transform: translateY(-100px) scale(0.5);
+        }
+
+        body.entering-category #icon-menu {
+            opacity: 0;
+            transform: translateZ(600px) scale(2);
+            pointer-events: none;
+        }
+
+        body.entering-category #project-view {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateZ(0) scale(1);
+        }
+
+        @media (max-width: 600px) {
+            .logo-img { height: 80px; }
+            .category-card { width: 120px; height: 120px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="ui-container">
+        <header id="main-header">
+            <img src="logo.png" alt="WM Studio" class="logo-img">
+            <p class="subtitle">Que onda toca, un slogan?</p>
+        </header>
+
+        <div id="icon-menu">
+            <div class="category-card" onclick="enterCategory('Contact', 'fa-user')">
+                <i class="fas fa-user"></i>
+                <span>Contact</span>
+            </div>
+            <div class="category-card" onclick="enterCategory('Branding', 'fa-pen-nib')">
+                <i class="fas fa-pen-nib"></i>
+                <span>Branding</span>
+            </div>
+            <div class="category-card" onclick="enterCategory('UI/UX', 'fa-code')">
+                <i class="fas fa-code"></i>
+                <span>UI/UX</span>
+            </div>
+            <div class="category-card" onclick="enterCategory('Content', 'fa-newspaper')">
+                <i class="fas fa-newspaper"></i>
+                <span>Content</span>
+            </div>
+            <div class="category-card" onclick="enterCategory('Audiovisual', 'fa-film')">
+                <i class="fas fa-film"></i>
+                <span>Audiovisual</span>
+            </div>
+            <div class="category-card" onclick="enterCategory('Games', 'fa-gamepad')">
+                <i class="fas fa-gamepad"></i>
+                <span>Games</span>
+            </div>
+        </div>
+
+        <div id="project-view">
+            <button class="back-btn" onclick="exitCategory()">
+                <i class="fas fa-arrow-left"></i> VOLVER
+            </button>
+            <div class="content-box">
+                <h2 id="selected-category-title">// CATEGORÍA</h2>
+                <div class="grid-links" id="project-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+
+        let camera, scene, renderer, stars;
+        let mouseX = 0, mouseY = 0;
+        let windowHalfX = window.innerWidth / 2;
+        let windowHalfY = window.innerHeight / 2;
+
+        init();
+        animate();
+
+        function init() {
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x000000, 0.0002);
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 5000);
+            camera.position.z = 1000;
+            renderer = new THREE.WebGLRenderer({ antialias: false });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.domElement.id = 'three-canvas';
+            document.body.prepend(renderer.domElement);
+
+            const starGeometry = new THREE.BufferGeometry();
+            const starCount = 6000;
+            const posArray = new Float32Array(starCount * 3);
+            const colorArray = new Float32Array(starCount * 3);
+            const sizeArray = new Float32Array(starCount);
+            const baseColor = new THREE.Color(0xffffff);
+
+            for (let i = 0; i < starCount; i++) {
+                const i3 = i * 3;
+                const radius = 2000 + Math.random() * 3000;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos((Math.random() * 2) - 1);
+                posArray[i3] = radius * Math.sin(phi) * Math.cos(theta);
+                posArray[i3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+                posArray[i3 + 2] = radius * Math.cos(phi);
+                const starColor = baseColor.clone().offsetHSL(Math.random() * 0.2 - 0.1, 0, Math.random() * 0.5);
+                colorArray[i3] = starColor.r;
+                colorArray[i3 + 1] = starColor.g;
+                colorArray[i3 + 2] = starColor.b;
+                sizeArray[i] = Math.random() * 3 + 0.5;
+            }
+
+            starGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            starGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+            starGeometry.setAttribute('size', new THREE.BufferAttribute(sizeArray, 1));
+
+            const starMaterial = new THREE.PointsMaterial({
+                size: 1,
+                vertexColors: true,
+                blending: THREE.AdditiveBlending,
+                transparent: true,
+                opacity: 0.8,
+                sizeAttenuation: true
+            });
+
+            stars = new THREE.Points(starGeometry, starMaterial);
+            scene.add(stars);
+
+            document.addEventListener('pointermove', (e) => {
+                mouseX = e.clientX - windowHalfX;
+                mouseY = e.clientY - windowHalfY;
+            });
+
+            window.addEventListener('resize', () => {
+                windowHalfX = window.innerWidth / 2;
+                windowHalfY = window.innerHeight / 2;
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = Date.now() * 0.00005;
+            stars.rotation.y = time * 0.5;
+            stars.rotation.x = time * 0.2;
+            camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+            renderer.render(scene, camera);
+        }
+    </script>
+
+    <script>
+        const repoData = {
+            user: 'EduardoDavila1',
+            repo: 'My-HTMLs',
+            ignoreFiles: ['index.html', '404.html', 'CNAME', 'README.md', 'push.txt']
+        };
+
+        let allFiles = [];
+
+        async function fetchRepoContents() {
+            try {
+                const response = await fetch(`https://api.github.com/repos/${repoData.user}/${repoData.repo}/contents/`);
+                allFiles = await response.json();
+            } catch (error) {
+                console.error('Error fetching repo:', error);
+            }
+        }
+
+        async function enterCategory(categoryName, iconClass) {
+            const title = document.getElementById('selected-category-title');
+            const grid = document.getElementById('project-grid');
+            title.innerHTML = `<i class="fas ${iconClass}"></i> ${categoryName}`;
+            
+            // === ESPECIAL PARA CONTACT: BOTÓN DE WHATSAPP ===
+            if (categoryName === 'Contact') {
+                grid.innerHTML = `
+                    <a href="https://wa.link/c44qm5" target="_blank" class="whatsapp-btn">
+                        <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
+                    </a>
+                `;
+                document.body.classList.add('entering-category');
+                return;
+            }
+            // === FIN ESPECIAL CONTACT ===
+            
+            grid.innerHTML = '<p>Escaneando módulos...</p>';
+            document.body.classList.add('entering-category');
+            const folder = allFiles.find(f => f.type === 'dir' && f.name === categoryName);
+            if (folder) {
+                try {
+                    const response = await fetch(folder.url);
+                    const contents = await response.json();
+                    const htmlFiles = contents.filter(file => 
+                        file.name.toLowerCase().endsWith('.html') && 
+                        !repoData.ignoreFiles.includes(file.name.toLowerCase())
+                    );
+                    grid.innerHTML = '';
+                    if (htmlFiles.length === 0) {
+                        grid.innerHTML = '<p class="empty-group">No se encontraron archivos.</p>';
+                    } else {
+                        htmlFiles.forEach(file => {
+                            const btn = document.createElement('a');
+                            btn.href = `${categoryName}/${file.name}`;
+                            btn.className = 'project-btn';
+                            btn.textContent = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+                            grid.appendChild(btn);
+                        });
+                    }
+                } catch (e) { grid.innerHTML = '<p>Error.</p>'; }
+            } else { grid.innerHTML = '<p class="empty-group">No encontrada.</p>'; }
+        }
+
+        function exitCategory() {
+            document.body.classList.remove('entering-category');
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchRepoContents);
+    </script>
+</body>
+
+</html>
