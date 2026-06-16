@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>ED'S 31 - PARRAS CAVE</title>
+    <title>Ed ~ 31 - PARRAS CAVE</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -44,13 +44,14 @@
             z-index: -1;
         }
 
-        .transition-overlay {
+        .bat-wing-overlay {
             position: fixed;
-            top: 0;
-            left: -100%;
+            top: -100%;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, #000 0%, transparent 50%, #000 100%);
+            background: linear-gradient(180deg, #000 0%, transparent 40%, transparent 60%, #000 100%);
+            clip-path: polygon(0 0, 100% 0, 100% 30%, 50% 50%, 100% 70%, 100% 100%, 0 100%, 0 70%, 50% 50%, 0 30%);
             z-index: 999;
             pointer-events: none;
         }
@@ -84,7 +85,7 @@
         }
 
         .content {
-            max-width: 500px;
+            max-width: 520px;
             width: 100%;
         }
 
@@ -94,7 +95,7 @@
         }
 
         h1 {
-            font-size: clamp(2.5rem, 10vw, 4rem);
+            font-size: clamp(2.5rem, 10vw, 3.5rem);
             font-weight: 800;
             line-height: 1.1;
             background: linear-gradient(135deg, var(--accent-cyan), var(--accent-orange));
@@ -129,7 +130,7 @@
 
         .text {
             font-size: 0.95rem;
-            line-height: 1.6;
+            line-height: 1.7;
             color: var(--text-light);
             margin-bottom: 12px;
         }
@@ -141,7 +142,7 @@
         .timeline {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             margin-top: 15px;
             text-align: left;
         }
@@ -162,7 +163,7 @@
 
         .timeline-item .activity {
             color: var(--text-light);
-            margin-top: 4px;
+            margin-top: 3px;
             font-weight: 600;
         }
 
@@ -191,65 +192,57 @@
         .pricing-plans {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             margin-top: 15px;
         }
 
         .plan {
             background: rgba(0, 217, 255, 0.08);
             border: 2px solid rgba(0, 217, 255, 0.3);
-            border-radius: 15px;
-            padding: 16px;
+            border-radius: 12px;
+            padding: 14px;
             text-align: left;
         }
 
         .plan-name {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: var(--accent-cyan);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .plan-price {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 800;
             color: var(--accent-orange);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
-        .plan-items {
+        .plan-desc {
             font-size: 0.8rem;
             color: var(--text-muted);
-            line-height: 1.8;
-            list-style: none;
+            line-height: 1.6;
         }
 
-        .plan-items li {
-            padding-left: 20px;
-            position: relative;
-        }
-
-        .plan-items li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: var(--accent-cyan);
-            font-weight: 700;
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
         }
 
         .cta-btn {
             display: inline-block;
             background: linear-gradient(135deg, var(--accent-cyan), var(--accent-orange));
             color: var(--dark-bg);
-            padding: 14px 35px;
+            padding: 12px 25px;
             border-radius: 50px;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.95rem;
             text-decoration: none;
             border: none;
             cursor: pointer;
             transition: all 0.3s;
-            margin-top: 15px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -278,118 +271,133 @@
             h1 { font-size: 2rem; }
             h2 { font-size: 1.4rem; }
             .text { font-size: 0.9rem; }
+            .cta-btn { font-size: 0.9rem; padding: 11px 22px; }
         }
     </style>
 </head>
 <body>
 
     <canvas id="cave-canvas"></canvas>
-    <div class="transition-overlay"></div>
+    <div class="bat-wing-overlay"></div>
 
     <div class="sections-container">
         <!-- HERO -->
         <section class="active" data-section="0">
             <div class="content">
                 <div class="emoji">🦇</div>
-                <h1>ED'S 31</h1>
+                <h1>Ed ~ 31</h1>
                 <p class="subtitle">PARRAS, COAHUILA</p>
                 <p class="date">11-12 de Julio</p>
             </div>
             <div class="scroll-indicator">👇</div>
         </section>
 
-        <!-- VIBE -->
+        <!-- EL PLAN -->
         <section data-section="1">
-            <div class="content">
-                <h2>La Onda</h2>
-                <p class="text">Sábado: Llegada a la Hacienda Perote, relax y <strong>Cueva de los Murciélagos</strong> al atardecer.</p>
-                <p class="text">Domingo: Alberca, brunch, chill. Regreso cuando nos cansemos.</p>
-            </div>
-        </section>
-
-        <!-- ITINERARIO -->
-        <section data-section="2">
             <div class="content">
                 <h2>El Plan</h2>
                 <div class="timeline">
                     <div class="timeline-item">
-                        <div class="time">SAB 11 - 10:00 AM</div>
+                        <div class="time">SAB 11 - 11:00 AM</div>
                         <div class="activity">Salida</div>
-                        <div class="desc">Saltillo/Torreón → Hacienda Perote</div>
+                        <div class="desc">Saltillo/Torreón → Hacienda Perote (1.5 hrs)</div>
                     </div>
                     <div class="timeline-item">
-                        <div class="time">SAB 11 - 7:30 PM</div>
+                        <div class="time">SAB 11 - 1:00 PM</div>
+                        <div class="activity">Check-in & Provisiones</div>
+                        <div class="desc">Llegar, acomodarse, reunir lo que falta para la noche.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="time">SAB 11 - 3:00 PM</div>
+                        <div class="activity">Alberca (Opcional)</div>
+                        <div class="desc">Refrescarse antes del atardecer. Disponible todo el día.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="time">SAB 11 - 7:00 PM</div>
                         <div class="activity">Cueva de los Murciélagos</div>
-                        <div class="desc">40 mil bichos. Sunset show.</div>
+                        <div class="desc">40 mil bichos. Sunset show. Hacienda Perote (mismo lugar).</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="time">SAB 11 - 9:00 PM</div>
+                        <div class="activity">Exploración Nocturna</div>
+                        <div class="desc">Linterna en mano. Recorrer los alrededores de la Hacienda.</div>
                     </div>
                     <div class="timeline-item">
                         <div class="time">DOM 12 - TODO EL DÍA</div>
                         <div class="activity">Chill Mode</div>
-                        <div class="desc">Alberca, brunch, relax.</div>
+                        <div class="desc">Alberca, brunch, relax. Regreso cuando nos cansemos.</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ESENCIALES -->
-        <section data-section="3">
+        <!-- GEAR -->
+        <section data-section="2">
             <div class="content">
                 <h2>Qué Llevar</h2>
+                <p class="text" style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">Julio en Parras: 31°C de día, 18°C de noche. Refresca.</p>
                 <div class="grid">
                     <div class="grid-item">🩳 Traje</div>
-                    <div class="grid-item">🕶️ Lentes</div>
+                    <div class="grid-item">👢 Botas</div>
                     <div class="grid-item">🧴 Bloqueador</div>
-                    <div class="grid-item">👟 Tenis</div>
+                    <div class="grid-item">🔦 Linterna</div>
                     <div class="grid-item">🧥 Chamarra</div>
-                    <div class="grid-item">📱 Cargador</div>
+                    <div class="grid-item">👕 Ropa Exploración</div>
                 </div>
             </div>
         </section>
 
-        <!-- HOSPEDAJE -->
-        <section data-section="4">
+        <!-- BASE -->
+        <section data-section="3">
             <div class="content">
                 <h2>Base</h2>
                 <p class="text"><strong>Hacienda Perote</strong></p>
-                <p class="text" style="color: var(--text-muted); font-size: 0.85rem;">Antigua hacienda colonial. Donde están las cuevas. Restaurante, alberca, chill total.</p>
-                <p class="text"><strong>$1,100 MXN / noche</strong></p>
-                <p class="text" style="color: var(--text-muted); font-size: 0.85rem;">Desayuno incluido. Acceso a murciélagos al atardecer.</p>
+                <p class="text" style="color: var(--text-muted); font-size: 0.85rem;">Antigua hacienda colonial. Donde están las cuevas. Restaurante, alberca, Wi-Fi.</p>
+                <p class="text" style="margin-top: 15px;"><strong>Opciones de Hospedaje:</strong></p>
+                <p class="text" style="color: var(--text-muted); font-size: 0.85rem;">
+                    <strong>Individuos:</strong> ~$1,100 MXN/noche (cama compartida).<br>
+                    <strong>Parejas:</strong> $2,200 MXN/noche (habitación doble).<br>
+                    <strong>Grupos (4 pers):</strong> $3,000 MXN/noche (cabaña).
+                </p>
+                <p class="text" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 10px;">Desayuno incluido. Aire acondicionado, baño privado, Smart TV.</p>
             </div>
         </section>
 
         <!-- PRICING -->
-        <section data-section="5">
+        <section data-section="4">
             <div class="content">
                 <h2>Costo Total</h2>
                 <div class="pricing-plans">
                     <div class="plan">
-                        <div class="plan-name">🏊 CAVE EXPERIENCE</div>
-                        <div class="plan-price">$1,600 MXN</div>
-                        <ul class="plan-items">
-                            <li>Hacienda Perote (1 noche)</li>
-                            <li>Cueva Murciélagos</li>
-                            <li>Alberca & Relax</li>
-                            <li>Brunch Domingo</li>
-                        </ul>
+                        <div class="plan-name">🛏️ POR CAMA</div>
+                        <div class="plan-price">~$1,100 MXN</div>
+                        <div class="plan-desc">1 noche, cama compartida. Individuos o parejas que compartan cuarto.</div>
+                    </div>
+                    <div class="plan">
+                        <div class="plan-name">🏠 POR CUARTO</div>
+                        <div class="plan-price">~$2,200 MXN</div>
+                        <div class="plan-desc">1 noche, habitación doble privada. Pareja o dos individuos.</div>
                     </div>
                 </div>
-                <p class="text" style="margin-top: 15px; color: var(--text-muted); font-size: 0.85rem;">Por persona. Para 15 personas: $24,000 MXN total.</p>
+                <p class="text" style="color: var(--text-muted); font-size: 0.8rem; margin-top: 12px;">Precios aprox. Desayuno incluido. Para 15 personas, varía según configuración.</p>
             </div>
         </section>
 
-        <!-- RSVP -->
-        <section data-section="6">
+        <!-- CONFIRMAR -->
+        <section data-section="5">
             <div class="content">
                 <h2>¿Vamos?</h2>
-                <p class="text">Confirma antes del 1 de julio.</p>
-                <p class="text" style="color: var(--text-muted); font-size: 0.85rem;">Necesitamos saber cuántos somos.</p>
-                <button class="cta-btn" onclick="alert('Link de confirmación próximamente')">CONFIRMAR</button>
+                <p class="text">Confirma cuanto antes. Necesitamos saber cuántos somos y la configuración.</p>
+                <div class="button-group">
+                    <a href="https://wa.link/tug5aa" class="cta-btn" target="_blank">1 CAMA</a>
+                    <a href="https://wa.link/jfq1y8" class="cta-btn" target="_blank">1 CUARTO</a>
+                </div>
             </div>
         </section>
     </div>
 
     <script>
-        // THREE.JS - CAVE PARTICLES WITH VORTEX
+        // THREE.JS - CAVE PARTICLES (ENHANCED)
         const canvas = document.querySelector('#cave-canvas');
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -397,42 +405,54 @@
 
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+        renderer.setClearColor(0x0a0e27, 1);
 
-        const particleCount = 1000;
+        // Partículas visibles
+        const particleCount = 2000;
         const geometry = new THREE.BufferGeometry();
         const positions = new Float32Array(particleCount * 3);
         const colors = new Float32Array(particleCount * 3);
+        const sizes = new Float32Array(particleCount);
 
-        for (let i = 0; i < particleCount * 3; i += 3) {
-            positions[i] = (Math.random() - 0.5) * 25;
-            positions[i + 1] = (Math.random() - 0.5) * 25;
-            positions[i + 2] = (Math.random() - 0.5) * 25;
+        for (let i = 0; i < particleCount; i++) {
+            const i3 = i * 3;
+            positions[i3] = (Math.random() - 0.5) * 40;
+            positions[i3 + 1] = (Math.random() - 0.5) * 40;
+            positions[i3 + 2] = (Math.random() - 0.5) * 40;
 
             const hue = Math.random() < 0.7 ? 0.6 : 0.05;
-            const color = new THREE.Color().setHSL(hue, 1, 0.5);
-            colors[i] = color.r;
-            colors[i + 1] = color.g;
-            colors[i + 2] = color.b;
+            const color = new THREE.Color().setHSL(hue, 1, 0.6);
+            colors[i3] = color.r;
+            colors[i3 + 1] = color.g;
+            colors[i3 + 2] = color.b;
+
+            sizes[i] = Math.random() * 0.15 + 0.05;
         }
 
         geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
         geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
         const material = new THREE.PointsMaterial({
-            size: 0.08,
+            size: 0.1,
             vertexColors: true,
             transparent: true,
-            opacity: 0.5,
-            sizeAttenuation: true
+            opacity: 0.8,
+            sizeAttenuation: true,
+            fog: false
         });
 
         const particles = new THREE.Points(geometry, material);
         scene.add(particles);
 
-        const light = new THREE.AmbientLight(0x404080, 0.8);
+        const light = new THREE.AmbientLight(0x6080ff, 1.2);
         scene.add(light);
 
-        camera.position.z = 5;
+        const pointLight = new THREE.PointLight(0xff6b35, 0.8, 100);
+        pointLight.position.set(10, 10, 10);
+        scene.add(pointLight);
+
+        camera.position.z = 8;
 
         let mouseX = 0, mouseY = 0;
         document.addEventListener('mousemove', (e) => {
@@ -445,14 +465,12 @@
         function animate() {
             requestAnimationFrame(animate);
             
-            particles.rotation.x += 0.0002;
-            particles.rotation.y += 0.0003 + scrollProgress * 0.01;
+            particles.rotation.x += 0.0001;
+            particles.rotation.y += 0.0002 + scrollProgress * 0.01;
+            particles.position.z = scrollProgress * 0.3;
             
-            // Vórtice effect con scroll
-            particles.position.z = scrollProgress * 0.5;
-            
-            camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
-            camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
+            camera.position.x += (mouseX * 0.8 - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY * 0.8 - camera.position.y) * 0.05;
             camera.lookAt(scene.position);
             
             renderer.render(scene, camera);
@@ -465,35 +483,52 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // FULL PAGE SNAP SCROLL
+        // FULL PAGE SNAP SCROLL CON BAT-WING
         const sections = document.querySelectorAll('section');
         const totalSections = sections.length;
         let currentSection = 0;
         let isScrolling = false;
 
-        function transitionToSection(nextSection) {
+        function transitionToSection(nextSection, direction) {
             if (isScrolling || nextSection === currentSection) return;
             isScrolling = true;
 
-            const overlay = document.querySelector('.transition-overlay');
+            const overlay = document.querySelector('.bat-wing-overlay');
             const currentSectionEl = sections[currentSection];
             const nextSectionEl = sections[nextSection];
 
-            // Bat-wing transition animation
-            gsap.timeline()
-                .to(overlay, { left: 0, duration: 0.3, ease: 'power4.in' }, 0)
-                .to(currentSectionEl, { opacity: 0, duration: 0.3 }, 0)
-                .to(currentSectionEl, { top: '-100%', duration: 0 }, 0.3)
-                .to(nextSectionEl, { top: 0, opacity: 1, duration: 0 }, 0.3)
-                .to(overlay, { left: '100%', duration: 0.3, ease: 'power4.out' }, 0.3)
-                .to(nextSectionEl, { opacity: 1, duration: 0.2 }, 0.4)
-                .then(() => {
-                    currentSectionEl.classList.remove('active');
-                    nextSectionEl.classList.add('active');
-                    currentSection = nextSection;
-                    isScrolling = false;
-                    scrollProgress = (currentSection / (totalSections - 1));
-                });
+            // Bat-wing vertical transition
+            if (direction === 'down') {
+                // Ala de arriba a abajo
+                gsap.timeline()
+                    .to(overlay, { top: 0, duration: 0.25, ease: 'power4.in' }, 0)
+                    .to(currentSectionEl, { opacity: 0, duration: 0.25 }, 0)
+                    .to(currentSectionEl, { top: '-100%', duration: 0 }, 0.25)
+                    .to(nextSectionEl, { top: 0, opacity: 1, duration: 0 }, 0.25)
+                    .to(overlay, { top: '100%', duration: 0.25, ease: 'power4.out' }, 0.25)
+                    .then(() => {
+                        currentSectionEl.classList.remove('active');
+                        nextSectionEl.classList.add('active');
+                        currentSection = nextSection;
+                        isScrolling = false;
+                        scrollProgress = (currentSection / (totalSections - 1));
+                    });
+            } else {
+                // Ala de abajo a arriba
+                gsap.timeline()
+                    .to(overlay, { top: '-100%', duration: 0.25, ease: 'power4.in' }, 0)
+                    .to(currentSectionEl, { opacity: 0, duration: 0.25 }, 0)
+                    .to(currentSectionEl, { top: '100%', duration: 0 }, 0.25)
+                    .to(nextSectionEl, { top: 0, opacity: 1, duration: 0 }, 0.25)
+                    .to(overlay, { top: 0, duration: 0.25, ease: 'power4.out' }, 0.25)
+                    .then(() => {
+                        currentSectionEl.classList.remove('active');
+                        nextSectionEl.classList.add('active');
+                        currentSection = nextSection;
+                        isScrolling = false;
+                        scrollProgress = (currentSection / (totalSections - 1));
+                    });
+            }
         }
 
         // Wheel scroll
@@ -502,9 +537,9 @@
             clearTimeout(wheelTimeout);
             wheelTimeout = setTimeout(() => {
                 if (e.deltaY > 0 && currentSection < totalSections - 1) {
-                    transitionToSection(currentSection + 1);
+                    transitionToSection(currentSection + 1, 'down');
                 } else if (e.deltaY < 0 && currentSection > 0) {
-                    transitionToSection(currentSection - 1);
+                    transitionToSection(currentSection - 1, 'up');
                 }
             }, 50);
         }, { passive: true });
@@ -521,9 +556,9 @@
 
             if (Math.abs(diff) > 50) {
                 if (diff > 0 && currentSection < totalSections - 1) {
-                    transitionToSection(currentSection + 1);
+                    transitionToSection(currentSection + 1, 'down');
                 } else if (diff < 0 && currentSection > 0) {
-                    transitionToSection(currentSection - 1);
+                    transitionToSection(currentSection - 1, 'up');
                 }
             }
         }, { passive: true });
