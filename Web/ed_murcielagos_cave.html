@@ -35,25 +35,27 @@
             line-height: 1.5;
         }
 
-        canvas {
+        #canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: 1;
+            display: block;
         }
 
-        .bat-wing-overlay {
+        .transition-wing {
             position: fixed;
-            top: -100%;
+            top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(180deg, #000 0%, transparent 40%, transparent 60%, #000 100%);
-            clip-path: polygon(0 0, 100% 0, 100% 30%, 50% 50%, 100% 70%, 100% 100%, 0 100%, 0 70%, 50% 50%, 0 30%);
-            z-index: 999;
+            z-index: 998;
             pointer-events: none;
+            background: radial-gradient(ellipse at 50% 50%, rgba(0, 217, 255, 0.8) 0%, rgba(255, 107, 53, 0.6) 50%, rgba(10, 14, 39, 1) 100%);
+            clip-path: polygon(0 0, 100% 0, 100% 0%, 50% 50%, 100% 100%, 100% 100%, 0 100%, 0 100%, 50% 50%, 0 0%);
+            opacity: 0;
         }
 
         .sections-container {
@@ -63,6 +65,7 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
+            z-index: 2;
         }
 
         section {
@@ -189,6 +192,40 @@
             font-weight: 600;
         }
 
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        .option-item {
+            background: rgba(0, 217, 255, 0.08);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+        }
+
+        .option-item .name {
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin-bottom: 3px;
+        }
+
+        .option-item .price {
+            color: var(--accent-orange);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .option-item .desc {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            margin-top: 3px;
+        }
+
         .pricing-plans {
             display: flex;
             flex-direction: column;
@@ -204,11 +241,20 @@
             text-align: left;
         }
 
+        .plan.recommended {
+            border-color: var(--accent-orange);
+            background: rgba(255, 107, 53, 0.1);
+        }
+
         .plan-name {
             font-size: 0.95rem;
             font-weight: 700;
             color: var(--accent-cyan);
             margin-bottom: 6px;
+        }
+
+        .plan.recommended .plan-name {
+            color: var(--accent-orange);
         }
 
         .plan-price {
@@ -251,6 +297,12 @@
             transform: scale(0.95);
         }
 
+        .cta-btn.secondary {
+            background: rgba(0, 217, 255, 0.2);
+            border: 2px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
         .scroll-indicator {
             position: absolute;
             bottom: 20px;
@@ -277,8 +329,8 @@
 </head>
 <body>
 
-    <canvas id="cave-canvas"></canvas>
-    <div class="bat-wing-overlay"></div>
+    <canvas id="canvas"></canvas>
+    <div class="transition-wing"></div>
 
     <div class="sections-container">
         <!-- HERO -->
@@ -315,7 +367,7 @@
                     <div class="timeline-item">
                         <div class="time">SAB 11 - 7:00 PM</div>
                         <div class="activity">Cueva de los Murciélagos</div>
-                        <div class="desc">40 mil bichos. Sunset show. Hacienda Perote (mismo lugar).</div>
+                        <div class="desc">Hacienda Perote. Mismo lugar.</div>
                     </div>
                     <div class="timeline-item">
                         <div class="time">SAB 11 - 9:00 PM</div>
@@ -352,14 +404,35 @@
             <div class="content">
                 <h2>Base</h2>
                 <p class="text"><strong>Hacienda Perote</strong></p>
-                <p class="text" style="color: var(--text-muted); font-size: 0.85rem;">Antigua hacienda colonial. Donde están las cuevas. Restaurante, alberca, Wi-Fi.</p>
-                <p class="text" style="margin-top: 15px;"><strong>Opciones de Hospedaje:</strong></p>
-                <p class="text" style="color: var(--text-muted); font-size: 0.85rem;">
-                    <strong>Individuos:</strong> ~$1,100 MXN/noche (cama compartida).<br>
-                    <strong>Parejas:</strong> $2,200 MXN/noche (habitación doble).<br>
-                    <strong>Grupos (4 pers):</strong> $3,000 MXN/noche (cabaña).
-                </p>
-                <p class="text" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 10px;">Desayuno incluido. Aire acondicionado, baño privado, Smart TV.</p>
+                <p class="text" style="color: var(--text-muted); font-size: 0.85rem;">Antigua hacienda colonial. Restaurante, alberca, Wi-Fi, aire acondicionado.</p>
+                <div class="options-list">
+                    <div class="option-item">
+                        <div class="name">🏢 Zona Edificio</div>
+                        <div class="price">~$2,200 MXN</div>
+                        <div class="desc">Habitación estándar. Aire acondicionado, Smart TV, Wi-Fi.</div>
+                    </div>
+                    <div class="option-item">
+                        <div class="name">🏊 Zona Alberca</div>
+                        <div class="price">~$2,200 MXN</div>
+                        <div class="desc">Acceso directo a la piscina. Mismo confort.</div>
+                    </div>
+                    <div class="option-item">
+                        <div class="name">👑 Cabaña King Size</div>
+                        <div class="price">~$2,500 MXN</div>
+                        <div class="desc">Ideal para parejas. Más privacidad.</div>
+                    </div>
+                    <div class="option-item">
+                        <div class="name">🏠 Cabaña 4 Personas</div>
+                        <div class="price">~$3,000 MXN</div>
+                        <div class="desc">La recomendada. Más espacio y comodidad.</div>
+                    </div>
+                    <div class="option-item">
+                        <div class="name">🏘️ Cabaña 6 Personas</div>
+                        <div class="price">~$4,000 MXN</div>
+                        <div class="desc">Para grupos grandes. Máxima comodidad.</div>
+                    </div>
+                </div>
+                <p class="text" style="color: var(--text-muted); font-size: 0.8rem; margin-top: 12px;">Desayuno incluido. Teléfono: 842 422 1698.</p>
             </div>
         </section>
 
@@ -368,18 +441,28 @@
             <div class="content">
                 <h2>Costo Total</h2>
                 <div class="pricing-plans">
-                    <div class="plan">
-                        <div class="plan-name">🛏️ POR CAMA</div>
-                        <div class="plan-price">~$1,100 MXN</div>
-                        <div class="plan-desc">1 noche, cama compartida. Individuos o parejas que compartan cuarto.</div>
+                    <div class="plan recommended">
+                        <div class="plan-name">⭐ RECOMENDADO</div>
+                        <div class="plan-price">$750 MXN</div>
+                        <div class="plan-desc">Cabaña 4 personas ÷ 4 = $750 por persona. Mejor relación precio-espacio.</div>
                     </div>
                     <div class="plan">
-                        <div class="plan-name">🏠 POR CUARTO</div>
-                        <div class="plan-price">~$2,200 MXN</div>
-                        <div class="plan-desc">1 noche, habitación doble privada. Pareja o dos individuos.</div>
+                        <div class="plan-name">🛏️ Habitación Doble</div>
+                        <div class="plan-price">$1,100 MXN</div>
+                        <div class="plan-desc">Zona Edificio o Alberca. 2 personas por cuarto.</div>
+                    </div>
+                    <div class="plan">
+                        <div class="plan-name">👑 King Size</div>
+                        <div class="plan-price">$1,250 MXN</div>
+                        <div class="plan-desc">Cabaña King Size. Pareja con más privacidad.</div>
+                    </div>
+                    <div class="plan">
+                        <div class="plan-name">🏘️ Cabaña 6 Pers</div>
+                        <div class="plan-price">$667 MXN</div>
+                        <div class="plan-desc">Cabaña 6 personas ÷ 6 = $667 por persona.</div>
                     </div>
                 </div>
-                <p class="text" style="color: var(--text-muted); font-size: 0.8rem; margin-top: 12px;">Precios aprox. Desayuno incluido. Para 15 personas, varía según configuración.</p>
+                <p class="text" style="color: var(--text-muted); font-size: 0.8rem; margin-top: 12px;">Todos incluyen desayuno y acceso a instalaciones.</p>
             </div>
         </section>
 
@@ -389,26 +472,27 @@
                 <h2>¿Vamos?</h2>
                 <p class="text">Confirma cuanto antes. Necesitamos saber cuántos somos y la configuración.</p>
                 <div class="button-group">
-                    <a href="https://wa.link/tug5aa" class="cta-btn" target="_blank">1 CAMA</a>
-                    <a href="https://wa.link/jfq1y8" class="cta-btn" target="_blank">1 CUARTO</a>
+                    <a href="#" class="cta-btn" id="btn-cama">1 CAMA</a>
+                    <a href="#" class="cta-btn" id="btn-cuarto">1 CUARTO</a>
+                    <a href="#" class="cta-btn secondary" id="btn-duda">❓ TENGO DUDA</a>
                 </div>
             </div>
         </section>
     </div>
 
     <script>
-        // THREE.JS - CAVE PARTICLES (ENHANCED)
-        const canvas = document.querySelector('#cave-canvas');
+        // THREE.JS - CAVE PARTICLES ULTRA BRIGHT
+        const canvas = document.querySelector('#canvas');
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
 
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
         renderer.setClearColor(0x0a0e27, 1);
 
-        // Partículas visibles
-        const particleCount = 2000;
+        // Partículas ultra visibles
+        const particleCount = 3000;
         const geometry = new THREE.BufferGeometry();
         const positions = new Float32Array(particleCount * 3);
         const colors = new Float32Array(particleCount * 3);
@@ -416,17 +500,19 @@
 
         for (let i = 0; i < particleCount; i++) {
             const i3 = i * 3;
-            positions[i3] = (Math.random() - 0.5) * 40;
-            positions[i3 + 1] = (Math.random() - 0.5) * 40;
-            positions[i3 + 2] = (Math.random() - 0.5) * 40;
+            positions[i3] = (Math.random() - 0.5) * 50;
+            positions[i3 + 1] = (Math.random() - 0.5) * 50;
+            positions[i3 + 2] = (Math.random() - 0.5) * 50;
 
-            const hue = Math.random() < 0.7 ? 0.6 : 0.05;
-            const color = new THREE.Color().setHSL(hue, 1, 0.6);
+            const hue = Math.random() < 0.65 ? 0.6 : 0.05;
+            const saturation = 1;
+            const lightness = Math.random() * 0.4 + 0.5;
+            const color = new THREE.Color().setHSL(hue, saturation, lightness);
             colors[i3] = color.r;
             colors[i3 + 1] = color.g;
             colors[i3 + 2] = color.b;
 
-            sizes[i] = Math.random() * 0.15 + 0.05;
+            sizes[i] = Math.random() * 0.25 + 0.08;
         }
 
         geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -434,10 +520,10 @@
         geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
         const material = new THREE.PointsMaterial({
-            size: 0.1,
+            size: 0.12,
             vertexColors: true,
             transparent: true,
-            opacity: 0.8,
+            opacity: 0.9,
             sizeAttenuation: true,
             fog: false
         });
@@ -445,14 +531,19 @@
         const particles = new THREE.Points(geometry, material);
         scene.add(particles);
 
-        const light = new THREE.AmbientLight(0x6080ff, 1.2);
-        scene.add(light);
+        // Luces más intensas
+        const ambientLight = new THREE.AmbientLight(0x6080ff, 1.5);
+        scene.add(ambientLight);
 
-        const pointLight = new THREE.PointLight(0xff6b35, 0.8, 100);
-        pointLight.position.set(10, 10, 10);
-        scene.add(pointLight);
+        const pointLight1 = new THREE.PointLight(0xff6b35, 1.2, 150);
+        pointLight1.position.set(20, 20, 20);
+        scene.add(pointLight1);
 
-        camera.position.z = 8;
+        const pointLight2 = new THREE.PointLight(0x00d9ff, 1, 150);
+        pointLight2.position.set(-20, -20, 20);
+        scene.add(pointLight2);
+
+        camera.position.z = 10;
 
         let mouseX = 0, mouseY = 0;
         document.addEventListener('mousemove', (e) => {
@@ -465,12 +556,12 @@
         function animate() {
             requestAnimationFrame(animate);
             
-            particles.rotation.x += 0.0001;
-            particles.rotation.y += 0.0002 + scrollProgress * 0.01;
-            particles.position.z = scrollProgress * 0.3;
+            particles.rotation.x += 0.00015;
+            particles.rotation.y += 0.00025 + scrollProgress * 0.015;
+            particles.position.z = scrollProgress * 0.5;
             
-            camera.position.x += (mouseX * 0.8 - camera.position.x) * 0.05;
-            camera.position.y += (-mouseY * 0.8 - camera.position.y) * 0.05;
+            camera.position.x += (mouseX * 1 - camera.position.x) * 0.06;
+            camera.position.y += (-mouseY * 1 - camera.position.y) * 0.06;
             camera.lookAt(scene.position);
             
             renderer.render(scene, camera);
@@ -483,7 +574,7 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // FULL PAGE SNAP SCROLL CON BAT-WING
+        // FULL PAGE SNAP SCROLL CON BAT-WING ULTRA DINÁMICO
         const sections = document.querySelectorAll('section');
         const totalSections = sections.length;
         let currentSection = 0;
@@ -493,19 +584,19 @@
             if (isScrolling || nextSection === currentSection) return;
             isScrolling = true;
 
-            const overlay = document.querySelector('.bat-wing-overlay');
+            const wing = document.querySelector('.transition-wing');
             const currentSectionEl = sections[currentSection];
             const nextSectionEl = sections[nextSection];
 
-            // Bat-wing vertical transition
             if (direction === 'down') {
-                // Ala de arriba a abajo
+                // Ala de arriba a abajo - MÁS DINÁMICA
                 gsap.timeline()
-                    .to(overlay, { top: 0, duration: 0.25, ease: 'power4.in' }, 0)
-                    .to(currentSectionEl, { opacity: 0, duration: 0.25 }, 0)
+                    .to(wing, { opacity: 1, duration: 0.15, ease: 'power4.in' }, 0)
+                    .to(wing, { top: '100%', duration: 0.35, ease: 'power3.inOut' }, 0)
+                    .to(currentSectionEl, { opacity: 0, duration: 0.2 }, 0.05)
                     .to(currentSectionEl, { top: '-100%', duration: 0 }, 0.25)
                     .to(nextSectionEl, { top: 0, opacity: 1, duration: 0 }, 0.25)
-                    .to(overlay, { top: '100%', duration: 0.25, ease: 'power4.out' }, 0.25)
+                    .to(wing, { opacity: 0, duration: 0.1 }, 0.4)
                     .then(() => {
                         currentSectionEl.classList.remove('active');
                         nextSectionEl.classList.add('active');
@@ -514,13 +605,14 @@
                         scrollProgress = (currentSection / (totalSections - 1));
                     });
             } else {
-                // Ala de abajo a arriba
+                // Ala de abajo a arriba - MÁS DINÁMICA
                 gsap.timeline()
-                    .to(overlay, { top: '-100%', duration: 0.25, ease: 'power4.in' }, 0)
-                    .to(currentSectionEl, { opacity: 0, duration: 0.25 }, 0)
+                    .to(wing, { opacity: 1, duration: 0.15, ease: 'power4.in' }, 0)
+                    .to(wing, { top: '-100%', duration: 0.35, ease: 'power3.inOut' }, 0)
+                    .to(currentSectionEl, { opacity: 0, duration: 0.2 }, 0.05)
                     .to(currentSectionEl, { top: '100%', duration: 0 }, 0.25)
                     .to(nextSectionEl, { top: 0, opacity: 1, duration: 0 }, 0.25)
-                    .to(overlay, { top: 0, duration: 0.25, ease: 'power4.out' }, 0.25)
+                    .to(wing, { opacity: 0, duration: 0.1 }, 0.4)
                     .then(() => {
                         currentSectionEl.classList.remove('active');
                         nextSectionEl.classList.add('active');
@@ -562,6 +654,22 @@
                 }
             }
         }, { passive: true });
+
+        // Botones de WhatsApp (placeholder por ahora)
+        document.getElementById('btn-cama').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Link de WhatsApp para 1 CAMA - Próximamente');
+        });
+
+        document.getElementById('btn-cuarto').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Link de WhatsApp para 1 CUARTO - Próximamente');
+        });
+
+        document.getElementById('btn-duda').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Link de WhatsApp para DUDAS - Próximamente');
+        });
     </script>
 </body>
 </html>
