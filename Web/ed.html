@@ -13,7 +13,8 @@
         :root {
             --dark-bg: #0f1429;
             --accent-cyan: #00d9ff;
-            --accent-orange: #ff6b35;
+            --accent-wine: #8b1a3e;
+            --accent-red: #d41159;
             --text-light: #f0f0f0;
             --text-muted: #a0a0a0;
         }
@@ -54,7 +55,7 @@
             z-index: 998;
             pointer-events: none;
             background: linear-gradient(90deg, #333 0%, #666 50%, #333 100%);
-            clip-path: polygon(0 0, 100% 0, 100% 0%, 50% 50%, 100% 100%, 100% 100%, 0 100%, 0 100%, 50% 50%, 0 0%);
+            clip-path: polygon(0 0, 100% 0, 85% 15%, 50% 50%, 85% 85%, 100% 100%, 0 100%, 15% 85%, 50% 50%, 15% 15%);
             opacity: 0;
         }
 
@@ -80,6 +81,7 @@
             text-align: center;
             top: 100%;
             opacity: 0;
+            transform: translateY(0);
         }
 
         section.active {
@@ -88,7 +90,7 @@
         }
 
         .content {
-            max-width: 520px;
+            max-width: 480px;
             width: 100%;
         }
 
@@ -101,7 +103,7 @@
             font-size: clamp(2.5rem, 10vw, 3.5rem);
             font-weight: 800;
             line-height: 1.1;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-orange));
+            background: linear-gradient(135deg, var(--accent-wine), var(--accent-red));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -111,14 +113,14 @@
         h2 {
             font-size: clamp(1.6rem, 7vw, 2.2rem);
             font-weight: 800;
-            color: var(--accent-cyan);
+            color: var(--accent-wine);
             text-transform: uppercase;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .subtitle {
             font-size: clamp(0.9rem, 5vw, 1.2rem);
-            color: var(--accent-cyan);
+            color: var(--accent-wine);
             font-weight: 600;
             letter-spacing: 1px;
             text-transform: uppercase;
@@ -128,7 +130,23 @@
         .date {
             color: var(--text-muted);
             font-size: 0.9rem;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
+        }
+
+        .map-mini {
+            width: 100%;
+            max-width: 300px;
+            height: 150px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 17, 89, 0.3);
+            margin: 0 auto;
+        }
+
+        .map-mini iframe {
+            width: 100%;
+            height: 100%;
+            display: block;
         }
 
         .text {
@@ -139,166 +157,95 @@
         }
 
         .text strong {
-            color: var(--accent-orange);
+            color: var(--accent-wine);
         }
 
-        .timeline {
+        .list-item {
             display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 15px;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
             text-align: left;
-        }
-
-        .timeline-item {
-            background: rgba(0, 217, 255, 0.05);
-            border-left: 3px solid var(--accent-cyan);
-            padding: 12px 16px;
-            border-radius: 8px;
             font-size: 0.9rem;
-        }
-
-        .timeline-item .time {
-            color: var(--accent-orange);
-            font-weight: 700;
-            font-size: 0.85rem;
-        }
-
-        .timeline-item .activity {
             color: var(--text-light);
-            margin-top: 3px;
-            font-weight: 600;
         }
 
-        .timeline-item .desc {
-            color: var(--text-muted);
+        .list-item .icon {
+            font-size: 1.2rem;
+            min-width: 25px;
+            color: var(--accent-wine);
+        }
+
+        .list-item .content {
+            flex: 1;
+        }
+
+        .list-item .label {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .list-item .desc {
             font-size: 0.8rem;
-            margin-top: 3px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .grid-item {
-            background: rgba(0, 217, 255, 0.08);
-            border: 1px solid rgba(0, 217, 255, 0.3);
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .options-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 15px;
-            text-align: left;
-        }
-
-        .option-item {
-            background: rgba(0, 217, 255, 0.08);
-            border: 1px solid rgba(0, 217, 255, 0.3);
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-        }
-
-        .option-item .name {
-            font-weight: 700;
-            color: var(--accent-cyan);
-            margin-bottom: 3px;
-        }
-
-        .option-item .price {
-            color: var(--accent-orange);
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .option-item .desc {
             color: var(--text-muted);
-            font-size: 0.75rem;
-            margin-top: 3px;
+            margin-top: 2px;
         }
 
         .pricing-plans {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             margin-top: 15px;
         }
 
         .plan {
-            background: rgba(0, 217, 255, 0.08);
-            border: 2px solid rgba(0, 217, 255, 0.3);
-            border-radius: 12px;
-            padding: 14px;
+            background: rgba(212, 17, 89, 0.08);
+            border: 2px solid rgba(212, 17, 89, 0.3);
+            border-radius: 10px;
+            padding: 12px;
             text-align: left;
         }
 
         .plan.recommended {
-            border-color: var(--accent-orange);
-            background: rgba(255, 107, 53, 0.1);
+            border-color: var(--accent-wine);
+            background: rgba(212, 17, 89, 0.15);
         }
 
         .plan-name {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 700;
-            color: var(--accent-cyan);
-            margin-bottom: 6px;
-        }
-
-        .plan.recommended .plan-name {
-            color: var(--accent-orange);
+            color: var(--accent-wine);
+            margin-bottom: 4px;
         }
 
         .plan-price {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 800;
-            color: var(--accent-orange);
-            margin-bottom: 8px;
+            color: var(--accent-red);
+            margin-bottom: 6px;
         }
 
         .plan-desc {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        .map-container {
-            width: 100%;
-            margin-top: 15px;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid rgba(0, 217, 255, 0.3);
-        }
-
-        .map-container iframe {
-            width: 100%;
-            height: 300px;
-            display: block;
+            line-height: 1.5;
         }
 
         .button-group {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
             margin-top: 15px;
         }
 
         .cta-btn {
             display: inline-block;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-orange));
-            color: var(--dark-bg);
-            padding: 12px 25px;
+            background: linear-gradient(135deg, var(--accent-wine), var(--accent-red));
+            color: #fff;
+            padding: 11px 22px;
             border-radius: 50px;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             text-decoration: none;
             border: none;
             cursor: pointer;
@@ -312,9 +259,9 @@
         }
 
         .cta-btn.secondary {
-            background: rgba(0, 217, 255, 0.2);
-            border: 2px solid var(--accent-cyan);
-            color: var(--accent-cyan);
+            background: rgba(212, 17, 89, 0.2);
+            border: 2px solid var(--accent-wine);
+            color: var(--accent-wine);
         }
 
         .scroll-indicator {
@@ -335,10 +282,10 @@
 
         @media (max-width: 480px) {
             h1 { font-size: 2rem; }
-            h2 { font-size: 1.4rem; }
+            h2 { font-size: 1.3rem; margin-bottom: 12px; }
             .text { font-size: 0.9rem; }
-            .cta-btn { font-size: 0.9rem; padding: 11px 22px; }
-            .map-container iframe { height: 250px; }
+            .cta-btn { font-size: 0.85rem; padding: 10px 20px; }
+            .map-mini { height: 120px; }
         }
     </style>
 </head>
@@ -355,6 +302,9 @@
                 <h1>Ed ~ 31</h1>
                 <p class="subtitle">PARRAS, COAHUILA</p>
                 <p class="date">11-12 de Julio</p>
+                <div class="map-mini">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28823.927616492325!2d-102.24972708179382!3d25.43856602702278!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x868f48d6a0263f6f%3A0xb63e2c71b2832922!2sCueva%20de%20los%20Murci%C3%A9lagos!5e0!3m2!1ses!2smx!4v1781595265491!5m2!1ses!2smx" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
             </div>
             <div class="scroll-indicator">👇</div>
         </section>
@@ -363,36 +313,46 @@
         <section data-section="1">
             <div class="content">
                 <h2>El Plan</h2>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="time">SAB 11 - 11:00 AM</div>
-                        <div class="activity">Salida</div>
+                <div class="list-item">
+                    <div class="icon">🚗</div>
+                    <div class="content">
+                        <div class="label">Salida 11:00 AM</div>
                         <div class="desc">Saltillo/Torreón → Hacienda Perote (1.5 hrs)</div>
                     </div>
-                    <div class="timeline-item">
-                        <div class="time">SAB 11 - 1:00 PM</div>
-                        <div class="activity">Check-in & Provisiones</div>
+                </div>
+                <div class="list-item">
+                    <div class="icon">🛏️</div>
+                    <div class="content">
+                        <div class="label">Check-in & Provisiones</div>
                         <div class="desc">Llegar, acomodarse, reunir lo que falta para la noche.</div>
                     </div>
-                    <div class="timeline-item">
-                        <div class="time">SAB 11 - 3:00 PM</div>
-                        <div class="activity">Alberca (Opcional)</div>
+                </div>
+                <div class="list-item">
+                    <div class="icon">🏊</div>
+                    <div class="content">
+                        <div class="label">Alberca (Opcional)</div>
                         <div class="desc">Refrescarse antes del atardecer. Disponible todo el día.</div>
                     </div>
-                    <div class="timeline-item">
-                        <div class="time">SAB 11 - 7:00 PM</div>
-                        <div class="activity">Cueva de los Murciélagos</div>
+                </div>
+                <div class="list-item">
+                    <div class="icon">🦇</div>
+                    <div class="content">
+                        <div class="label">Cueva de los Murciélagos 7:00 PM</div>
                         <div class="desc">Hacienda Perote. Mismo lugar.</div>
                     </div>
-                    <div class="timeline-item">
-                        <div class="time">SAB 11 - 9:00 PM</div>
-                        <div class="activity">Exploración Nocturna</div>
+                </div>
+                <div class="list-item">
+                    <div class="icon">🔦</div>
+                    <div class="content">
+                        <div class="label">Exploración Nocturna</div>
                         <div class="desc">Linterna en mano. Recorrer los alrededores de la Hacienda.</div>
                     </div>
-                    <div class="timeline-item">
-                        <div class="time">DOM 12 - TODO EL DÍA</div>
-                        <div class="activity">Chill Mode</div>
-                        <div class="desc">Alberca, brunch, relax. Regreso cuando nos cansemos.</div>
+                </div>
+                <div class="list-item">
+                    <div class="icon">😎</div>
+                    <div class="content">
+                        <div class="label">Relax</div>
+                        <div class="desc">Alberca, descanso. Regreso cuando nos cansemos.</div>
                     </div>
                 </div>
             </div>
@@ -402,14 +362,30 @@
         <section data-section="2">
             <div class="content">
                 <h2>Qué Llevar</h2>
-                <p class="text" style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">Julio en Parras: 31°C de día, 18°C de noche. Refresca.</p>
-                <div class="grid">
-                    <div class="grid-item">🩳 Traje</div>
-                    <div class="grid-item">👢 Botas</div>
-                    <div class="grid-item">🧴 Bloqueador</div>
-                    <div class="grid-item">🔦 Linterna</div>
-                    <div class="grid-item">🧥 Chamarra</div>
-                    <div class="grid-item">👕 Ropa Exploración</div>
+                <p class="text" style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px;">Julio: 31°C día, 18°C noche. Refresca.</p>
+                <div class="list-item">
+                    <div class="icon">🩳</div>
+                    <div class="content"><div class="label">Traje de baño</div></div>
+                </div>
+                <div class="list-item">
+                    <div class="icon">👢</div>
+                    <div class="content"><div class="label">Botas</div></div>
+                </div>
+                <div class="list-item">
+                    <div class="icon">🧴</div>
+                    <div class="content"><div class="label">Bloqueador</div></div>
+                </div>
+                <div class="list-item">
+                    <div class="icon">🔦</div>
+                    <div class="content"><div class="label">Linterna</div></div>
+                </div>
+                <div class="list-item">
+                    <div class="icon">🧥</div>
+                    <div class="content"><div class="label">Chamarra</div></div>
+                </div>
+                <div class="list-item">
+                    <div class="icon">👕</div>
+                    <div class="content"><div class="label">Ropa de Exploración</div></div>
                 </div>
             </div>
         </section>
@@ -419,58 +395,61 @@
             <div class="content">
                 <h2>Base</h2>
                 <p class="text"><strong>Hacienda Perote</strong></p>
-                <p class="text" style="color: var(--text-muted); font-size: 0.85rem;">Antigua hacienda colonial. Restaurante, alberca, Wi-Fi, aire acondicionado.</p>
-                <div class="options-list">
-                    <div class="option-item">
-                        <div class="name">🏢 Zona Edificio</div>
-                        <div class="price">~$2,200 MXN</div>
-                        <div class="desc">Habitación estándar. Aire acondicionado, Smart TV, Wi-Fi.</div>
-                    </div>
-                    <div class="option-item">
-                        <div class="name">🏊 Zona Alberca</div>
-                        <div class="price">~$2,200 MXN</div>
-                        <div class="desc">Acceso directo a la piscina. Mismo confort.</div>
-                    </div>
-                    <div class="option-item">
-                        <div class="name">👑 Cabaña King Size</div>
-                        <div class="price">~$2,500 MXN</div>
-                        <div class="desc">Ideal para parejas. Más privacidad.</div>
-                    </div>
-                    <div class="option-item">
-                        <div class="name">🏠 Cabaña 4 Personas</div>
-                        <div class="price">~$3,000 MXN</div>
-                        <div class="desc">La recomendada. Más espacio y comodidad.</div>
-                    </div>
-                    <div class="option-item">
-                        <div class="name">🏘️ Cabaña 6 Personas</div>
-                        <div class="price">~$4,000 MXN</div>
-                        <div class="desc">Para grupos grandes. 2 camas compartidas. Máxima comodidad.</div>
+                <p class="text" style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px;">Antigua hacienda colonial. Restaurante, alberca, Wi-Fi, aire acondicionado.</p>
+                <div class="list-item">
+                    <div class="icon">🏢</div>
+                    <div class="content">
+                        <div class="label">Zona Edificio</div>
+                        <div class="desc">~$2,200 MXN. Habitación estándar.</div>
                     </div>
                 </div>
-                <p class="text" style="color: var(--text-muted); font-size: 0.8rem; margin-top: 12px;">Desayuno incluido. Teléfono: 842 422 1698.</p>
-            </div>
-        </section>
-
-        <!-- MAPA -->
-        <section data-section="4">
-            <div class="content">
-                <h2>Ubicación</h2>
-                <p class="text" style="margin-bottom: 15px;">Cueva de los Murciélagos - Hacienda Perote</p>
-                <div class="map-container">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28823.927616492325!2d-102.24972708179382!3d25.43856602702278!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x868f48d6a0263f6f%3A0xb63e2c71b2832922!2sCueva%20de%20los%20Murci%C3%A9lagos!5e0!3m2!1ses!2smx!4v1781595265491!5m2!1ses!2smx" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <div class="list-item">
+                    <div class="icon">🏊</div>
+                    <div class="content">
+                        <div class="label">Zona Alberca</div>
+                        <div class="desc">~$2,200 MXN. Acceso directo a la piscina.</div>
+                    </div>
                 </div>
+                <div class="list-item">
+                    <div class="icon">👑</div>
+                    <div class="content">
+                        <div class="label">Cabaña King Size</div>
+                        <div class="desc">~$2,500 MXN. Ideal para parejas.</div>
+                    </div>
+                </div>
+                <div class="list-item">
+                    <div class="icon">🏠</div>
+                    <div class="content">
+                        <div class="label">Cabaña 4 Personas</div>
+                        <div class="desc">~$3,000 MXN. Más espacio y comodidad.</div>
+                    </div>
+                </div>
+                <div class="list-item">
+                    <div class="icon">🏘️</div>
+                    <div class="content">
+                        <div class="label">Cabaña 6 Personas</div>
+                        <div class="desc">~$4,000 MXN. 2 camas compartidas. Máxima comodidad.</div>
+                    </div>
+                </div>
+                <p class="text" style="color: var(--text-muted); font-size: 0.8rem; margin-top: 12px;">Desayuno incluido. Tel: 842 422 1698.</p>
+                <a href="https://antiguahaciendadeperote.com/index.html" class="cta-btn" target="_blank" style="margin-top: 12px;">VER MÁS</a>
             </div>
         </section>
 
         <!-- PRICING -->
-        <section data-section="5">
+        <section data-section="4">
             <div class="content">
                 <h2>Costo Total</h2>
                 <div class="pricing-plans">
                     <div class="plan recommended">
                         <div class="plan-name">⭐ RECOMENDADO</div>
                         <div class="plan-price">$750 MXN</div>
-                        <div class="plan-desc">Cabaña 4 personas ÷ 4 = $750 por persona. Mejor relación precio-espacio.</div>
+                        <div class="plan-desc">Cabaña 4 personas ÷ 4 = $750 por persona.</div>
+                    </div>
+                    <div class="plan">
+                        <div class="plan-name">🏘️ CABAÑA 6 PERS</div>
+                        <div class="plan-price">$667 MXN</div>
+                        <div class="plan-desc">Cabaña 6 personas ÷ 6 = $667 por persona. 2 camas compartidas.</div>
                     </div>
                     <div class="plan">
                         <div class="plan-name">🛏️ Habitación Doble</div>
@@ -480,23 +459,18 @@
                     <div class="plan">
                         <div class="plan-name">👑 King Size</div>
                         <div class="plan-price">$1,250 MXN</div>
-                        <div class="plan-desc">Cabaña King Size. Pareja con más privacidad.</div>
-                    </div>
-                    <div class="plan">
-                        <div class="plan-name">🏘️ Cabaña 6 Pers</div>
-                        <div class="plan-price">$667 MXN</div>
-                        <div class="plan-desc">Cabaña 6 personas ÷ 6 = $667 por persona.</div>
+                        <div class="plan-desc">Cabaña King Size. Pareja con privacidad.</div>
                     </div>
                 </div>
-                <p class="text" style="color: var(--text-muted); font-size: 0.8rem; margin-top: 12px;">Todos incluyen desayuno y acceso a instalaciones.</p>
+                <p class="text" style="color: var(--text-muted); font-size: 0.75rem; margin-top: 12px;">Todos incluyen desayuno y acceso a instalaciones.</p>
             </div>
         </section>
 
         <!-- CONFIRMAR -->
-        <section data-section="6">
+        <section data-section="5">
             <div class="content">
                 <h2>¿Vamos?</h2>
-                <p class="text">Confirma cuanto antes. Necesitamos saber cuántos somos y la configuración.</p>
+                <p class="text">Confirma cuanto antes. Necesitamos saber cuántos somos.</p>
                 <div class="button-group">
                     <a href="https://wa.link/tug5aa" class="cta-btn" target="_blank">1 CAMA</a>
                     <a href="https://wa.link/jfq1y8" class="cta-btn" target="_blank">1 CUARTO</a>
@@ -508,7 +482,7 @@
     </div>
 
     <script>
-        // THREE.JS - CAVE PARTICLES (BLACK)
+        // THREE.JS - CAVE PARTICLES (BLACK + WHITE)
         const canvas = document.querySelector('#canvas');
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -518,8 +492,8 @@
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
         renderer.setClearColor(0x0f1429, 1);
 
-        // Partículas NEGRAS
-        const particleCount = 3000;
+        // Partículas NEGRAS + BLANCAS
+        const particleCount = 3500;
         const geometry = new THREE.BufferGeometry();
         const positions = new Float32Array(particleCount * 3);
         const colors = new Float32Array(particleCount * 3);
@@ -531,11 +505,18 @@
             positions[i3 + 1] = (Math.random() - 0.5) * 50;
             positions[i3 + 2] = (Math.random() - 0.5) * 50;
 
-            // Color negro con ligera variación
-            const darkness = Math.random() * 0.3;
-            colors[i3] = darkness;
-            colors[i3 + 1] = darkness;
-            colors[i3 + 2] = darkness;
+            // 70% negro, 30% blanco
+            const isWhite = Math.random() < 0.3;
+            if (isWhite) {
+                colors[i3] = 1;
+                colors[i3 + 1] = 1;
+                colors[i3 + 2] = 1;
+            } else {
+                const darkness = Math.random() * 0.25;
+                colors[i3] = darkness;
+                colors[i3 + 1] = darkness;
+                colors[i3 + 2] = darkness;
+            }
 
             sizes[i] = Math.random() * 0.25 + 0.08;
         }
@@ -556,11 +537,11 @@
         const particles = new THREE.Points(geometry, material);
         scene.add(particles);
 
-        // Luces más sutiles
+        // Luces
         const ambientLight = new THREE.AmbientLight(0x5080d0, 1.2);
         scene.add(ambientLight);
 
-        const pointLight1 = new THREE.PointLight(0xff6b35, 0.8, 150);
+        const pointLight1 = new THREE.PointLight(0x8b1a3e, 0.8, 150);
         pointLight1.position.set(20, 20, 20);
         scene.add(pointLight1);
 
@@ -599,7 +580,7 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // FULL PAGE SNAP SCROLL CON BAT-WING (ESCALA DE GRISES)
+        // FULL PAGE SNAP SCROLL CON BAT-WING MEJORADO
         const sections = document.querySelectorAll('section');
         const totalSections = sections.length;
         let currentSection = 0;
@@ -614,13 +595,12 @@
             const nextSectionEl = sections[nextSection];
 
             if (direction === 'down') {
-                // Ala de arriba a abajo
                 gsap.timeline()
-                    .to(wing, { opacity: 1, duration: 0.15, ease: 'power4.in' }, 0)
-                    .to(wing, { top: '100%', duration: 0.35, ease: 'power3.inOut' }, 0)
-                    .to(currentSectionEl, { opacity: 0, duration: 0.2 }, 0.05)
-                    .to(currentSectionEl, { top: '-100%', duration: 0 }, 0.25)
-                    .to(nextSectionEl, { top: 0, opacity: 1, duration: 0 }, 0.25)
+                    .to(wing, { opacity: 1, duration: 0.12, ease: 'power4.in' }, 0)
+                    .to(wing, { top: '100%', duration: 0.4, ease: 'power3.inOut' }, 0)
+                    .to(currentSectionEl, { opacity: 0, y: -30, duration: 0.25 }, 0.05)
+                    .to(currentSectionEl, { top: '-100%', duration: 0 }, 0.3)
+                    .to(nextSectionEl, { top: 0, opacity: 1, y: 0, duration: 0 }, 0.3)
                     .to(wing, { opacity: 0, duration: 0.1 }, 0.4)
                     .then(() => {
                         currentSectionEl.classList.remove('active');
@@ -630,13 +610,12 @@
                         scrollProgress = (currentSection / (totalSections - 1));
                     });
             } else {
-                // Ala de abajo a arriba
                 gsap.timeline()
-                    .to(wing, { opacity: 1, duration: 0.15, ease: 'power4.in' }, 0)
-                    .to(wing, { top: '-100%', duration: 0.35, ease: 'power3.inOut' }, 0)
-                    .to(currentSectionEl, { opacity: 0, duration: 0.2 }, 0.05)
-                    .to(currentSectionEl, { top: '100%', duration: 0 }, 0.25)
-                    .to(nextSectionEl, { top: 0, opacity: 1, duration: 0 }, 0.25)
+                    .to(wing, { opacity: 1, duration: 0.12, ease: 'power4.in' }, 0)
+                    .to(wing, { top: '-100%', duration: 0.4, ease: 'power3.inOut' }, 0)
+                    .to(currentSectionEl, { opacity: 0, y: 30, duration: 0.25 }, 0.05)
+                    .to(currentSectionEl, { top: '100%', duration: 0 }, 0.3)
+                    .to(nextSectionEl, { top: 0, opacity: 1, y: 0, duration: 0 }, 0.3)
                     .to(wing, { opacity: 0, duration: 0.1 }, 0.4)
                     .then(() => {
                         currentSectionEl.classList.remove('active');
