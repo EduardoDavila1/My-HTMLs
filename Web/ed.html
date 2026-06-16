@@ -11,12 +11,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
         :root {
-            --dark-bg: #0f1429;
+            --dark-bg: #1a0f2e;
             --accent-cyan: #00d9ff;
             --accent-wine: #8b1a3e;
             --accent-red: #d41159;
             --text-light: #f0f0f0;
             --text-muted: #a0a0a0;
+            --grape-dark: #4a0e2a;
+            --grape-light: #8b1a3e;
         }
 
         * {
@@ -45,6 +47,37 @@
             z-index: 1;
             display: block;
         }
+
+        /* Racimo de Uvas */
+        .grape-cluster {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 5;
+            pointer-events: none;
+            width: 150px;
+            height: 200px;
+        }
+
+        .grape {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #d41159, #6b0f2d);
+            box-shadow: 0 0 25px rgba(212, 17, 89, 0.7), inset -2px -2px 5px rgba(0, 0, 0, 0.6);
+        }
+
+        .grape:nth-child(1) { width: 32px; height: 32px; top: 0; right: 0; }
+        .grape:nth-child(2) { width: 28px; height: 28px; top: 20px; right: 18px; }
+        .grape:nth-child(3) { width: 30px; height: 30px; top: 15px; right: 45px; }
+        .grape:nth-child(4) { width: 26px; height: 26px; top: 45px; right: 28px; }
+        .grape:nth-child(5) { width: 24px; height: 24px; top: 55px; right: 50px; }
+        .grape:nth-child(6) { width: 22px; height: 22px; top: 70px; right: 35px; }
+        .grape:nth-child(7) { width: 25px; height: 25px; top: 35px; right: 8px; }
+        .grape:nth-child(8) { width: 20px; height: 20px; top: 80px; right: 15px; }
+        .grape:nth-child(9) { width: 23px; height: 23px; top: 60px; right: 65px; }
+        .grape:nth-child(10) { width: 19px; height: 19px; top: 90px; right: 50px; }
+        .grape:nth-child(11) { width: 21px; height: 21px; top: 75px; right: 70px; }
+        .grape:nth-child(12) { width: 18px; height: 18px; top: 110px; right: 35px; }
 
         .transition-wing {
             position: fixed;
@@ -108,14 +141,27 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 10px;
+            text-shadow: 
+                0 0 8px rgba(212, 17, 89, 0.9),
+                0 0 16px rgba(212, 17, 89, 0.6),
+                0 0 24px rgba(212, 17, 89, 0.3);
+            filter: drop-shadow(0 0 8px rgba(212, 17, 89, 0.7)) drop-shadow(0 0 16px rgba(212, 17, 89, 0.4));
         }
 
         h2 {
             font-size: clamp(1.6rem, 7vw, 2.2rem);
             font-weight: 800;
-            color: var(--accent-wine);
+            background: linear-gradient(135deg, var(--accent-wine), var(--accent-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-transform: uppercase;
             margin-bottom: 15px;
+            text-shadow: 
+                0 0 6px rgba(212, 17, 89, 0.8),
+                0 0 12px rgba(212, 17, 89, 0.5),
+                0 0 18px rgba(212, 17, 89, 0.2);
+            filter: drop-shadow(0 0 6px rgba(212, 17, 89, 0.6)) drop-shadow(0 0 12px rgba(212, 17, 89, 0.3));
         }
 
         .subtitle {
@@ -125,6 +171,9 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             margin-bottom: 5px;
+            text-shadow: 
+                0 0 5px rgba(212, 17, 89, 0.8),
+                0 0 10px rgba(212, 17, 89, 0.4);
         }
 
         .date {
@@ -137,10 +186,12 @@
             width: 100%;
             max-width: 300px;
             height: 150px;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
             border: 1px solid rgba(212, 17, 89, 0.3);
             margin: 0 auto;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .map-mini iframe {
@@ -158,6 +209,9 @@
 
         .text strong {
             color: var(--accent-wine);
+            text-shadow: 
+                0 0 4px rgba(212, 17, 89, 0.8),
+                0 0 8px rgba(212, 17, 89, 0.4);
         }
 
         .list-item {
@@ -168,12 +222,26 @@
             text-align: left;
             font-size: 0.9rem;
             color: var(--text-light);
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 17, 89, 0.2);
+            padding: 10px 12px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .list-item:hover {
+            background: rgba(212, 17, 89, 0.1);
+            border-color: rgba(212, 17, 89, 0.4);
         }
 
         .list-item .icon {
             font-size: 1.2rem;
             min-width: 25px;
             color: var(--accent-wine);
+            text-shadow: 
+                0 0 4px rgba(212, 17, 89, 0.7),
+                0 0 8px rgba(212, 17, 89, 0.3);
         }
 
         .list-item .content {
@@ -199,11 +267,18 @@
         }
 
         .plan {
+            backdrop-filter: blur(10px);
             background: rgba(212, 17, 89, 0.08);
-            border: 2px solid rgba(212, 17, 89, 0.3);
+            border: 1px solid rgba(212, 17, 89, 0.3);
             border-radius: 10px;
             padding: 12px;
             text-align: left;
+            transition: all 0.3s;
+        }
+
+        .plan:hover {
+            background: rgba(212, 17, 89, 0.12);
+            border-color: rgba(212, 17, 89, 0.5);
         }
 
         .plan.recommended {
@@ -214,15 +289,27 @@
         .plan-name {
             font-size: 0.9rem;
             font-weight: 700;
-            color: var(--accent-wine);
+            background: linear-gradient(90deg, var(--accent-wine), var(--accent-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 4px;
+            text-shadow: 
+                0 0 4px rgba(212, 17, 89, 0.7),
+                0 0 8px rgba(212, 17, 89, 0.3);
         }
 
         .plan-price {
             font-size: 1.1rem;
             font-weight: 800;
-            color: var(--accent-red);
+            background: linear-gradient(90deg, var(--accent-wine), var(--accent-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 6px;
+            text-shadow: 
+                0 0 6px rgba(212, 17, 89, 0.8),
+                0 0 12px rgba(212, 17, 89, 0.4);
         }
 
         .plan-desc {
@@ -252,6 +339,16 @@
             transition: all 0.3s;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 0 8px rgba(212, 17, 89, 0.7),
+                0 0 16px rgba(212, 17, 89, 0.4);
+        }
+
+        .cta-btn:hover {
+            box-shadow: 
+                0 0 12px rgba(212, 17, 89, 0.9),
+                0 0 24px rgba(212, 17, 89, 0.6);
         }
 
         .cta-btn:active {
@@ -262,6 +359,7 @@
             background: rgba(212, 17, 89, 0.2);
             border: 2px solid var(--accent-wine);
             color: var(--accent-wine);
+            box-shadow: 0 0 15px rgba(212, 17, 89, 0.3);
         }
 
         .scroll-indicator {
@@ -286,12 +384,39 @@
             .text { font-size: 0.9rem; }
             .cta-btn { font-size: 0.85rem; padding: 10px 20px; }
             .map-mini { height: 120px; }
+            .grape-cluster { top: 10px; right: 10px; }
+            .grape:nth-child(1) { width: 20px; height: 20px; }
+            .grape:nth-child(2) { width: 18px; height: 18px; }
+            .grape:nth-child(3) { width: 19px; height: 19px; }
+            .grape:nth-child(4) { width: 16px; height: 16px; }
+            .grape:nth-child(5) { width: 15px; height: 15px; }
+            .grape:nth-child(6) { width: 14px; height: 14px; }
+            .grape:nth-child(7) { width: 17px; height: 17px; }
+            .grape:nth-child(8) { width: 13px; height: 13px; }
+            .grape:nth-child(9) { width: 16px; height: 16px; }
+            .grape:nth-child(10) { width: 12px; height: 12px; }
+            .grape:nth-child(11) { width: 14px; height: 14px; }
+            .grape:nth-child(12) { width: 11px; height: 11px; }
         }
     </style>
 </head>
 <body>
 
     <canvas id="canvas"></canvas>
+    <div class="grape-cluster">
+                <div class="grape"></div>
+                <div class="grape"></div>
+                <div class="grape"></div>
+                <div class="grape"></div>
+                <div class="grape"></div>
+                <div class="grape"></div>
+                <div class="grape"></div>
+                <div class="grape"></div>
+                <div class="grape"></div>
+                <div class="grape"></div>
+                <div class="grape"></div>
+                <div class="grape"></div>
+    </div>
     <div class="transition-wing"></div>
 
     <div class="sections-container">
@@ -490,36 +615,48 @@
 
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-        renderer.setClearColor(0x0f1429, 1);
+        renderer.setClearColor(0x1a0f2e, 1);
 
-        // Partículas NEGRAS + BLANCAS
-        const particleCount = 3500;
+        // Murciélagos volando (Swarm de partículas)
+        const batCount = 5000;
         const geometry = new THREE.BufferGeometry();
-        const positions = new Float32Array(particleCount * 3);
-        const colors = new Float32Array(particleCount * 3);
-        const sizes = new Float32Array(particleCount);
+        const positions = new Float32Array(batCount * 3);
+        const colors = new Float32Array(batCount * 3);
+        const sizes = new Float32Array(batCount);
+        const velocities = new Float32Array(batCount * 3);
 
-        for (let i = 0; i < particleCount; i++) {
+        for (let i = 0; i < batCount; i++) {
             const i3 = i * 3;
-            positions[i3] = (Math.random() - 0.5) * 50;
-            positions[i3 + 1] = (Math.random() - 0.5) * 50;
+            // Distribuir en un rango más amplio (cielo)
+            positions[i3] = (Math.random() - 0.5) * 80;
+            positions[i3 + 1] = (Math.random() - 0.5) * 80;
             positions[i3 + 2] = (Math.random() - 0.5) * 50;
 
-            // 70% negro, 30% blanco
-            const isWhite = Math.random() < 0.3;
-            if (isWhite) {
-                colors[i3] = 1;
-                colors[i3 + 1] = 1;
-                colors[i3 + 2] = 1;
+            // Velocidades coordinadas (flujo común con pequeña variación)
+            const baseVelocity = 0.15;
+            velocities[i3] = baseVelocity + (Math.random() - 0.5) * 0.08;
+            velocities[i3 + 1] = baseVelocity * 0.5 + (Math.random() - 0.5) * 0.06;
+            velocities[i3 + 2] = (Math.random() - 0.5) * 0.05;
+
+            // Colores: tonos oscuros (murciélagos) con muchos más claros
+            const isBright = Math.random() < 0.35;
+            if (isBright) {
+                colors[i3] = 0.6;
+                colors[i3 + 1] = 0.5;
+                colors[i3 + 2] = 0.7;
             } else {
                 const darkness = Math.random() * 0.25;
                 colors[i3] = darkness;
-                colors[i3 + 1] = darkness;
-                colors[i3 + 2] = darkness;
+                colors[i3 + 1] = darkness * 0.9;
+                colors[i3 + 2] = darkness * 1.3;
             }
 
-            sizes[i] = Math.random() * 0.25 + 0.08;
+            // Tamaños variados para profundidad
+            sizes[i] = Math.random() * 0.4 + 0.15;
         }
+
+        // Guardar velocidades para actualización en animate
+        geometry.userData.velocities = velocities;
 
         geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
         geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
@@ -538,16 +675,19 @@
         scene.add(particles);
 
         // Luces
-        const ambientLight = new THREE.AmbientLight(0x5080d0, 1.2);
+        // Iluminación de cielo nocturno
+        const ambientLight = new THREE.AmbientLight(0x2a1a4a, 1.0);
         scene.add(ambientLight);
 
-        const pointLight1 = new THREE.PointLight(0x8b1a3e, 0.8, 150);
-        pointLight1.position.set(20, 20, 20);
-        scene.add(pointLight1);
+        // Luna (luz cálida desde arriba)
+        const moonLight = new THREE.PointLight(0x8b6f47, 0.6, 200);
+        moonLight.position.set(30, 40, 10);
+        scene.add(moonLight);
 
-        const pointLight2 = new THREE.PointLight(0x00d9ff, 0.6, 150);
-        pointLight2.position.set(-20, -20, 20);
-        scene.add(pointLight2);
+        // Luz de atardecer (rojo vino)
+        const sunsetLight = new THREE.PointLight(0x8b1a3e, 0.5, 150);
+        sunsetLight.position.set(-25, -30, 15);
+        scene.add(sunsetLight);
 
         camera.position.z = 10;
 
@@ -558,16 +698,48 @@
         });
 
         let scrollProgress = 0;
+        let flowTime = 0;
 
         function animate() {
             requestAnimationFrame(animate);
+            flowTime += 0.01;
             
-            particles.rotation.x += 0.00015;
-            particles.rotation.y += 0.00025 + scrollProgress * 0.015;
-            particles.position.z = scrollProgress * 0.5;
+            // Movimiento de enjambre sincronizado
+            const positionAttribute = geometry.getAttribute('position');
+            const positions = positionAttribute.array;
+            const velocities = geometry.userData.velocities;
             
-            camera.position.x += (mouseX * 1 - camera.position.x) * 0.06;
-            camera.position.y += (-mouseY * 1 - camera.position.y) * 0.06;
+            // Flujo base (como un rio de murcielagos)
+            const flowX = Math.sin(flowTime * 0.3) * 0.05;
+            const flowY = Math.cos(flowTime * 0.2) * 0.03;
+            
+            for (let i = 0; i < batCount; i++) {
+                const i3 = i * 3;
+                
+                // Aplicar velocidad base + flujo coordinado
+                positions[i3] += velocities[i3] + flowX;
+                positions[i3 + 1] += velocities[i3 + 1] + flowY;
+                positions[i3 + 2] += velocities[i3 + 2];
+                
+                // Rebote suave en los bordes (mantiene el enjambre junto)
+                if (Math.abs(positions[i3]) > 45) velocities[i3] *= -0.8;
+                if (Math.abs(positions[i3 + 1]) > 45) velocities[i3 + 1] *= -0.8;
+                if (Math.abs(positions[i3 + 2]) > 30) velocities[i3 + 2] *= -0.8;
+                
+                // Perturbacion muy sutil para mantener naturalidad sin caos
+                velocities[i3] += (Math.random() - 0.5) * 0.005;
+                velocities[i3 + 1] += (Math.random() - 0.5) * 0.005;
+                velocities[i3 + 2] += (Math.random() - 0.5) * 0.002;
+            }
+            
+            positionAttribute.needsUpdate = true;
+            
+            // Rotación suave del enjambre
+            particles.rotation.y += 0.0002 + scrollProgress * 0.01;
+            particles.position.z = scrollProgress * 0.3;
+            
+            camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.04;
+            camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.04;
             camera.lookAt(scene.position);
             
             renderer.render(scene, camera);
