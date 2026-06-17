@@ -50,15 +50,16 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             z-index: 998;
             pointer-events: none;
-            background: linear-gradient(90deg, #333 0%, #666 50%, #333 100%);
-            clip-path: polygon(0 0, 100% 0, 85% 15%, 50% 50%, 85% 85%, 100% 100%, 0 100%, 15% 85%, 50% 50%, 15% 15%);
+            background: #05020a;
+            clip-path: polygon(0 0, 50% 15%, 100% 0, 85% 50%, 100% 100%, 50% 85%, 0 100%, 15% 50%);
             opacity: 0;
-            filter: blur(8px);
-            transform: scale(1.2);
+            filter: blur(5px);
+            box-shadow: inset 0 0 50px rgba(212, 17, 89, 0.5);
+            transform-origin: center center;
         }
 
         .sections-container {
@@ -226,21 +227,58 @@
         }
 
         .pricing-highlight {
-            font-size: 4.5rem;
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--accent-wine), var(--accent-red));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 10px rgba(212, 17, 89, 0.6);
-            animation: pulseFire 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 
+                0 -2px 4px #fff,
+                0 -6px 10px #ff0,
+                0 -10px 20px #ff8000,
+                0 -18px 40px #f00;
+            animation: fire 0.8s infinite alternate ease-in-out;
             display: inline-block;
-            line-height: 1;
+            line-height: 1.1;
         }
 
-        @keyframes pulseFire {
-            0% { transform: scale(1) translateY(0) rotate(0deg); text-shadow: 0 0 15px rgba(212, 17, 89, 0.5); filter: hue-rotate(0deg); }
-            100% { transform: scale(1.15) translateY(-5px) rotate(2deg); text-shadow: 0 0 30px rgba(212, 17, 89, 0.9), 0 0 50px rgba(255, 100, 0, 0.6); filter: hue-rotate(-20deg); }
+        @keyframes fire {
+            0% {
+                text-shadow: 
+                    0 -2px 4px #fff,
+                    0 -6px 10px #ff0,
+                    0 -10px 20px #ff8000,
+                    0 -18px 40px #f00;
+                transform: scale(1) translateY(0);
+            }
+            25% {
+                text-shadow: 
+                    0 -3px 5px #fff,
+                    -2px -8px 12px #ff0,
+                    -4px -12px 24px #ff8000,
+                    -6px -22px 45px #f00;
+            }
+            50% {
+                text-shadow: 
+                    0 -2px 4px #fff,
+                    2px -7px 11px #ff0,
+                    4px -11px 22px #ff8000,
+                    6px -20px 42px #f00;
+                transform: scale(1.02) translateY(-2px);
+            }
+            75% {
+                text-shadow: 
+                    0 -4px 6px #fff,
+                    -1px -9px 14px #ff0,
+                    -2px -14px 26px #ff8000,
+                    -3px -24px 48px #f00;
+            }
+            100% {
+                text-shadow: 
+                    0 -3px 5px #fff,
+                    0 -10px 15px #ff0,
+                    0 -16px 30px #ff8000,
+                    0 -26px 50px #f00;
+                transform: scale(1.05) translateY(-4px);
+            }
         }
 
         .warning-box {
@@ -334,8 +372,20 @@
                 <h1>Ed ~ 31</h1>
                 <p class="subtitle">PARRAS, COAHUILA</p>
                 <p class="date">11-12 de Julio</p>
-                <a href="https://maps.app.goo.gl/Ca78eFTbX2gwf5nM6" target="_blank" style="text-decoration: none; display: inline-block; margin: 15px auto;">
-                    <div class="emoji" style="font-size: 4rem; margin-bottom: 0;">📍</div>
+                <a href="https://antiguahaciendadeperote.com/" target="_blank" style="display: inline-block;">
+                    <img src="Hotel.jpg" alt="Hotel" class="hacienda-image" style="margin-bottom: 10px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                </a>
+                <br>
+                <a href="https://maps.app.goo.gl/Ca78eFTbX2gwf5nM6" target="_blank" style="display: inline-block; margin: 5px auto; color: var(--accent-red); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="url(#grad)" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 8px rgba(212, 17, 89, 0.6));">
+                        <defs>
+                            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:var(--accent-wine);stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:var(--accent-red);stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                    </svg>
                 </a>
             </div>
             <div class="scroll-indicator">👇</div>
@@ -419,10 +469,10 @@
             </div>
         </section>
 
-        <!-- BASE -->
+        <!-- HOSPEDAJE -->
         <section data-section="3">
             <div class="content">
-                <h2>Base</h2>
+                <h2>Hospedaje</h2>
                 <p class="text"><strong>Hacienda Perote</strong></p>
                 <div class="list-item">
                     <div class="icon">🏠</div>
@@ -432,13 +482,12 @@
                     </div>
                 </div>
                 <img src="Hacienda Perote.JPG" alt="Hacienda Perote" class="hacienda-image">
-                <div class="list-item">
-                    <div class="icon">💰</div>
-                    <div class="content">
-                        <div class="label">Costo por persona</div>
-                        <div class="desc pricing-highlight">666 🔥</div>
-                    </div>
+                
+                <div style="margin: 30px 0; width: 100%;">
+                    <div style="font-size: 1.2rem; font-weight: 800; color: var(--accent-wine); text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 10px rgba(212, 17, 89, 0.4); margin-bottom: 10px;">Costo por persona</div>
+                    <div class="pricing-highlight">$666</div>
                 </div>
+
                 <a href="https://antiguahaciendadeperote.com/index.html" class="cta-btn" target="_blank" style="margin-top: 12px;">MÁS INFO</a>
             </div>
         </section>
@@ -624,49 +673,67 @@
             const currentSectionEl = sections[currentSection];
             const nextSectionEl = sections[nextSection];
 
-            if (direction === 'down') {
-                gsap.timeline()
-                    .to(wing, { opacity: 1, duration: 0.12, ease: 'power4.in' }, 0)
-                    .to(wing, { top: '100%', duration: 0.4, ease: 'power3.inOut' }, 0)
-                    .to(currentSectionEl, { opacity: 0, y: -30, duration: 0.25 }, 0.05)
-                    .to(currentSectionEl, { top: '-100%', duration: 0 }, 0.3)
-                    .to(nextSectionEl, { top: 0, opacity: 1, y: 0, duration: 0 }, 0.3)
-                    .to(wing, { opacity: 0, duration: 0.1 }, 0.4)
-                    .then(() => {
-                        currentSectionEl.classList.remove('active');
-                        nextSectionEl.classList.add('active');
-                        currentSection = nextSection;
-                        isScrolling = false;
-                        scrollProgress = (currentSection / (totalSections - 1));
-                    });
-            } else {
-                gsap.timeline()
-                    .to(wing, { opacity: 1, duration: 0.12, ease: 'power4.in' }, 0)
-                    .to(wing, { top: '-100%', duration: 0.4, ease: 'power3.inOut' }, 0)
-                    .to(currentSectionEl, { opacity: 0, y: 30, duration: 0.25 }, 0.05)
-                    .to(currentSectionEl, { top: '100%', duration: 0 }, 0.3)
-                    .to(nextSectionEl, { top: 0, opacity: 1, y: 0, duration: 0 }, 0.3)
-                    .to(wing, { opacity: 0, duration: 0.1 }, 0.4)
-                    .then(() => {
-                        currentSectionEl.classList.remove('active');
-                        nextSectionEl.classList.add('active');
-                        currentSection = nextSection;
-                        isScrolling = false;
-                        scrollProgress = (currentSection / (totalSections - 1));
-                    });
-            }
+            // Setup starting positions to ensure no bugs after 3rd scroll
+            gsap.set(wing, { 
+                top: direction === 'down' ? '-120%' : '120%', 
+                scale: 1.5,
+                rotation: direction === 'down' ? -15 : 15,
+                opacity: 0 
+            });
+
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    currentSectionEl.classList.remove('active');
+                    nextSectionEl.classList.add('active');
+                    currentSection = nextSection;
+                    isScrolling = false;
+                    scrollProgress = (currentSection / (totalSections - 1));
+                }
+            });
+
+            tl.to(wing, { opacity: 1, duration: 0.1, ease: 'power2.in' }, 0)
+              .to(wing, { 
+                  top: direction === 'down' ? '120%' : '-120%', 
+                  rotation: direction === 'down' ? 15 : -15,
+                  duration: 0.7, 
+                  ease: 'power3.inOut' 
+              }, 0)
+              .to(currentSectionEl, { 
+                  opacity: 0, 
+                  y: direction === 'down' ? -50 : 50, 
+                  scale: 0.95,
+                  duration: 0.3 
+              }, 0.1)
+              .set(currentSectionEl, { top: direction === 'down' ? '-100%' : '100%' }, 0.4)
+              .set(nextSectionEl, { 
+                  top: 0, 
+                  opacity: 0, 
+                  y: direction === 'down' ? 50 : -50,
+                  scale: 1.05
+              }, 0.4)
+              .to(nextSectionEl, { 
+                  opacity: 1, 
+                  y: 0, 
+                  scale: 1,
+                  duration: 0.4,
+                  ease: 'back.out(1.5)'
+              }, 0.4)
+              .to(wing, { opacity: 0, duration: 0.2 }, 0.5);
         }
 
-        let wheelTimeout;
+        let lastWheelTime = 0;
         document.addEventListener('wheel', (e) => {
-            clearTimeout(wheelTimeout);
-            wheelTimeout = setTimeout(() => {
-                if (e.deltaY > 0 && currentSection < totalSections - 1) {
-                    transitionToSection(currentSection + 1, 'down');
-                } else if (e.deltaY < 0 && currentSection > 0) {
-                    transitionToSection(currentSection - 1, 'up');
-                }
-            }, 50);
+            const now = Date.now();
+            if (now - lastWheelTime < 800) return; // Ignore rapid events during animation
+            if (isScrolling) return;
+
+            if (e.deltaY > 0 && currentSection < totalSections - 1) {
+                transitionToSection(currentSection + 1, 'down');
+                lastWheelTime = now;
+            } else if (e.deltaY < 0 && currentSection > 0) {
+                transitionToSection(currentSection - 1, 'up');
+                lastWheelTime = now;
+            }
         }, { passive: true });
 
         let touchStartY = 0;
@@ -675,6 +742,7 @@
         }, { passive: true });
 
         document.addEventListener('touchend', (e) => {
+            if (isScrolling) return;
             const touchEndY = e.changedTouches[0].clientY;
             const diff = touchStartY - touchEndY;
 
