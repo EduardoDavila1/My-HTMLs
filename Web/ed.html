@@ -17,8 +17,6 @@
             --accent-red: #d41159;
             --text-light: #f0f0f0;
             --text-muted: #a0a0a0;
-            --grape-dark: #4a0e2a;
-            --grape-light: #8b1a3e;
         }
 
         * {
@@ -48,37 +46,6 @@
             display: block;
         }
 
-        /* Racimo de Uvas */
-        .grape-cluster {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            z-index: 5;
-            pointer-events: none;
-            width: 150px;
-            height: 200px;
-        }
-
-        .grape {
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #d41159, #6b0f2d);
-            box-shadow: 0 0 25px rgba(212, 17, 89, 0.7), inset -2px -2px 5px rgba(0, 0, 0, 0.6);
-        }
-
-        .grape:nth-child(1) { width: 32px; height: 32px; top: 0; right: 0; }
-        .grape:nth-child(2) { width: 28px; height: 28px; top: 20px; right: 18px; }
-        .grape:nth-child(3) { width: 30px; height: 30px; top: 15px; right: 45px; }
-        .grape:nth-child(4) { width: 26px; height: 26px; top: 45px; right: 28px; }
-        .grape:nth-child(5) { width: 24px; height: 24px; top: 55px; right: 50px; }
-        .grape:nth-child(6) { width: 22px; height: 22px; top: 70px; right: 35px; }
-        .grape:nth-child(7) { width: 25px; height: 25px; top: 35px; right: 8px; }
-        .grape:nth-child(8) { width: 20px; height: 20px; top: 80px; right: 15px; }
-        .grape:nth-child(9) { width: 23px; height: 23px; top: 60px; right: 65px; }
-        .grape:nth-child(10) { width: 19px; height: 19px; top: 90px; right: 50px; }
-        .grape:nth-child(11) { width: 21px; height: 21px; top: 75px; right: 70px; }
-        .grape:nth-child(12) { width: 18px; height: 18px; top: 110px; right: 35px; }
-
         .transition-wing {
             position: fixed;
             top: 0;
@@ -90,6 +57,8 @@
             background: linear-gradient(90deg, #333 0%, #666 50%, #333 100%);
             clip-path: polygon(0 0, 100% 0, 85% 15%, 50% 50%, 85% 85%, 100% 100%, 0 100%, 15% 85%, 50% 50%, 15% 15%);
             opacity: 0;
+            filter: blur(8px);
+            transform: scale(1.2);
         }
 
         .sections-container {
@@ -141,11 +110,8 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 10px;
-            text-shadow: 
-                0 0 8px rgba(212, 17, 89, 0.9),
-                0 0 16px rgba(212, 17, 89, 0.6),
-                0 0 24px rgba(212, 17, 89, 0.3);
-            filter: drop-shadow(0 0 8px rgba(212, 17, 89, 0.7)) drop-shadow(0 0 16px rgba(212, 17, 89, 0.4));
+            text-shadow: 0 0 10px rgba(212, 17, 89, 0.5);
+            filter: drop-shadow(0 0 5px rgba(212, 17, 89, 0.3));
         }
 
         h2 {
@@ -157,11 +123,7 @@
             background-clip: text;
             text-transform: uppercase;
             margin-bottom: 15px;
-            text-shadow: 
-                0 0 6px rgba(212, 17, 89, 0.8),
-                0 0 12px rgba(212, 17, 89, 0.5),
-                0 0 18px rgba(212, 17, 89, 0.2);
-            filter: drop-shadow(0 0 6px rgba(212, 17, 89, 0.6)) drop-shadow(0 0 12px rgba(212, 17, 89, 0.3));
+            text-shadow: 0 0 8px rgba(212, 17, 89, 0.4);
         }
 
         .subtitle {
@@ -171,9 +133,7 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             margin-bottom: 5px;
-            text-shadow: 
-                0 0 5px rgba(212, 17, 89, 0.8),
-                0 0 10px rgba(212, 17, 89, 0.4);
+            text-shadow: 0 0 5px rgba(212, 17, 89, 0.8), 0 0 10px rgba(212, 17, 89, 0.4);
         }
 
         .date {
@@ -182,19 +142,19 @@
             margin-bottom: 12px;
         }
 
-        .map-mini {
+        .map-container {
             width: 100%;
             max-width: 300px;
             height: 150px;
             border-radius: 12px;
             overflow: hidden;
             border: 1px solid rgba(212, 17, 89, 0.3);
-            margin: 0 auto;
+            margin: 15px auto;
             backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.05);
         }
 
-        .map-mini iframe {
+        .map-container iframe {
             width: 100%;
             height: 100%;
             display: block;
@@ -209,9 +169,7 @@
 
         .text strong {
             color: var(--accent-wine);
-            text-shadow: 
-                0 0 4px rgba(212, 17, 89, 0.8),
-                0 0 8px rgba(212, 17, 89, 0.4);
+            text-shadow: 0 0 4px rgba(212, 17, 89, 0.8), 0 0 8px rgba(212, 17, 89, 0.4);
         }
 
         .list-item {
@@ -239,9 +197,7 @@
             font-size: 1.2rem;
             min-width: 25px;
             color: var(--accent-wine);
-            text-shadow: 
-                0 0 4px rgba(212, 17, 89, 0.7),
-                0 0 8px rgba(212, 17, 89, 0.3);
+            text-shadow: 0 0 4px rgba(212, 17, 89, 0.7), 0 0 8px rgba(212, 17, 89, 0.3);
         }
 
         .list-item .content {
@@ -259,63 +215,42 @@
             margin-top: 2px;
         }
 
-        .pricing-plans {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .plan {
-            backdrop-filter: blur(10px);
-            background: rgba(212, 17, 89, 0.08);
+        .hacienda-image {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 12px;
+            margin: 15px 0;
             border: 1px solid rgba(212, 17, 89, 0.3);
-            border-radius: 10px;
-            padding: 12px;
-            text-align: left;
-            transition: all 0.3s;
+            backdrop-filter: blur(10px);
         }
 
-        .plan:hover {
-            background: rgba(212, 17, 89, 0.12);
-            border-color: rgba(212, 17, 89, 0.5);
-        }
-
-        .plan.recommended {
-            border-color: var(--accent-wine);
-            background: rgba(212, 17, 89, 0.15);
-        }
-
-        .plan-name {
-            font-size: 0.9rem;
-            font-weight: 700;
-            background: linear-gradient(90deg, var(--accent-wine), var(--accent-red));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 4px;
-            text-shadow: 
-                0 0 4px rgba(212, 17, 89, 0.7),
-                0 0 8px rgba(212, 17, 89, 0.3);
-        }
-
-        .plan-price {
-            font-size: 1.1rem;
+        .pricing-highlight {
+            font-size: 2rem;
             font-weight: 800;
             background: linear-gradient(90deg, var(--accent-wine), var(--accent-red));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 6px;
-            text-shadow: 
-                0 0 6px rgba(212, 17, 89, 0.8),
-                0 0 12px rgba(212, 17, 89, 0.4);
+            text-shadow: 0 0 10px rgba(212, 17, 89, 0.6);
+            animation: flame 1.5s ease-in-out infinite;
         }
 
-        .plan-desc {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            line-height: 1.5;
+        @keyframes flame {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .warning-box {
+            backdrop-filter: blur(10px);
+            background: rgba(212, 17, 89, 0.1);
+            border: 2px solid var(--accent-wine);
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-align: center;
         }
 
         .button-group {
@@ -340,15 +275,11 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             backdrop-filter: blur(10px);
-            box-shadow: 
-                0 0 8px rgba(212, 17, 89, 0.7),
-                0 0 16px rgba(212, 17, 89, 0.4);
+            box-shadow: 0 0 8px rgba(212, 17, 89, 0.7), 0 0 16px rgba(212, 17, 89, 0.4);
         }
 
         .cta-btn:hover {
-            box-shadow: 
-                0 0 12px rgba(212, 17, 89, 0.9),
-                0 0 24px rgba(212, 17, 89, 0.6);
+            box-shadow: 0 0 12px rgba(212, 17, 89, 0.9), 0 0 24px rgba(212, 17, 89, 0.6);
         }
 
         .cta-btn:active {
@@ -383,40 +314,14 @@
             h2 { font-size: 1.3rem; margin-bottom: 12px; }
             .text { font-size: 0.9rem; }
             .cta-btn { font-size: 0.85rem; padding: 10px 20px; }
-            .map-mini { height: 120px; }
-            .grape-cluster { top: 10px; right: 10px; }
-            .grape:nth-child(1) { width: 20px; height: 20px; }
-            .grape:nth-child(2) { width: 18px; height: 18px; }
-            .grape:nth-child(3) { width: 19px; height: 19px; }
-            .grape:nth-child(4) { width: 16px; height: 16px; }
-            .grape:nth-child(5) { width: 15px; height: 15px; }
-            .grape:nth-child(6) { width: 14px; height: 14px; }
-            .grape:nth-child(7) { width: 17px; height: 17px; }
-            .grape:nth-child(8) { width: 13px; height: 13px; }
-            .grape:nth-child(9) { width: 16px; height: 16px; }
-            .grape:nth-child(10) { width: 12px; height: 12px; }
-            .grape:nth-child(11) { width: 14px; height: 14px; }
-            .grape:nth-child(12) { width: 11px; height: 11px; }
+            .map-container { height: 120px; }
+            .hacienda-image { max-width: 100%; }
         }
     </style>
 </head>
 <body>
 
     <canvas id="canvas"></canvas>
-    <div class="grape-cluster">
-                <div class="grape"></div>
-                <div class="grape"></div>
-                <div class="grape"></div>
-                <div class="grape"></div>
-                <div class="grape"></div>
-                <div class="grape"></div>
-                <div class="grape"></div>
-                <div class="grape"></div>
-                <div class="grape"></div>
-                <div class="grape"></div>
-                <div class="grape"></div>
-                <div class="grape"></div>
-    </div>
     <div class="transition-wing"></div>
 
     <div class="sections-container">
@@ -427,9 +332,10 @@
                 <h1>Ed ~ 31</h1>
                 <p class="subtitle">PARRAS, COAHUILA</p>
                 <p class="date">11-12 de Julio</p>
-                <div class="map-mini">
+                <div class="map-container">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28823.927616492325!2d-102.24972708179382!3d25.43856602702278!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x868f48d6a0263f6f%3A0xb63e2c71b2832922!2sCueva%20de%20los%20Murci%C3%A9lagos!5e0!3m2!1ses!2smx!4v1781595265491!5m2!1ses!2smx" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
+                <a href="#" class="cta-btn" onclick="document.querySelector('section[data-section=\"1\"]').scrollIntoView({behavior: 'smooth'}); return false;" style="margin-top: 15px;">Ver Plan</a>
             </div>
             <div class="scroll-indicator">👇</div>
         </section>
@@ -441,8 +347,8 @@
                 <div class="list-item">
                     <div class="icon">🚗</div>
                     <div class="content">
-                        <div class="label">Salida 11:00 AM</div>
-                        <div class="desc">Saltillo/Torreón → Hacienda Perote (1.5 hrs)</div>
+                        <div class="label">Salida 12:00 PM</div>
+                        <div class="desc">Saltillo/Torreón → Hacienda Perote (2 hrs)</div>
                     </div>
                 </div>
                 <div class="list-item">
@@ -455,8 +361,8 @@
                 <div class="list-item">
                     <div class="icon">🏊</div>
                     <div class="content">
-                        <div class="label">Alberca (Opcional)</div>
-                        <div class="desc">Refrescarse antes del atardecer. Disponible todo el día.</div>
+                        <div class="label">Alberca 10 AM - 10 PM</div>
+                        <div class="desc">Refrescarse antes del atardecer.</div>
                     </div>
                 </div>
                 <div class="list-item">
@@ -470,14 +376,14 @@
                     <div class="icon">🔦</div>
                     <div class="content">
                         <div class="label">Exploración Nocturna</div>
-                        <div class="desc">Linterna en mano. Recorrer los alrededores de la Hacienda.</div>
+                        <div class="desc">Linterna en mano. Recorrer los alrededores de la cueva.</div>
                     </div>
                 </div>
                 <div class="list-item">
                     <div class="icon">😎</div>
                     <div class="content">
                         <div class="label">Relax</div>
-                        <div class="desc">Alberca, descanso. Regreso cuando nos cansemos.</div>
+                        <div class="desc">Regresamos cuando se nos antoje.</div>
                     </div>
                 </div>
             </div>
@@ -520,86 +426,45 @@
             <div class="content">
                 <h2>Base</h2>
                 <p class="text"><strong>Hacienda Perote</strong></p>
-                <p class="text" style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px;">Antigua hacienda colonial. Restaurante, alberca, Wi-Fi, aire acondicionado.</p>
-                <div class="list-item">
-                    <div class="icon">🏢</div>
-                    <div class="content">
-                        <div class="label">Zona Edificio</div>
-                        <div class="desc">~$2,200 MXN. Habitación estándar.</div>
-                    </div>
-                </div>
-                <div class="list-item">
-                    <div class="icon">🏊</div>
-                    <div class="content">
-                        <div class="label">Zona Alberca</div>
-                        <div class="desc">~$2,200 MXN. Acceso directo a la piscina.</div>
-                    </div>
-                </div>
-                <div class="list-item">
-                    <div class="icon">👑</div>
-                    <div class="content">
-                        <div class="label">Cabaña King Size</div>
-                        <div class="desc">~$2,500 MXN. Ideal para parejas.</div>
-                    </div>
-                </div>
+                <img src="hacienda_perote.jpg" alt="Hacienda Perote" class="hacienda-image">
                 <div class="list-item">
                     <div class="icon">🏠</div>
                     <div class="content">
-                        <div class="label">Cabaña 4 Personas</div>
-                        <div class="desc">~$3,000 MXN. Más espacio y comodidad.</div>
+                        <div class="label">Cabaña 4 Personas + 2 Extra</div>
+                        <div class="desc">$4,000 MXN total. 4 camas (2 Queen + 2 Individuales).</div>
                     </div>
                 </div>
-                <div class="list-item">
-                    <div class="icon">🏘️</div>
-                    <div class="content">
-                        <div class="label">Cabaña 6 Personas</div>
-                        <div class="desc">~$4,000 MXN. 2 camas compartidas. Máxima comodidad.</div>
-                    </div>
-                </div>
-                <p class="text" style="color: var(--text-muted); font-size: 0.8rem; margin-top: 12px;">Desayuno incluido. Tel: 842 422 1698.</p>
-                <a href="https://antiguahaciendadeperote.com/index.html" class="cta-btn" target="_blank" style="margin-top: 12px;">VER MÁS</a>
+                <p class="text" style="color: var(--text-muted); font-size: 0.8rem; margin-top: 12px;">Desayuno incluido. Restaurante, alberca, Wi-Fi, aire acondicionado.</p>
+                <a href="https://antiguahaciendadeperote.com/index.html" class="cta-btn" target="_blank" style="margin-top: 12px;">MÁS INFO</a>
             </div>
         </section>
 
-        <!-- PRICING -->
+        <!-- OPCIONES Y DETALLES -->
         <section data-section="4">
             <div class="content">
-                <h2>Costo Total</h2>
-                <div class="pricing-plans">
-                    <div class="plan recommended">
-                        <div class="plan-name">⭐ RECOMENDADO</div>
-                        <div class="plan-price">$750 MXN</div>
-                        <div class="plan-desc">Cabaña 4 personas ÷ 4 = $750 por persona.</div>
-                    </div>
-                    <div class="plan">
-                        <div class="plan-name">🏘️ CABAÑA 6 PERS</div>
-                        <div class="plan-price">$667 MXN</div>
-                        <div class="plan-desc">Cabaña 6 personas ÷ 6 = $667 por persona. 2 camas compartidas.</div>
-                    </div>
-                    <div class="plan">
-                        <div class="plan-name">🛏️ Habitación Doble</div>
-                        <div class="plan-price">$1,100 MXN</div>
-                        <div class="plan-desc">Zona Edificio o Alberca. 2 personas por cuarto.</div>
-                    </div>
-                    <div class="plan">
-                        <div class="plan-name">👑 King Size</div>
-                        <div class="plan-price">$1,250 MXN</div>
-                        <div class="plan-desc">Cabaña King Size. Pareja con privacidad.</div>
+                <h2>Opciones & Detalles</h2>
+                <p class="text">También hay opciones para <strong>2 y 3 personas</strong>.</p>
+                <div class="list-item">
+                    <div class="icon">💰</div>
+                    <div class="content">
+                        <div class="label">Por Persona (4+2)</div>
+                        <div class="desc pricing-highlight">$666 🔥</div>
                     </div>
                 </div>
-                <p class="text" style="color: var(--text-muted); font-size: 0.75rem; margin-top: 12px;">Todos incluyen desayuno y acceso a instalaciones.</p>
+                <a href="https://drive.google.com/file/d/1W0ojuPJIeRxSFkS6U7dQj9gOGRsJPCuH/view?usp=sharing" class="cta-btn" target="_blank" style="margin-top: 12px;">MÁS INFO</a>
+                <div class="warning-box">
+                    <strong>Nota:</strong> Hay que pagar el total para reservar.
+                </div>
             </div>
         </section>
 
-        <!-- CONFIRMAR -->
+        <!-- CONFIRMACIÓN -->
         <section data-section="5">
             <div class="content">
                 <h2>¿Vamos?</h2>
-                <p class="text">Confirma cuanto antes. Necesitamos saber cuántos somos.</p>
+                <p class="text">Necesitamos apartar.</p>
                 <div class="button-group">
-                    <a href="https://wa.link/tug5aa" class="cta-btn" target="_blank">1 CAMA</a>
-                    <a href="https://wa.link/jfq1y8" class="cta-btn" target="_blank">1 CUARTO</a>
-                    <a href="https://wa.link/5tbdbf" class="cta-btn" target="_blank">CAMA GRUPAL</a>
+                    <a href="https://wa.link/watclm" class="cta-btn" target="_blank">CONFIRMAR</a>
                     <a href="https://wa.link/l4wzy1" class="cta-btn secondary" target="_blank">❓ TENGO DUDA</a>
                 </div>
             </div>
@@ -627,18 +492,15 @@
 
         for (let i = 0; i < batCount; i++) {
             const i3 = i * 3;
-            // Distribuir en un rango más amplio (cielo)
             positions[i3] = (Math.random() - 0.5) * 80;
             positions[i3 + 1] = (Math.random() - 0.5) * 80;
             positions[i3 + 2] = (Math.random() - 0.5) * 50;
 
-            // Velocidades coordinadas (flujo común con pequeña variación)
             const baseVelocity = 0.15;
             velocities[i3] = baseVelocity + (Math.random() - 0.5) * 0.08;
             velocities[i3 + 1] = baseVelocity * 0.5 + (Math.random() - 0.5) * 0.06;
             velocities[i3 + 2] = (Math.random() - 0.5) * 0.05;
 
-            // Colores: tonos oscuros (murciélagos) con muchos más claros
             const isBright = Math.random() < 0.35;
             if (isBright) {
                 colors[i3] = 0.6;
@@ -651,11 +513,9 @@
                 colors[i3 + 2] = darkness * 1.3;
             }
 
-            // Tamaños variados para profundidad
             sizes[i] = Math.random() * 0.4 + 0.15;
         }
 
-        // Guardar velocidades para actualización en animate
         geometry.userData.velocities = velocities;
 
         geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -674,17 +534,13 @@
         const particles = new THREE.Points(geometry, material);
         scene.add(particles);
 
-        // Luces
-        // Iluminación de cielo nocturno
         const ambientLight = new THREE.AmbientLight(0x2a1a4a, 1.0);
         scene.add(ambientLight);
 
-        // Luna (luz cálida desde arriba)
         const moonLight = new THREE.PointLight(0x8b6f47, 0.6, 200);
         moonLight.position.set(30, 40, 10);
         scene.add(moonLight);
 
-        // Luz de atardecer (rojo vino)
         const sunsetLight = new THREE.PointLight(0x8b1a3e, 0.5, 150);
         sunsetLight.position.set(-25, -30, 15);
         scene.add(sunsetLight);
@@ -704,39 +560,44 @@
             requestAnimationFrame(animate);
             flowTime += 0.01;
             
-            // Movimiento de enjambre sincronizado
             const positionAttribute = geometry.getAttribute('position');
             const positions = positionAttribute.array;
             const velocities = geometry.userData.velocities;
             
-            // Flujo base (como un rio de murcielagos)
-            const flowX = Math.sin(flowTime * 0.3) * 0.05;
-            const flowY = Math.cos(flowTime * 0.2) * 0.03;
+            const vortexStrength = Math.pow(scrollProgress, 2) * 0.15;
             
             for (let i = 0; i < batCount; i++) {
                 const i3 = i * 3;
                 
-                // Aplicar velocidad base + flujo coordinado
-                positions[i3] += velocities[i3] + flowX;
-                positions[i3 + 1] += velocities[i3 + 1] + flowY;
-                positions[i3 + 2] += velocities[i3 + 2];
+                if (scrollProgress > 0.7) {
+                    const x = positions[i3];
+                    const y = positions[i3 + 1];
+                    const angle = Math.atan2(y, x);
+                    const dist = Math.sqrt(x * x + y * y);
+                    
+                    const speed = (1 / (dist + 1)) * vortexStrength * 10;
+                    positions[i3] -= Math.sin(angle) * speed * dist;
+                    positions[i3 + 1] += Math.cos(angle) * speed * dist;
+                    
+                    positions[i3] -= x * 0.01 * vortexStrength;
+                    positions[i3 + 1] -= y * 0.01 * vortexStrength;
+                } else {
+                    const flowX = Math.sin(flowTime * 0.3) * 0.05;
+                    const flowY = Math.cos(flowTime * 0.2) * 0.03;
+                    positions[i3] += velocities[i3] + flowX;
+                    positions[i3 + 1] += velocities[i3 + 1] + flowY;
+                    positions[i3 + 2] += velocities[i3 + 2];
+                }
                 
-                // Rebote suave en los bordes (mantiene el enjambre junto)
-                if (Math.abs(positions[i3]) > 45) velocities[i3] *= -0.8;
-                if (Math.abs(positions[i3 + 1]) > 45) velocities[i3 + 1] *= -0.8;
-                if (Math.abs(positions[i3 + 2]) > 30) velocities[i3 + 2] *= -0.8;
-                
-                // Perturbacion muy sutil para mantener naturalidad sin caos
-                velocities[i3] += (Math.random() - 0.5) * 0.005;
-                velocities[i3 + 1] += (Math.random() - 0.5) * 0.005;
-                velocities[i3 + 2] += (Math.random() - 0.5) * 0.002;
+                if (Math.abs(positions[i3]) > 50) positions[i3] *= -0.9;
+                if (Math.abs(positions[i3 + 1]) > 50) positions[i3 + 1] *= -0.9;
+                if (Math.abs(positions[i3 + 2]) > 40) positions[i3 + 2] *= -0.9;
             }
             
             positionAttribute.needsUpdate = true;
             
-            // Rotación suave del enjambre
-            particles.rotation.y += 0.0002 + scrollProgress * 0.01;
-            particles.position.z = scrollProgress * 0.3;
+            particles.rotation.y += 0.0005 + scrollProgress * 0.02;
+            particles.position.z = scrollProgress * 5;
             
             camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.04;
             camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.04;
@@ -799,7 +660,6 @@
             }
         }
 
-        // Wheel scroll
         let wheelTimeout;
         document.addEventListener('wheel', (e) => {
             clearTimeout(wheelTimeout);
@@ -812,7 +672,6 @@
             }, 50);
         }, { passive: true });
 
-        // Touch swipe
         let touchStartY = 0;
         document.addEventListener('touchstart', (e) => {
             touchStartY = e.touches[0].clientY;
