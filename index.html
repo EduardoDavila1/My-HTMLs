@@ -316,6 +316,18 @@
                 <i class="fas fa-tools"></i>
                 <span>Tools</span>
             </div>
+            <div class="category-card" onclick="enterCategory('gaia', 'fa-globe')">
+                <i class="fas fa-globe"></i>
+                <span>Gaia</span>
+            </div>
+            <div class="category-card" onclick="enterCategory('Extras', 'fa-ellipsis-h')">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>Extras</span>
+            </div>
+            <div class="category-card" onclick="enterCategory('Agentic IA', 'fa-brain')">
+                <i class="fas fa-brain"></i>
+                <span>Agentic IA</span>
+            </div>
         </div>
 
         <div id="project-view">
@@ -440,6 +452,28 @@
             grid.innerHTML = '<p>Escaneando módulos...</p>';
             document.body.classList.add('entering-category');
             const folder = allFiles.find(f => f.type === 'dir' && f.name === categoryName);
+            if (categoryName === 'Extras') {
+                try {
+                    const htmlFiles = allFiles.filter(file =>
+                        file.type === 'file' &&
+                        file.name.toLowerCase().endsWith('.html') &&
+                        !repoData.ignoreFiles.includes(file.name.toLowerCase())
+                    );
+                    grid.innerHTML = '';
+                    if (htmlFiles.length === 0) {
+                        grid.innerHTML = '<p class="empty-group">No se encontraron archivos.</p>';
+                    } else {
+                        htmlFiles.forEach(file => {
+                            const btn = document.createElement('a');
+                            btn.href = file.name;
+                            btn.className = 'project-btn';
+                            btn.textContent = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+                            grid.appendChild(btn);
+                        });
+                    }
+                } catch (e) { grid.innerHTML = '<p>Error.</p>'; }
+                return;
+            }
             if (folder) {
                 try {
                     const response = await fetch(folder.url);

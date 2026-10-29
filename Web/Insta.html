@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Unfollowers Analyzer</title>
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --card-bg: rgba(31, 40, 51, 0.65);
+            --text-main: #c5c6c7;
+            --accent: #66fcf1;
+            --accent-dark: #45a29e;
+            --border-light: rgba(102, 252, 241, 0.2);
+            --error-color: #ff6b6b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .texture-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: radial-gradient(circle at center, transparent 0%, var(--bg-color) 100%), 
+                              url('data:image/svg+xml;utf8,<svg width="4" height="4" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.03)"/></svg>');
+            background-repeat: repeat;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -2;
+        }
+
+        header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 25px 0;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(11, 12, 16, 0.95) 0%, rgba(11, 12, 16, 0) 100%);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: var(--accent);
+            text-shadow: 0 0 15px rgba(102, 252, 241, 0.4);
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 120px 20px 60px 20px;
+            perspective: 1000px;
+        }
+
+        .parallax-wrapper {
+            width: 100%;
+            max-width: 650px;
+            transition: transform 0.15s ease-out;
+            will-change: transform;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .card p {
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-size: 1.05rem;
+        }
+
+        .file-input-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .file-input-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: var(--accent-dark);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px dashed var(--accent-dark);
+            border-radius: 8px;
+            color: var(--text-main);
+            outline: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        input[type="file"]:hover {
+            border-color: var(--accent);
+            background: rgba(102, 252, 241, 0.05);
+        }
+
+        button {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 15px 40px;
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        button:hover {
+            background: var(--accent);
+            color: var(--bg-color);
+            box-shadow: 0 0 20px rgba(102, 252, 241, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding: 15px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            display: none; 
+        }
+        
+        .stat-box span {
+            display: block;
+            color: var(--accent);
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        #results {
+            margin-top: 20px;
+            text-align: left;
+            display: none;
+        }
+        
+        #results h2 {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 10px;
+        }
+
+        #error-msg {
+            color: var(--error-color);
+            margin-top: 20px;
+            display: none;
+            font-weight: bold;
+        }
+
+        .unfollower-list {
+            list-style: none;
+            max-height: 350px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .unfollower-list::-webkit-scrollbar { width: 6px; }
+        .unfollower-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
+        .unfollower-list::-webkit-scrollbar-thumb { background: var(--accent-dark); border-radius: 10px; }
+
+        .unfollower-list li {
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.2);
+            margin-bottom: 8px;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-dark);
+            transition: transform 0.2s, background 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .unfollower-list li:hover {
+            background: rgba(102, 252, 241, 0.1);
+            transform: translateX(5px);
+            border-left-color: var(--accent);
+        }
+
+        .unfollower-list a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 4px 10px;
+            border-radius: 15px;
+            transition: all 0.2s;
+        }
+        
+        .unfollower-list a:hover {
+            background: var(--text-main);
+            color: var(--bg-color);
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="particles-bg"></canvas>
+    <div class="texture-overlay"></div>
+
+    <header>
+        <h1>SPECTER // IG ANALYZER</h1>
+    </header>
+
+    <main>
+        <div class="parallax-wrapper" id="parallax-target">
+            <div class="card">
+                <p>Carga los archivos JSON exportados desde Instagram. El procesamiento es 100% local y seguro.</p>
+                
+                <div class="file-input-group">
+                    <label for="followers">1. Tus Seguidores (followers_1.json)</label>
+                    <input type="file" id="followers" accept=".json">
+                </div>
+
+                <div class="file-input-group">
+                    <label for="following">2. A los que Sigues (following.json)</label>
+                    <input type="file" id="following" accept=".json">
+                </div>
+
+                <button id="analyze-btn">Analizar Usuarios</button>
+                
+                <div id="error-msg"></div>
+
+                <div class="stats-container" id="stats-container">
+                    <div class="stat-box">Seguidores detectados: <span id="stat-followers">0</span></div>
+                    <div class="stat-box">Seguidos detectados: <span id="stat-following">0</span></div>
+                </div>
+
+                <div id="results">
+                    <h2 id="result-title">Resultados</h2>
+                    <ul class="unfollower-list" id="unfollower-list"></ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- 1. Partículas ---
+        const canvas = document.getElementById('particles-bg');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        });
+
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x; this.y = y;
+                this.directionX = directionX; this.directionY = directionY;
+                this.size = size; this.color = color;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+            update() {
+                if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+                if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+                this.x += this.directionX;
+                this.y += this.directionY;
+                this.draw();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 7000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 1.5) + 0.5;
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                let directionX = (Math.random() * 0.4) - 0.2;
+                let directionY = (Math.random() * 0.4) - 0.2;
+                let color = 'rgba(102, 252, 241, 0.4)';
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+            }
+        }
+
+        function connectParticles() {
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) ** 2) + 
+                                   ((particlesArray[a].y - particlesArray[b].y) ** 2);
+                    if (distance < (canvas.width / 10) * (canvas.height / 10)) {
+                        let opacityValue = 1 - (distance / 15000);
+                        ctx.strokeStyle = `rgba(69, 162, 158, ${opacityValue * 0.2})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animateParticles() {
+            requestAnimationFrame(animateParticles);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+            particlesArray.forEach(p => p.update());
+            connectParticles();
+        }
+
+        initParticles();
+        animateParticles();
+
+        // --- 2. Parallax Ligero ---
+        const parallaxTarget = document.getElementById('parallax-target');
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 50;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 50;
+            parallaxTarget.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg) translateZ(10px)`;
+        });
+        document.addEventListener('mouseleave', () => {
+            parallaxTarget.style.transform = `rotateY(0deg) rotateX(0deg) translateZ(0px)`;
+        });
+
+        // --- 3. Lógica de Análisis (Adaptada a las anomalías de Instagram) ---
+        const analyzeBtn = document.getElementById('analyze-btn');
+        const resultsDiv = document.getElementById('results');
+        const unfollowerList = document.getElementById('unfollower-list');
+        const resultTitle = document.getElementById('result-title');
+        const errorMsg = document.getElementById('error-msg');
+        const statsContainer = document.getElementById('stats-container');
+        
+        function extractUsers(obj, usersSet) {
+            if (!obj) return;
+
+            if (obj.string_list_data && Array.isArray(obj.string_list_data)) {
+                obj.string_list_data.forEach(item => {
+                    // Formato Followers (Lee el 'value')
+                    if (item.value && typeof item.value === 'string') {
+                        usersSet.add(item.value);
+                    } 
+                    // Formato Following (El 'value' no existe, lee el 'title')
+                    else if (obj.title && typeof obj.title === 'string' && obj.title !== "") {
+                        usersSet.add(obj.title);
+                    } 
+                    // Sistema de respaldo: Recorta el usuario del link
+                    else if (item.href && typeof item.href === 'string') {
+                        const match = item.href.match(/instagram\.com\/(?:_u\/)?([^/]+)/);
+                        if (match && match[1]) {
+                            usersSet.add(match[1]);
+                        }
+                    }
+                });
+            } else if (Array.isArray(obj)) {
+                obj.forEach(item => extractUsers(item, usersSet));
+            } else if (typeof obj === 'object') {
+                for (const key in obj) {
+                    if (Object.hasOwnProperty.call(obj, key)) {
+                        extractUsers(obj[key], usersSet);
+                    }
+                }
+            }
+        }
+
+        function readFileAsync(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    try { resolve(JSON.parse(reader.result)); } 
+                    catch (e) { reject(new Error("El archivo no es un JSON válido.")); }
+                };
+                reader.onerror = () => reject(new Error("Error de lectura."));
+                reader.readAsText(file);
+            });
+        }
+
+        analyzeBtn.addEventListener('click', async () => {
+            errorMsg.style.display = 'none';
+            resultsDiv.style.display = 'none';
+            statsContainer.style.display = 'none';
+            
+            const followersFile = document.getElementById('followers').files[0];
+            const followingFile = document.getElementById('following').files[0];
+
+            if (!followersFile || !followingFile) {
+                errorMsg.textContent = 'Faltan archivos. Selecciona ambos JSON para continuar.';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            analyzeBtn.textContent = 'Analizando Matriz...';
+            analyzeBtn.disabled = true;
+
+            try {
+                const followersData = await readFileAsync(followersFile);
+                const followingData = await readFileAsync(followingFile);
+
+                const followersSet = new Set();
+                const followingSet = new Set();
+
+                extractUsers(followersData, followersSet);
+                extractUsers(followingData, followingSet);
+
+                document.getElementById('stat-followers').textContent = followersSet.size;
+                document.getElementById('stat-following').textContent = followingSet.size;
+                statsContainer.style.display = 'flex';
+
+                if (followersSet.size === 0 && followingSet.size === 0) {
+                    throw new Error("Lectura en cero. Asegúrate de descargar la información en formato JSON desde Instagram.");
+                }
+
+                // Cruzar listas 
+                const unfollowers = [];
+                followingSet.forEach(user => {
+                    if (!followersSet.has(user)) {
+                        unfollowers.push(user);
+                    }
+                });
+
+                unfollowers.sort();
+                unfollowerList.innerHTML = '';
+                
+                if (unfollowers.length === 0) {
+                    resultTitle.textContent = 'El algoritmo confirma: Todos te siguen de vuelta.';
+                } else {
+                    resultTitle.textContent = `${unfollowers.length} cuentas no te siguen de vuelta:`;
+                    unfollowers.forEach(user => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `
+                            <span>@${user}</span>
+                            <a href="https://instagram.com/${user}" target="_blank">Perfil</a>
+                        `;
+                        unfollowerList.appendChild(li);
+                    });
+                }
+                
+                resultsDiv.style.display = 'block';
+
+            } catch (error) {
+                console.error("Error Core:", error);
+                errorMsg.textContent = error.message || "Error al leer los archivos. Revisa la consola.";
+                errorMsg.style.display = 'block';
+            } finally {
+                analyzeBtn.textContent = 'Analizar Usuarios';
+                analyzeBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
