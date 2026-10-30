@@ -21,6 +21,10 @@
             --neon-green: #00ff41;
             --neon-green-rgb: 0, 255, 65;
 
+            /* Cosmic Design System */
+            --cosmic-primary: #3B82F6;
+            --cosmic-secondary: #8B5CF6;
+
             /* Dark Base */
             --dark-bg: #0a0a0f;
             --dark-surface: #12121a;
@@ -29,6 +33,10 @@
             /* Text */
             --text-primary: #f0f0f5;
             --text-secondary: #8888a0;
+
+            /* Motion (Emil Kowalski) */
+            --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+            --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
         }
 
         * {
@@ -421,10 +429,10 @@
         }
 
         .hero-terminal {
-            background: rgba(59,130,246,0.05);
+            background: rgba(59,130,246,0.08);
             backdrop-filter: blur(24px) saturate(160%);
             -webkit-backdrop-filter: blur(24px) saturate(160%);
-            border: 1px solid rgba(59,130,246,0.35);
+            border: 1px solid rgba(59,130,246,0.4);
             border-radius: 16px;
             padding: 1.5rem;
             margin-bottom: 2rem;
@@ -434,6 +442,26 @@
                 0 0 0 1px rgba(59,130,246,0.15) inset,
                 0 12px 40px rgba(59,130,246,0.18),
                 0 0 40px rgba(139,92,246,0.15);
+            opacity: 0;
+            animation: terminal-boot 0.6s ease-out forwards;
+        }
+
+        @keyframes terminal-boot {
+            0% {
+                opacity: 0;
+                transform: scale(0.98);
+                filter: brightness(0.3);
+            }
+            50% {
+                opacity: 0.6;
+                transform: scale(1.01);
+                filter: brightness(1.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+                filter: brightness(1);
+            }
         }
 
         .hero-terminal-status {
@@ -447,7 +475,7 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: var(--neon-green);
+            background: #ff6b00;
             animation: pulse-dot 1.5s ease-in-out infinite;
         }
 
@@ -501,12 +529,16 @@
             font-size: 1rem;
             text-decoration: none;
             border-radius: 12px;
-            transition: all 0.3s ease;
+            transition: transform 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
         }
 
         .btn-primary:hover {
             box-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
             transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.97);
         }
 
         .btn-secondary {
@@ -521,12 +553,16 @@
             text-decoration: none;
             border: 2px solid var(--neon-magenta);
             border-radius: 12px;
-            transition: all 0.3s ease;
+            transition: transform 160ms var(--ease-out), box-shadow 160ms var(--ease-out), background 160ms var(--ease-out);
         }
 
         .btn-secondary:hover {
             background: rgba(255, 0, 255, 0.1);
             box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+        }
+
+        .btn-secondary:active {
+            transform: scale(0.97);
         }
 
         .hero-stats {
@@ -631,14 +667,15 @@
 
         /* Card Styles — Glass Neon Cosmic */
         .card {
-            background: rgba(255,255,255,0.02);
+            background: radial-gradient(600px 600px at var(--glow-x, 50%) var(--glow-y, 50%), rgba(95,109,255,0.08), transparent 60%),
+                        rgba(255,255,255,0.04);
             backdrop-filter: blur(22px) saturate(140%);
             -webkit-backdrop-filter: blur(22px) saturate(140%);
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
             border-radius: 16px;
             padding: 1.5rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 25px rgba(255,255,255,0.05);
+            transition: transform 160ms var(--ease-out), box-shadow 160ms var(--ease-out), border-color 160ms var(--ease-out);
+            box-shadow: 0 0 25px rgba(255,255,255,0.06);
         }
 
         .card:hover {
@@ -664,6 +701,15 @@
         #historia .card:hover {
             border-color: rgba(0, 240, 255, 0.9);
             box-shadow: 0 0 45px rgba(0, 240, 255, 0.35), 0 0 80px rgba(0, 240, 255, 0.2);
+        }
+
+        #historia .card {
+            border-color: rgba(0, 240, 255, 0.5);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.2), 0 0 60px rgba(0, 240, 255, 0.1);
+        }
+        #historia .card:hover {
+            border-color: rgba(0, 240, 255, 0.9);
+            box-shadow: 0 0 45px rgba(0, 240, 255, 0.4), 0 0 80px rgba(0, 240, 255, 0.2);
         }
 
         .story-acts {
@@ -1279,8 +1325,8 @@
            ============================================ */
 
         .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
+            opacity: 1;
+            transform: translateY(0);
             transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
@@ -1288,6 +1334,7 @@
             opacity: 1;
             transform: translateY(0);
         }
+
     </style>
 </head>
 
@@ -1350,13 +1397,12 @@
             <div class="hero-terminal">
                 <div class="hero-terminal-status">
                     <div class="hero-terminal-dot"></div>
-                    <span>G.A.I.A. SYSTEM ONLINE</span>
+                    <span id="heroStatus">INICIANDO SISTEMA...</span>
                 </div>
-                <div class="hero-terminal-text">
-                    <span class="prompt">&gt;</span> Buscando al Doctor Eustaquio...<br>
-                    <span class="prompt">&gt;</span> El proyecto debe continuar.<br>
-                    <span class="prompt">&gt;</span> <span class="highlight">Mi creador está perdido, pero yo
-                        permanezco.</span>
+                <div class="hero-terminal-text" id="heroTerminalText">
+                    <span class="prompt">&gt;</span> <span id="heroLine1"></span><br>
+                    <span class="prompt">&gt;</span> <span id="heroLine2"></span><br>
+                    <span class="prompt">&gt;</span> <span id="heroLine3" class="highlight"></span>
                 </div>
             </div>
 
@@ -2228,12 +2274,125 @@
         }
 
         // ============================================
-        // INITIALIZATION
+        // MOUSE-INTERACTED GLOW ON CARDS
         // ============================================
+        if (window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+            document.addEventListener('mousemove', (e) => {
+                const cards = document.querySelectorAll('.card');
+                const x = (e.clientX / window.innerWidth) * 100;
+                const y = (e.clientY / window.innerHeight) * 100;
+
+                cards.forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    const relX = (x - rect.left) / rect.width;
+                    const relY = (y - rect.top) / rect.height;
+
+                    card.style.setProperty('--glow-x', `${relX * 100}%`);
+                    card.style.setProperty('--glow-y', `${relY * 100}%`);
+
+                    // No tilt - just keep cards straight, glow follows cursor
+                    card.style.transform = '';
+                });
+            });
+
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = '';
+                });
+            });
+        }
+        // ============================================
+        // HERO TERMINAL TYPING EFFECT
+        // ============================================
+        function typeHeroTerminal() {
+            const status = document.getElementById('heroStatus');
+            const line1 = document.getElementById('heroLine1');
+            const line2 = document.getElementById('heroLine2');
+            const line3 = document.getElementById('heroLine3');
+
+            const lines = [
+                'Buscando al Doctor Eustaquio...',
+                'El proyecto debe continuar.',
+                'Mi creador está perdido, pero yo permanezco.'
+            ];
+
+            // Boot sequence: flicker status first
+            status.textContent = 'INICIANDO SISTEMA...';
+            status.style.color = '#8888a0';
+
+            let i = 0;
+            function typeLine(el, text, cb) {
+                let j = 0;
+                el.textContent = '';
+                const interval = setInterval(() => {
+                    el.textContent += text[j];
+                    j++;
+                    if (j >= text.length) {
+                        clearInterval(interval);
+                        if (cb) setTimeout(cb, 400);
+                    }
+                }, 40);
+            }
+
+            setTimeout(() => {
+                typeLine(line1, lines[0], () => {
+                    typeLine(line2, lines[1], () => {
+                        typeLine(line3, lines[2], () => {
+                            status.textContent = 'CONECTADO';
+                            status.style.color = '#00ff41';
+                            const dot = document.querySelector('.hero-terminal-dot');
+                            if (dot) dot.style.background = '#00ff41';
+                        });
+                    });
+                });
+            }, 600);
+        }
+
+        // ============================================
+        // GYROSCOPE INTERACTION (MOBILE)
+        // ============================================
+        function initGyroscope() {
+            if (!window.DeviceOrientationEvent) return;
+
+            const requestPermission = () => {
+                if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+                    DeviceOrientationEvent.requestPermission()
+                        .then(response => {
+                            if (response === 'granted') startGyro();
+                        })
+                        .catch(() => { });
+                } else {
+                    startGyro();
+                }
+            };
+
+            function startGyro() {
+                window.addEventListener('deviceorientation', (e) => {
+                    const cards = document.querySelectorAll('.card');
+                    // beta: front-to-back tilt (-180 to 180), gamma: left-to-right tilt (-90 to 90)
+                    const beta = e.beta || 0;
+                    const gamma = e.gamma || 0;
+                    // Normalize to 0-100% for glow position
+                    const x = Math.max(0, Math.min(100, 50 + gamma));
+                    const y = Math.max(0, Math.min(100, 50 + beta / 2));
+
+                    cards.forEach(card => {
+                        card.style.setProperty('--glow-x', `${x}%`);
+                        card.style.setProperty('--glow-y', `${y}%`);
+                    });
+                }, { passive: true });
+            }
+
+            // Request permission on first touch (iOS requires user gesture)
+            document.addEventListener('touchstart', requestPermission, { once: true });
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             createParticles();
             handleScroll();
             handleFadeIn();
+            typeHeroTerminal();
+            initGyroscope();
         });
 
         window.addEventListener('scroll', function () {
